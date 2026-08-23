@@ -1,0 +1,65 @@
+services:
+  tarcms-db:
+    image: mysql:8.0
+    container_name: tarcms-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: tarcms_db
+      MYSQL_USER: tarc_user
+      MYSQL_PASSWORD: tarc_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  tarcms-server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    container_name: tarcms-api
+    restart: unless-stopped
+    environment:
+      NODE_ENV: development
+      PORT: 5000
+      DATABASE_URL: mysql://tarc_user:tarc_password@tarcms-db:3306/tarcms_db
+      JWT_SECRET: super_secret_jwt_key_for_tarcms_development_2026
+      CLIENT_URL: http://localhost:3000
+    ports:
+      - "5000:5000"
+    depends_on:
+      tarcms-db:
+        condition: service_healthy
+    volumes:
+      - uploads_data:/app/apps/server/uploads
+
+  tarcms-public:
+    build:
+      context: .
+      dockerfile: apps/public/Dockerfile
+    container_name: tarcms-public
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      - tarcms-server
+
+  tarcms-dashboard:
+    build:
+      context: .
+      dockerfile: apps/dashboard/Dockerfile
+    container_name: tarcms-dashboard
+    restart: unless-stopped
+    ports:
+      - "3001:80"
+    depends_on:
+      - tarcms-server
+
+volumes:
+  mysql_data:
+  uploads_data:

@@ -28,7 +28,7 @@
 **Interfaces:**
 - Produces: Root workspace scripts (`npm run dev`, `npm run dev:public`, `npm run dev:dashboard`, `npm run dev:server`, `npm run build`, `npm run lint`, `npm run format`, `npm run test`, `npm run typecheck`).
 
-- [ ] **Step 1: Write root `package.json` with npm workspaces configuration**
+- [x] **Step 1: Write root `package.json` with npm workspaces configuration**
 
 ```json
 {
@@ -63,7 +63,7 @@
 }
 ```
 
-- [ ] **Step 2: Create root `biome.json` configuration**
+- [x] **Step 2: Create root `biome.json` configuration**
 
 ```json
 {
@@ -98,7 +98,7 @@
 }
 ```
 
-- [ ] **Step 3: Create base TypeScript configuration `tsconfig.base.json`**
+- [x] **Step 3: Create base TypeScript configuration `tsconfig.base.json`**
 
 ```json
 {
@@ -118,7 +118,7 @@
 }
 ```
 
-- [ ] **Step 4: Verify root configuration with Biome check**
+- [x] **Step 4: Verify root configuration with Biome check**
 Run: `npx @biomejs/biome check .`
 Expected: PASS (Clean validation on root configuration files).
 
@@ -138,7 +138,7 @@ Expected: PASS (Clean validation on root configuration files).
 **Interfaces:**
 - Produces: `@tarcms/shared` module exportable into `@tarcms/server` and `@tarcms/web`.
 
-- [ ] **Step 1: Write `packages/shared/package.json`**
+- [x] **Step 1: Write `packages/shared/package.json`**
 
 ```json
 {
@@ -162,7 +162,7 @@ Expected: PASS (Clean validation on root configuration files).
 }
 ```
 
-- [ ] **Step 2: Create `packages/shared/tsconfig.json`**
+- [x] **Step 2: Create `packages/shared/tsconfig.json`**
 
 ```json
 {
@@ -175,7 +175,7 @@ Expected: PASS (Clean validation on root configuration files).
 }
 ```
 
-- [ ] **Step 3: Define foundational roles and constants in `packages/shared/src/constants/index.ts`**
+- [x] **Step 3: Define foundational roles and constants in `packages/shared/src/constants/index.ts`**
 
 ```typescript
 export const UserRole = {
@@ -217,7 +217,7 @@ export const MessageStatus = {
 export type MessageStatusValue = (typeof MessageStatus)[keyof typeof MessageStatus];
 ```
 
-- [ ] **Step 4: Create initial Zod schemas in `packages/shared/src/schemas/index.ts`**
+- [x] **Step 4: Create initial Zod schemas in `packages/shared/src/schemas/index.ts`**
 
 ```typescript
 import { z } from 'zod';
@@ -241,7 +241,7 @@ export const ContactFormSchema = z.object({
 export type ContactFormInput = z.infer<typeof ContactFormSchema>;
 ```
 
-- [ ] **Step 5: Write unit tests in `packages/shared/src/schemas/index.test.ts`**
+- [x] **Step 5: Write unit tests in `packages/shared/src/schemas/index.test.ts`**
 
 ```typescript
 import { describe, it, expect } from 'vitest';
@@ -271,7 +271,7 @@ describe('Shared Validation Schemas', () => {
 });
 ```
 
-- [ ] **Step 6: Run Vitest test suite in `packages/shared`**
+- [x] **Step 6: Run Vitest test suite in `packages/shared`**
 Run: `npm run test --workspace=@tarcms/shared`
 Expected: PASS (All shared schema tests pass).
 
@@ -289,7 +289,7 @@ Expected: PASS (All shared schema tests pass).
 - Create: `apps/dashboard/Dockerfile`
 - Create: `apps/dashboard/nginx.conf`
 
-- [ ] **Step 1: Write root `docker-compose.yml`**
+- [x] **Step 1: Write root `docker-compose.yml`**
 
 ```yaml
 version: '3.8'
@@ -361,7 +361,7 @@ volumes:
   uploads_data:
 ```
 
-- [ ] **Step 2: Write `.github/workflows/ci.yml`**
+- [x] **Step 2: Write `.github/workflows/ci.yml`**
 
 ```yaml
 name: TARCMS CI Pipeline
@@ -403,5 +403,5 @@ jobs:
         run: npm run build
 ```
 
-- [ ] **Step 3: Verify GitHub workflow syntax with YAML lint / manual verification**
+- [x] **Step 3: Verify GitHub workflow syntax with YAML lint / manual verification**
 Expected: Valid GitHub Actions schema.

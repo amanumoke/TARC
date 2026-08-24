@@ -27,7 +27,7 @@
 **Interfaces:**
 - Produces: `db` client instance typed with full schema for repository operations.
 
-- [ ] **Step 1: Write `apps/server/drizzle.config.ts`**
+- [x] **Step 1: Write `apps/server/drizzle.config.ts`**
 
 ```typescript
 import { defineConfig } from 'drizzle-kit';
@@ -44,7 +44,7 @@ export default defineConfig({
 });
 ```
 
-- [ ] **Step 2: Create database connection pool in `apps/server/src/db/client.ts`**
+- [x] **Step 2: Create database connection pool in `apps/server/src/db/client.ts`**
 
 ```typescript
 import { drizzle } from 'drizzle-orm/mysql2';
@@ -81,7 +81,7 @@ export const db = drizzle(poolConnection, { schema, mode: 'default' });
 **Interfaces:**
 - Produces: Complete exported Drizzle schema definitions and relations.
 
-- [ ] **Step 1: Write `apps/server/src/db/schema/research.ts`**
+- [x] **Step 1: Write `apps/server/src/db/schema/research.ts`**
 
 ```typescript
 import { mysqlTable, varchar, text, json, mysqlEnum, timestamp, int } from 'drizzle-orm/mysql-core';
@@ -123,7 +123,7 @@ export const researchProjects = mysqlTable('research_projects', {
 });
 ```
 
-- [ ] **Step 2: Write `apps/server/src/db/schema/publications.ts`**
+- [x] **Step 2: Write `apps/server/src/db/schema/publications.ts`**
 
 ```typescript
 import { mysqlTable, varchar, text, mysqlEnum, int, boolean, bigint, timestamp } from 'drizzle-orm/mysql-core';
@@ -166,8 +166,8 @@ export const publicationAuthors = mysqlTable('publication_authors', {
 });
 ```
 
-- [ ] **Step 3: Export all schemas in `apps/server/src/db/schema/index.ts`**
-- [ ] **Step 4: Generate migration files with Drizzle Kit**
+- [x] **Step 3: Export all schemas in `apps/server/src/db/schema/index.ts`**
+- [x] **Step 4: Generate migration files with Drizzle Kit**
 Run: `npm run db:generate --workspace=@tarcms/server`
 Expected: SQL migration files created in `apps/server/src/db/migrations/`.
 
@@ -178,7 +178,7 @@ Expected: SQL migration files created in `apps/server/src/db/migrations/`.
 **Files:**
 - Create: `apps/server/src/db/seeds/tarc-seed.ts`
 
-- [ ] **Step 1: Write `tarc-seed.ts` populating Tepi agricultural data (Coffee, Spices, Vehicles, Projects)**
-- [ ] **Step 2: Execute seeder command**
+- [x] **Step 1: Write `tarc-seed.ts` populating Tepi agricultural data (Coffee, Spices, Vehicles, Projects)**
+- [x] **Step 2: Execute seeder command**
 Run: `npm run db:seed --workspace=@tarcms/server`
 Expected: Database successfully populated with initial superadmin user, departments (Spices, Coffee, Protection), staff, projects, and vehicle records.

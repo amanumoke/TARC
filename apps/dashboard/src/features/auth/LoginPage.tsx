@@ -124,7 +124,13 @@ function TopographicContours() {
 }
 
 interface LoginPageProps {
-  onLogin?: () => void;
+  onLogin?: (user: {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    token: string;
+  }) => void;
 }
 
 /**
@@ -136,15 +142,44 @@ export function LoginPage({ onLogin }: LoginPageProps) {
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    // Simulate login delay
-    setTimeout(() => {
+    setError('');
+
+    try {
+      const response = await fetch('/api/v1/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error?.message || 'Login failed');
+        setIsLoading(false);
+        return;
+      }
+
+      // Store user info in localStorage
+      localStorage.setItem('tarcms_token', data.data.token);
+      localStorage.setItem('tarcms_user', JSON.stringify(data.data.user));
+
+      onLogin?.({
+        id: data.data.user.id,
+        name: data.data.user.name,
+        email: data.data.user.email,
+        role: data.data.user.role,
+        token: data.data.token,
+      });
+    } catch {
+      setError('Network error. Please try again.');
+    } finally {
       setIsLoading(false);
-      onLogin?.();
-    }, 1500);
+    }
   };
 
   return (
@@ -180,6 +215,13 @@ export function LoginPage({ onLogin }: LoginPageProps) {
           <Card className="border-[#2D6A4F]/10 shadow-lg shadow-[#2D6A4F]/5">
             <CardContent className="p-6">
               <form onSubmit={handleSubmit} className="space-y-5">
+                {/* Error message */}
+                {error && (
+                  <div className="p-3 rounded-md bg-red-50 border border-red-200 text-red-700 text-sm">
+                    {error}
+                  </div>
+                )}
+
                 {/* Email field */}
                 <div className="space-y-2">
                   <Label htmlFor="email" className="text-[#1B4332]">
@@ -277,7 +319,7 @@ export function LoginPage({ onLogin }: LoginPageProps) {
           <div className="text-center space-y-3 pt-4 border-t border-[#2D6A4F]/10">
             <p className="text-xs text-[#2D6A4F]/60">Contact IT support if you need assistance</p>
             <a
-              href="http://localhost:3002"
+              href="http://localhost:3000"
               className="inline-flex items-center gap-1.5 text-xs text-[#52B788] hover:text-[#2D6A4F] font-medium transition-colors"
             >
               <Sprout className="h-3 w-3" />

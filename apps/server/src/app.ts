@@ -7,6 +7,7 @@
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import helmet from 'helmet';
+import authRoutes from './modules/auth/auth.routes.js';
 import communicationRoutes from './modules/communication/communication.routes.js';
 import dashboardRoutes from './modules/dashboard/dashboard.routes.js';
 import departmentsRoutes from './modules/departments/departments.routes.js';
@@ -55,6 +56,9 @@ export function createApp(): Express {
       docsUrl: '/api/v1/docs',
     });
   });
+
+  // 5a. Authentication Routes
+  app.use('/api/v1/auth', authRoutes);
 
   // 6. Admin Dashboard Routes
   app.use('/api/v1/admin/dashboard', dashboardRoutes);

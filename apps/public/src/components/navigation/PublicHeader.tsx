@@ -5,7 +5,8 @@
  */
 
 import { Button } from '@/components/ui/button';
-import { Menu, Sprout, X } from 'lucide-react';
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet';
+import { Menu, Sprout } from 'lucide-react';
 import { useState } from 'react';
 
 interface NavLink {
@@ -56,7 +57,7 @@ export function PublicHeader() {
               {link.label}
             </a>
           ))}
-          <Button variant="outline" size="sm" asChild>
+          <Button variant="outline" size="sm">
             <a href="http://localhost:3001" target="_blank" rel="noreferrer">
               Management Portal
             </a>
@@ -64,38 +65,39 @@ export function PublicHeader() {
         </nav>
 
         {/* Mobile menu toggle */}
-        <button
-          type="button"
-          className="md:hidden p-2"
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle menu"
-        >
-          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
-      </div>
-
-      {/* Mobile navigation drawer */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-border bg-background">
-          <nav className="container mx-auto px-4 py-4 space-y-2">
-            {NAV_LINKS.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className="block py-2 text-sm font-medium text-muted-foreground hover:text-foreground"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {link.label}
-              </a>
-            ))}
-            <Button variant="outline" size="sm" className="w-full mt-4" asChild>
-              <a href="http://localhost:3001" target="_blank" rel="noreferrer">
-                Management Portal
-              </a>
+        <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+          <SheetTrigger>
+            <Button variant="ghost" size="icon" className="md:hidden">
+              <Menu className="h-6 w-6" />
             </Button>
-          </nav>
-        </div>
-      )}
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[300px]">
+            <SheetHeader>
+              <SheetTitle className="flex items-center gap-2">
+                <Sprout className="h-5 w-5 text-primary" />
+                TARCMS
+              </SheetTitle>
+            </SheetHeader>
+            <nav className="flex flex-col space-y-4 mt-8">
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                </a>
+              ))}
+              <Button variant="outline" size="sm" className="w-full mt-4">
+                <a href="http://localhost:3001" target="_blank" rel="noreferrer">
+                  Management Portal
+                </a>
+              </Button>
+            </nav>
+          </SheetContent>
+        </Sheet>
+      </div>
     </header>
   );
 }

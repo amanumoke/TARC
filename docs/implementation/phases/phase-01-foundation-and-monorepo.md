@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Development Workflow:** All implementation must follow the rules in [Development Workflow & Git Rules](../development/development-workflow-and-git-rules.md). Run `npm run validate` before pushing.
+
 **Goal:** Establish the complete clean npm workspaces monorepo structure with `packages/shared`, `apps/server`, `apps/public`, and `apps/dashboard`, configuring shadcn UI primitives, Biome linting/formatting, Vitest runners, Docker Compose multi-container setup, and GitHub Actions CI.
 
 **Architecture:** Monorepo with native npm workspaces, decoupled client applications (Public Web Portal: `apps/public` and Management Dashboard: `apps/dashboard` with React 19 + Vite + shadcn UI) and server (`apps/server` with Express + Node.js + Drizzle ORM), unified shared types and validation schemas package (`@tarcms/shared`).

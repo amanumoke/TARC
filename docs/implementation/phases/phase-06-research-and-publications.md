@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Development Workflow:** All implementation must follow the rules in [Development Workflow & Git Rules](../development/development-workflow-and-git-rules.md). Run `npm run validate` before pushing.
+
 **Goal:** Implement the central scientific output engine: hierarchical research programs, project trial tracking, scientific publication cataloging with multi-author junction mapping (`publication_authors`), PDF document uploads, and public faceted search.
 
 **Architecture:** Relational hierarchy (`Department -> Program -> Project -> Publication`), transactional multi-author persistence, Multer file upload storage seam, and indexed full-text search.

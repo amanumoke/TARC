@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Development Workflow:** All implementation must follow the rules in [Development Workflow & Git Rules](../development/development-workflow-and-git-rules.md). Run `npm run validate` before pushing.
+
 **Goal:** Implement stateless JWT authentication, password hashing with bcrypt, 4-tier Role-Based Access Control (`SUPER_ADMIN`, `ADMIN`, `RESEARCHER`, `STAFF`), request payload validation middleware with Zod, and frontend authentication context provider.
 
 **Architecture:** Token-based authentication with Bearer JWTs, declarative route guards, Zod middleware validation, and centralized exception handling.

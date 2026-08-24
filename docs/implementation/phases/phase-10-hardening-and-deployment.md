@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Development Workflow:** All implementation must follow the rules in [Development Workflow & Git Rules](../development/development-workflow-and-git-rules.md). Run `npm run validate` before pushing.
+
 **Goal:** Execute full system end-to-end integration testing, apply security hardening (Helmet, rate-limiting, CORS, input sanitization), configure production multi-stage Docker builds, and finalize deployment documentation.
 
 **Architecture:** Automated integration test harness, production Nginx reverse proxy container, rate-limiting middleware, and zero-downtime containerized release topology.

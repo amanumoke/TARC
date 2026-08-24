@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Development Workflow:** All implementation must follow the rules in [Development Workflow & Git Rules](../development/development-workflow-and-git-rules.md). Run `npm run validate` before pushing.
+
 **Goal:** Implement the complete MySQL 8.0 schema using Drizzle ORM, establish database connectivity and migration runners, and create an automated seed pipeline with realistic Tepi Agricultural Research Center domain data (Coffee, Spices, Forestry, Projects, Staff, and Vehicles).
 
 **Architecture:** Type-safe relational schema modeling with Drizzle ORM (`mysql2`), explicit relational foreign keys, junction tables (`publication_authors`), and deterministic database seeder.

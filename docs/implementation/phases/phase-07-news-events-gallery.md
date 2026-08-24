@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Development Workflow:** All implementation must follow the rules in [Development Workflow & Git Rules](../development/development-workflow-and-git-rules.md). Run `npm run validate` before pushing.
+
 **Goal:** Implement institutional communication tools: news article authoring with draft/published status, event scheduling and calendar management, and categorized photographic gallery management with lightbox viewing.
 
 **Architecture:** Media processing seam with Multer, categorized album queries, chronological event filtering, and rich editorial UI components.

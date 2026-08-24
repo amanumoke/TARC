@@ -34,6 +34,9 @@ Thumbs.db
 *.sln
 *.sw?
 
+# OpenCode
+.opencode/
+
 # Uploads in development
 apps/server/uploads/*
 !apps/server/uploads/.gitkeep

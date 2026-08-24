@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use `superpowers:subagent-driven-development` or `superpowers:executing-plans` to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **Development Workflow:** All implementation must follow the rules in [Development Workflow & Git Rules](../development/development-workflow-and-git-rules.md). Run `npm run validate` before pushing.
+
 **Goal:** Implement full CRUD management and public discovery for TARC departments and staff personnel, including department head links, staff photo uploads, expertise tagging, and public staff rosters.
 
 **Architecture:** Deep domain modules (`departments`, `staff`) with transactional repository layers and reusable data table / modal interfaces.

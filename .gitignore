@@ -40,3 +40,4 @@ Thumbs.db
 # Uploads in development
 apps/server/uploads/*
 !apps/server/uploads/.gitkeep
+opencode.json

@@ -7,6 +7,7 @@
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import helmet from 'helmet';
+import dashboardRoutes from './modules/dashboard/dashboard.routes.js';
 
 /**
  * Creates and configures the Express application instance.
@@ -48,6 +49,9 @@ export function createApp(): Express {
       docsUrl: '/api/v1/docs',
     });
   });
+
+  // 6. Admin Dashboard Routes
+  app.use('/api/v1/admin/dashboard', dashboardRoutes);
 
   return app;
 }

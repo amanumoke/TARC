@@ -9,6 +9,8 @@ import express, { Express, Request, Response } from 'express';
 import helmet from 'helmet';
 import dashboardRoutes from './modules/dashboard/dashboard.routes.js';
 import departmentsRoutes from './modules/departments/departments.routes.js';
+import publicationsRoutes from './modules/publications/publications.routes.js';
+import researchRoutes from './modules/research/research.routes.js';
 import staffRoutes from './modules/staff/staff.routes.js';
 
 /**
@@ -62,6 +64,14 @@ export function createApp(): Express {
   // 8. Staff Routes
   app.use('/api/v1/staff', staffRoutes);
   app.use('/api/v1/admin/staff', staffRoutes);
+
+  // 9. Research Routes (Programs & Projects)
+  app.use('/api/v1/research', researchRoutes);
+  app.use('/api/v1/admin/research', researchRoutes);
+
+  // 10. Publications Routes
+  app.use('/api/v1/publications', publicationsRoutes);
+  app.use('/api/v1/admin/publications', publicationsRoutes);
 
   return app;
 }

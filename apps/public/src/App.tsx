@@ -14,14 +14,28 @@ import { PublicNewsPage } from '@/features/news/PublicNewsPage';
 import { PublicPublicationsPage } from '@/features/publications/PublicPublicationsPage';
 import { PublicResearchPage } from '@/features/research/PublicResearchPage';
 import { PublicLayout } from '@/layouts/PublicLayout';
+import { useEffect, useState } from 'react';
+
+function useHashRoute() {
+  const [path, setPath] = useState(window.location.hash.slice(1) || '/');
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setPath(window.location.hash.slice(1) || '/');
+    };
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
+  return path;
+}
 
 /**
  * Root Public Application Component.
  * Uses hash-based routing for static deployment.
  */
 export function App(): React.ReactElement {
-  // Simple hash-based routing
-  const path = window.location.hash.slice(1) || '/';
+  const path = useHashRoute();
 
   const renderPage = () => {
     switch (path) {

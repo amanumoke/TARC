@@ -14,12 +14,12 @@ interface NavLink {
 }
 
 const NAV_LINKS: NavLink[] = [
-  { label: 'Home', href: '/' },
-  { label: 'About', href: '/about' },
-  { label: 'Research', href: '/research' },
-  { label: 'Publications', href: '/publications' },
-  { label: 'News', href: '/news' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'Home', href: '#/' },
+  { label: 'About', href: '#/about' },
+  { label: 'Research', href: '#/research' },
+  { label: 'Publications', href: '#/publications' },
+  { label: 'News', href: '#/news' },
+  { label: 'Contact', href: '#/contact' },
 ];
 
 /**
@@ -33,7 +33,7 @@ export function PublicHeader() {
     <header className="border-b border-border sticky top-0 z-50 bg-background/95 backdrop-blur">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
         {/* Logo and branding */}
-        <a href="/" className="flex items-center space-x-3">
+        <a href="#/" className="flex items-center space-x-3">
           <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
             <Sprout className="h-6 w-6" />
           </div>

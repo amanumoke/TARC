@@ -7,11 +7,11 @@
 import { Mail, MapPin, Phone, Sprout } from 'lucide-react';
 
 const QUICK_LINKS = [
-  { label: 'About Us', href: '/about' },
-  { label: 'Research', href: '/research' },
-  { label: 'Publications', href: '/publications' },
-  { label: 'News', href: '/news' },
-  { label: 'Contact', href: '/contact' },
+  { label: 'About Us', href: '#/about' },
+  { label: 'Research', href: '#/research' },
+  { label: 'Publications', href: '#/publications' },
+  { label: 'News', href: '#/news' },
+  { label: 'Contact', href: '#/contact' },
 ];
 
 /**

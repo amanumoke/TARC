@@ -7,6 +7,7 @@
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import helmet from 'helmet';
+import communicationRoutes from './modules/communication/communication.routes.js';
 import dashboardRoutes from './modules/dashboard/dashboard.routes.js';
 import departmentsRoutes from './modules/departments/departments.routes.js';
 import publicationsRoutes from './modules/publications/publications.routes.js';
@@ -72,6 +73,10 @@ export function createApp(): Express {
   // 10. Publications Routes
   app.use('/api/v1/publications', publicationsRoutes);
   app.use('/api/v1/admin/publications', publicationsRoutes);
+
+  // 11. Communication Routes (News, Events, Gallery)
+  app.use('/api/v1/communication', communicationRoutes);
+  app.use('/api/v1/admin/communication', communicationRoutes);
 
   return app;
 }

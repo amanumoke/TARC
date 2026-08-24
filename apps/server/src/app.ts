@@ -8,6 +8,8 @@ import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import helmet from 'helmet';
 import dashboardRoutes from './modules/dashboard/dashboard.routes.js';
+import departmentsRoutes from './modules/departments/departments.routes.js';
+import staffRoutes from './modules/staff/staff.routes.js';
 
 /**
  * Creates and configures the Express application instance.
@@ -52,6 +54,14 @@ export function createApp(): Express {
 
   // 6. Admin Dashboard Routes
   app.use('/api/v1/admin/dashboard', dashboardRoutes);
+
+  // 7. Departments Routes
+  app.use('/api/v1/departments', departmentsRoutes);
+  app.use('/api/v1/admin/departments', departmentsRoutes);
+
+  // 8. Staff Routes
+  app.use('/api/v1/staff', staffRoutes);
+  app.use('/api/v1/admin/staff', staffRoutes);
 
   return app;
 }

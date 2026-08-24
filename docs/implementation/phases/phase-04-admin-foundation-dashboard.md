@@ -15,6 +15,20 @@
 - Metric cards must display shadcn `Skeleton` loaders during data fetching.
 - Seamless breadcrumb generation based on active URL route segments.
 
+## Code Quality Requirements
+
+### Code Comments
+- All exported functions, interfaces, and types must have JSDoc comments explaining their purpose
+- Complex logic blocks must have inline comments explaining the reasoning
+- Database queries must be commented explaining what data they fetch
+
+### Commit Messages
+- Use Conventional Commits format: `type(scope): description`
+- Types: feat, fix, test, refactor, docs, chore
+- Scope should match the domain (e.g., dashboard, staff, publications)
+- Description should be imperative mood, lowercase, no period
+- Example: `feat(staff): add photo upload endpoint with validation`
+
 ---
 
 ### Task 4.1: Dashboard Metrics API Endpoint

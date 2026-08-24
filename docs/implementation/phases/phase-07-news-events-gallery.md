@@ -15,6 +15,20 @@
 - Events must distinguish between upcoming and past dates.
 - Gallery media assets must be organized by categories (`FIELD_TRIALS`, `LABORATORY`, `SPICE_VARIETIES`, `COFFEE_RESEARCH`, `COMMUNITY_OUTREACH`, `FACILITIES`).
 
+## Code Quality Requirements
+
+### Code Comments
+- All exported functions, interfaces, and types must have JSDoc comments explaining their purpose
+- Complex logic blocks must have inline comments explaining the reasoning
+- Database queries must be commented explaining what data they fetch
+
+### Commit Messages
+- Use Conventional Commits format: `type(scope): description`
+- Types: feat, fix, test, refactor, docs, chore
+- Scope should match the domain (e.g., dashboard, staff, publications)
+- Description should be imperative mood, lowercase, no period
+- Example: `feat(staff): add photo upload endpoint with validation`
+
 ---
 
 ### Task 7.1: News, Events & Gallery Backend Modules

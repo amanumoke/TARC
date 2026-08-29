@@ -1,111 +1,109 @@
-/**
- * @file apps/public/src/features/events/PublicEventsPage.tsx
- * @description Public events page displaying upcoming and past events.
- * Shows events with chronological filtering.
- */
+import { useEvents } from '@/hooks/useEvents';
+import { Clock, Filter, MapPin } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useQuery } from '@tanstack/react-query';
-
-interface Event {
-  id: string;
-  title: string;
-  description: string;
-  eventType: string;
-  startTime: string;
-  location: string;
-}
-
-async function fetchUpcomingEvents(): Promise<Event[]> {
-  const response = await fetch('/api/v1/communication/events/upcoming');
-  const data = await response.json();
-  return data.data;
-}
-
-async function fetchPastEvents(): Promise<Event[]> {
-  const response = await fetch('/api/v1/communication/events/past');
-  const data = await response.json();
-  return data.data;
-}
-
-function EventCardSkeleton() {
-  return (
-    <Card>
-      <CardHeader>
-        <Skeleton className="h-6 w-3/4" />
-        <Skeleton className="h-4 w-1/4" />
-      </CardHeader>
-      <CardContent>
-        <Skeleton className="h-4 w-full mb-2" />
-        <Skeleton className="h-4 w-5/6" />
-      </CardContent>
-    </Card>
-  );
-}
+type TimeFilter = 'all' | 'upcoming' | 'past';
 
 export function PublicEventsPage() {
-  const { data: upcomingEvents, isLoading: upcomingLoading } = useQuery({
-    queryKey: ['public-upcoming-events'],
-    queryFn: fetchUpcomingEvents,
+  const [timeFilter, setTimeFilter] = useState<TimeFilter>('all');
+  const { data: events, isLoading } = useEvents({
+    upcoming: timeFilter === 'upcoming' ? true : undefined,
   });
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-  const { data: pastEvents, isLoading: pastLoading } = useQuery({
-    queryKey: ['public-past-events'],
-    queryFn: fetchPastEvents,
-  });
+  const filtered =
+    events?.filter((e) => {
+      if (timeFilter === 'past') return new Date(e.startTime || e.startDate || '') < new Date();
+      return true;
+    }) || [];
 
   return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">Events</h1>
-        <p className="text-muted-foreground">
-          Workshops, field days, and training sessions at TARC
-        </p>
+    <div className="mx-auto max-w-7xl px-4 py-12">
+      <nav className="text-sm text-muted-foreground">
+        <Link to="/" className="hover:text-primary">
+          Home
+        </Link>
+        <span className="mx-2">/</span>
+        <span className="text-foreground">Events</span>
+      </nav>
+      <h1 className="mt-6 font-heading text-4xl font-bold text-foreground">Events</h1>
+      <p className="mt-3 text-lg text-muted-foreground">
+        Workshops, conferences, and activities at TARC.
+      </p>
+      <div className="mt-8 flex items-center gap-2">
+        <Filter className="h-4 w-4 text-muted-foreground" />
+        {(['all', 'upcoming', 'past'] as TimeFilter[]).map((f) => (
+          <button
+            type="button"
+            key={f}
+            onClick={() => setTimeFilter(f)}
+            className={`rounded-full px-4 py-1.5 text-sm font-medium capitalize transition-colors ${timeFilter === f ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
+          >
+            {f}
+          </button>
+        ))}
       </div>
-
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Upcoming Events</h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          {upcomingLoading
-            ? Array.from({ length: 2 }).map(() => <EventCardSkeleton key={crypto.randomUUID()} />)
-            : upcomingEvents?.map((event) => (
-                <Card key={event.id}>
-                  <CardHeader>
-                    <CardTitle className="text-lg">{event.title}</CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      {event.eventType} - {new Date(event.startTime).toLocaleDateString()}
-                    </p>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm line-clamp-3">{event.description}</p>
-                    <p className="text-sm text-muted-foreground mt-2">Location: {event.location}</p>
-                  </CardContent>
-                </Card>
-              ))}
+      {isLoading ? (
+        <div className="mt-10 space-y-4">
+          {[1, 2, 3].map((i) => (
+            <div key={i} className="animate-pulse flex gap-4 rounded-lg border bg-card p-4">
+              <div className="h-16 w-16 rounded bg-muted" />
+              <div className="flex-1 space-y-2">
+                <div className="h-4 w-3/4 rounded bg-muted" />
+                <div className="h-3 w-1/2 rounded bg-muted" />
+              </div>
+            </div>
+          ))}
         </div>
-      </section>
-
-      <section>
-        <h2 className="text-2xl font-semibold mb-4">Past Events</h2>
-        <div className="grid gap-6 md:grid-cols-2">
-          {pastLoading
-            ? Array.from({ length: 2 }).map(() => <EventCardSkeleton key={crypto.randomUUID()} />)
-            : pastEvents?.map((event) => (
-                <Card key={event.id}>
-                  <CardHeader>
-                    <CardTitle className="text-lg">{event.title}</CardTitle>
-                    <p className="text-sm text-muted-foreground">
-                      {event.eventType} - {new Date(event.startTime).toLocaleDateString()}
+      ) : (
+        <div className="mt-10 space-y-4">
+          {filtered.map((event) => {
+            const date = new Date(event.startTime || event.startDate || '');
+            return (
+              <div
+                key={event.id}
+                className="flex gap-4 rounded-lg border bg-card p-5 transition-shadow hover:shadow-md"
+              >
+                <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg bg-primary text-white">
+                  <span className="text-xl font-bold leading-none">{date.getDate()}</span>
+                  <span className="text-xs uppercase">
+                    {date.toLocaleString('en-US', { month: 'short' })}
+                  </span>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-heading text-lg font-semibold text-foreground">
+                    {event.title}
+                  </h3>
+                  <div className="mt-1 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                    <span className="flex items-center gap-1">
+                      <Clock className="h-4 w-4" />
+                      {date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                    {event.location && (
+                      <span className="flex items-center gap-1">
+                        <MapPin className="h-4 w-4" /> {event.location}
+                      </span>
+                    )}
+                  </div>
+                  {event.description && (
+                    <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+                      {event.description}
                     </p>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm line-clamp-3">{event.description}</p>
-                  </CardContent>
-                </Card>
-              ))}
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
-      </section>
+      )}
+      {!isLoading && filtered.length === 0 && (
+        <div className="mt-16 text-center">
+          <p className="text-muted-foreground">No events found.</p>
+        </div>
+      )}
     </div>
   );
 }

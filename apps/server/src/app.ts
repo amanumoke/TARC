@@ -14,6 +14,7 @@ import departmentsRoutes from './modules/departments/departments.routes.js';
 import operationsRoutes from './modules/operations/operations.routes.js';
 import publicationsRoutes from './modules/publications/publications.routes.js';
 import researchRoutes from './modules/research/research.routes.js';
+import settingsRoutes from './modules/settings/settings.routes.js';
 import staffRoutes from './modules/staff/staff.routes.js';
 
 /**
@@ -86,6 +87,9 @@ export function createApp(): Express {
   // 12. Operations Routes (Vehicles, Messages)
   app.use('/api/v1/operations', operationsRoutes);
   app.use('/api/v1/admin/operations', operationsRoutes);
+
+  // 13. Settings Routes (Public)
+  app.use('/api/v1/settings', settingsRoutes);
 
   return app;
 }

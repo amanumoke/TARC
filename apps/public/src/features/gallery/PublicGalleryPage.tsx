@@ -1,88 +1,128 @@
-/**
- * @file apps/public/src/features/gallery/PublicGalleryPage.tsx
- * @description Public gallery page with categorized photo grid.
- * Displays media assets organized by category with lightbox viewing.
- */
-
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useQuery } from '@tanstack/react-query';
-
-interface GalleryMedia {
-  id: string;
-  title: string;
-  caption: string | null;
-  category: string;
-  imageUrl: string;
-  thumbnailUrl: string | null;
-}
+import { useGallery } from '@/hooks/useGallery';
+import type { GalleryItem } from '@/hooks/useGallery';
+import { ChevronRight, ImageIcon, X } from 'lucide-react';
+import { useMemo, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 const CATEGORIES = [
-  'FIELD_TRIALS',
-  'LABORATORY',
-  'SPICE_VARIETIES',
-  'COFFEE_RESEARCH',
-  'COMMUNITY_OUTREACH',
-  'FACILITIES',
+  { value: '', label: 'All' },
+  { value: 'FIELD_TRIALS', label: 'Field Trials' },
+  { value: 'LABORATORY', label: 'Laboratory' },
+  { value: 'SPICE_VARIETIES', label: 'Spice Varieties' },
+  { value: 'COFFEE_RESEARCH', label: 'Coffee Research' },
+  { value: 'COMMUNITY_OUTREACH', label: 'Community Outreach' },
+  { value: 'FACILITIES', label: 'Facilities' },
 ];
 
-async function fetchGalleryByCategory(category: string): Promise<GalleryMedia[]> {
-  const response = await fetch(`/api/v1/communication/gallery/${category}`);
-  const data = await response.json();
-  return data.data;
-}
-
-function GalleryCardSkeleton() {
-  return (
-    <Card>
-      <Skeleton className="h-48 w-full rounded-t-lg" />
-      <CardHeader>
-        <Skeleton className="h-4 w-3/4" />
-      </CardHeader>
-    </Card>
-  );
-}
-
 export function PublicGalleryPage() {
-  return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold">Gallery</h1>
-        <p className="text-muted-foreground">Photos from research activities at TARC</p>
-      </div>
+  const [activeCategory, setActiveCategory] = useState('');
+  const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
 
-      {CATEGORIES.map((category) => (
-        <GallerySection key={category} category={category} />
-      ))}
-    </div>
-  );
-}
-
-function GallerySection({ category }: { category: string }) {
-  const { data: media, isLoading } = useQuery({
-    queryKey: ['public-gallery', category],
-    queryFn: () => fetchGalleryByCategory(category),
+  const { data: galleryData, isLoading } = useGallery({
+    category: activeCategory || undefined,
   });
 
+  const items: GalleryItem[] = useMemo(
+    () => (Array.isArray(galleryData) ? galleryData : []),
+    [galleryData]
+  );
+
   return (
-    <section>
-      <h2 className="text-2xl font-semibold mb-4">{category.replace(/_/g, ' ')}</h2>
-      <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
-        {isLoading
-          ? Array.from({ length: 4 }).map(() => <GalleryCardSkeleton key={crypto.randomUUID()} />)
-          : media?.map((item) => (
-              <Card key={item.id} className="overflow-hidden">
-                <img
-                  src={item.thumbnailUrl || item.imageUrl}
-                  alt={item.title}
-                  className="h-48 w-full object-cover"
-                />
-                <CardHeader className="p-3">
-                  <CardTitle className="text-sm">{item.title}</CardTitle>
-                </CardHeader>
-              </Card>
-            ))}
+    <div className="space-y-8">
+      <nav className="flex items-center gap-1 text-sm text-muted-foreground">
+        <Link to="/" className="hover:text-foreground transition-colors">
+          Home
+        </Link>
+        <ChevronRight className="h-4 w-4" />
+        <span className="text-foreground font-medium">Gallery</span>
+      </nav>
+
+      <div>
+        <h1 className="text-3xl font-bold">Gallery</h1>
+        <p className="text-muted-foreground mt-2">
+          Photos from research activities and facilities at TARC.
+        </p>
       </div>
-    </section>
+
+      <div className="flex flex-wrap gap-2">
+        {CATEGORIES.map((cat) => (
+          <button
+            type="button"
+            key={cat.value}
+            onClick={() => setActiveCategory(cat.value)}
+            className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${
+              activeCategory === cat.value
+                ? 'bg-primary text-primary-foreground'
+                : 'bg-muted text-muted-foreground hover:bg-muted/80'
+            }`}
+          >
+            {cat.label}
+          </button>
+        ))}
+      </div>
+
+      {isLoading ? (
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <Skeleton key={`skeleton-${i}`} className="aspect-square w-full" />
+          ))}
+        </div>
+      ) : items.length === 0 ? (
+        <div className="py-12 text-center">
+          <ImageIcon className="h-12 w-12 text-muted-foreground/50 mx-auto mb-4" />
+          <p className="text-muted-foreground">No images found in this category.</p>
+        </div>
+      ) : (
+        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((item) => (
+            <button
+              type="button"
+              key={item.id}
+              onClick={() => setLightboxItem(item)}
+              className="group relative aspect-square overflow-hidden rounded-lg border border-border hover:ring-2 hover:ring-primary transition-all"
+            >
+              <PlaceholderImage label={item.title} aspectRatio="square" className="w-full h-full" />
+              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-3">
+                <span className="text-sm font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                  {item.title}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
+
+      {lightboxItem && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4"
+          onClick={() => setLightboxItem(null)}
+          onKeyDown={(e) => e.key === 'Escape' && setLightboxItem(null)}
+          tabIndex={-1}
+        >
+          <button
+            type="button"
+            onClick={() => setLightboxItem(null)}
+            className="absolute top-4 right-4 text-white hover:text-white/80 transition-colors"
+          >
+            <X className="h-8 w-8" />
+          </button>
+          <div
+            className="max-w-3xl w-full space-y-4"
+            onClick={(e) => e.stopPropagation()}
+            onKeyDown={(e) => e.stopPropagation()}
+          >
+            <PlaceholderImage label={lightboxItem.title} aspectRatio="video" className="w-full" />
+            <div className="text-center space-y-1">
+              <h3 className="text-lg font-semibold text-white">{lightboxItem.title}</h3>
+              {lightboxItem.caption && (
+                <p className="text-sm text-white/70">{lightboxItem.caption}</p>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

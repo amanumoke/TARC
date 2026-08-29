@@ -25,28 +25,24 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 describe('TARCMS Public Portal — App Component', () => {
   it('renders the institutional title and header branding', () => {
     render(<App />, { wrapper: TestWrapper });
-    expect(screen.getAllByText('TARCMS').length).toBeGreaterThan(0);
-    expect(screen.getAllByText('Tepi Agricultural Research Center').length).toBeGreaterThan(0);
+    expect(screen.getAllByText('TARC').length).toBeGreaterThan(0);
+    expect(screen.getAllByText(/Tepi Agricultural Research Center/).length).toBeGreaterThan(0);
   });
 
   it('renders agricultural headline and mission description', () => {
     render(<App />, { wrapper: TestWrapper });
-    expect(
-      screen.getByText('Pioneering Spices, Coffee & Horticultural Excellence')
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText(/Empowering farmers, advancing agricultural biodiversity/i)
-    ).toBeInTheDocument();
+    expect(screen.getByText(/Pioneering Agricultural Excellence/i)).toBeInTheDocument();
+    expect(screen.getByText(/Advancing sustainable farming practices/i)).toBeInTheDocument();
   });
 
   it('renders hero section badge', () => {
     render(<App />, { wrapper: TestWrapper });
-    expect(screen.getByText('Southwest Ethiopia Agricultural Innovation')).toBeInTheDocument();
+    expect(screen.getByText('AGRICULTURAL EXCELLENCE HUB')).toBeInTheDocument();
   });
 
   it('renders call-to-action exploration buttons', () => {
     render(<App />, { wrapper: TestWrapper });
-    expect(screen.getByRole('button', { name: /Explore Publications/i })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Research Programs/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Explore Research Data/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Latest Publications/i })).toBeInTheDocument();
   });
 });

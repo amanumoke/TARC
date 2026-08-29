@@ -1,15 +1,19 @@
-/**
- * @file apps/dashboard/src/features/staff/AdminStaffPage.tsx
- * @description Admin staff management page with CRUD table.
- * Allows administrators to manage staff personnel records.
- */
-
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { ConfirmDialog } from '@/features/shared/ConfirmDialog';
+import { Column, DataTable } from '@/features/shared/DataTable';
+import { PageHeader } from '@/features/shared/PageHeader';
+import { StatusBadge } from '@/features/shared/StatusBadge';
+import { useApiMutation } from '@/hooks/useApiMutation';
+import { useApiQuery } from '@/hooks/useApiQuery';
+import { MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { StaffForm } from './StaffForm';
 
 interface StaffMember {
   id: string;
@@ -18,135 +22,168 @@ interface StaffMember {
   position: string;
   email: string;
   departmentId: string;
+  departmentName?: string;
+  areasOfExpertise?: string[];
+  bio?: string;
   isActive: boolean;
 }
 
-async function fetchStaff(): Promise<StaffMember[]> {
-  const response = await fetch('/api/v1/admin/staff', {
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-  const data = await response.json();
-  return data.data;
-}
-
-async function deleteStaff(id: string): Promise<void> {
-  await fetch(`/api/v1/admin/staff/${id}`, {
-    method: 'DELETE',
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-}
-
-function StaffRowSkeleton() {
-  return (
-    <tr>
-      <td className="p-3">
-        <Skeleton className="h-4 w-32" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-32" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-40" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-20" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-20" />
-      </td>
-    </tr>
-  );
+interface StaffResponse {
+  data: StaffMember[];
+  meta?: { total: number; totalPages: number };
 }
 
 export function AdminStaffPage() {
-  const queryClient = useQueryClient();
-  const [showModal, setShowModal] = useState(false);
+  const [search, setSearch] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [editingStaff, setEditingStaff] = useState<StaffMember | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
-  const { data: staffMembers, isLoading } = useQuery({
-    queryKey: ['admin-staff'],
-    queryFn: fetchStaff,
+  const { data: staffData, isLoading } = useApiQuery<StaffResponse>({
+    queryKey: ['admin-staff', page, search],
+    endpoint: `/api/v1/admin/staff?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteStaff,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-staff'] });
+  const deleteMutation = useApiMutation<unknown, string>({
+    endpoint: `/api/v1/admin/staff/${deletingId}`,
+    method: 'DELETE',
+    queryKeyToInvalidate: ['admin-staff'],
+    onSuccess: () => setDeletingId(null),
+  });
+
+  const staff = staffData?.data || [];
+  const meta = staffData?.meta;
+
+  const columns: Column<StaffMember>[] = [
+    {
+      key: 'name',
+      header: 'Name',
+      render: (item) => (
+        <div>
+          <p className="font-medium">
+            {item.firstName} {item.lastName}
+          </p>
+          <p className="text-xs text-muted-foreground">{item.email}</p>
+        </div>
+      ),
     },
-  });
-
-  const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this staff member?')) {
-      deleteMutation.mutate(id);
-    }
-  };
+    { key: 'position', header: 'Position' },
+    {
+      key: 'departmentName',
+      header: 'Department',
+      render: (item) => item.departmentName || '-',
+    },
+    {
+      key: 'areasOfExpertise',
+      header: 'Expertise',
+      render: (item) => item.areasOfExpertise?.slice(0, 2).join(', ') || '-',
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      render: (item) => <StatusBadge status={item.isActive ? 'ACTIVE' : 'INACTIVE'} />,
+    },
+    {
+      key: 'actions',
+      header: '',
+      className: 'w-[50px]',
+      render: (item) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="ghost" size="icon" className="h-8 w-8" />}>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => {
+                setEditingStaff(item);
+                setShowForm(true);
+              }}
+            >
+              <Pencil className="mr-2 h-4 w-4" /> Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setDeletingId(item.id)} className="text-destructive">
+              <Trash2 className="mr-2 h-4 w-4" /> Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
+  ];
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Staff Directory</h1>
-          <p className="text-muted-foreground">Manage researcher and staff profiles</p>
+      <PageHeader
+        title="Staff"
+        description="Manage approved staff information."
+        action={{ label: 'Add Staff', onClick: () => setShowForm(true) }}
+      />
+
+      <div className="space-y-4">
+        <div className="flex items-center gap-3">
+          <input
+            type="text"
+            placeholder="Search staff..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setPage(1);
+            }}
+            className="h-9 max-w-sm rounded-md border bg-transparent px-3 text-sm"
+          />
         </div>
-        <Button onClick={() => setShowModal(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Staff
-        </Button>
+
+        <DataTable
+          columns={columns}
+          data={staff}
+          loading={isLoading}
+          keyExtractor={(item) => item.id}
+          page={page}
+          totalPages={meta?.totalPages || 1}
+          total={meta?.total}
+          onPageChange={setPage}
+          emptyTitle="No staff members found"
+          emptyDescription="Try changing your filters or add a new staff member."
+        />
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>All Staff</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="p-3 text-left font-medium">Name</th>
-                <th className="p-3 text-left font-medium">Position</th>
-                <th className="p-3 text-left font-medium">Email</th>
-                <th className="p-3 text-left font-medium">Status</th>
-                <th className="p-3 text-left font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading
-                ? Array.from({ length: 5 }).map(() => (
-                    <StaffRowSkeleton key={crypto.randomUUID()} />
-                  ))
-                : staffMembers?.map((member) => (
-                    <tr key={member.id} className="border-b hover:bg-muted/50">
-                      <td className="p-3">
-                        {member.firstName} {member.lastName}
-                      </td>
-                      <td className="p-3">{member.position}</td>
-                      <td className="p-3">{member.email}</td>
-                      <td className="p-3">
-                        <span
-                          className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${member.isActive ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}`}
-                        >
-                          {member.isActive ? 'Active' : 'Inactive'}
-                        </span>
-                      </td>
-                      <td className="p-3">
-                        <div className="flex gap-2">
-                          <Button variant="ghost" size="icon">
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => handleDelete(member.id)}
-                          >
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-        </CardContent>
-      </Card>
+      <StaffForm
+        open={showForm}
+        onOpenChange={(open) => {
+          setShowForm(open);
+          if (!open) setEditingStaff(null);
+        }}
+        initialData={
+          editingStaff
+            ? {
+                firstName: editingStaff.firstName,
+                lastName: editingStaff.lastName,
+                position: editingStaff.position,
+                email: editingStaff.email,
+                departmentId: editingStaff.departmentId,
+                bio: editingStaff.bio || undefined,
+                areasOfExpertise: editingStaff.areasOfExpertise?.join(', '),
+              }
+            : undefined
+        }
+        onSubmit={(data) => console.log('Submit:', data)}
+      />
+
+      <ConfirmDialog
+        open={!!deletingId}
+        onOpenChange={(open) => {
+          if (!open) setDeletingId(null);
+        }}
+        title="Delete staff member?"
+        description="This action cannot be undone. The staff member will be permanently removed."
+        confirmLabel="Delete Staff"
+        onConfirm={() => {
+          if (deletingId) deleteMutation.mutate(deletingId);
+        }}
+        loading={deleteMutation.isPending}
+      />
     </div>
   );
 }

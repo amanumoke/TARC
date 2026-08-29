@@ -139,3 +139,9 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Dot grid background pattern matching the TARCMS design */
+.dot-grid-bg {
+  background-image: radial-gradient(circle, #c1c8c2 1px, transparent 1px);
+  background-size: 24px 24px;
+}

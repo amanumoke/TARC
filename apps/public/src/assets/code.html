@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TARC - Tepi Agricultural Research Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@400;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "surface-bright": "#f9faf6",
+                      "outline": "#717973",
+                      "secondary-fixed": "#b1f0ce",
+                      "tertiary-fixed": "#92f7c3",
+                      "tertiary-container": "#00452c",
+                      "on-primary-fixed": "#002114",
+                      "on-tertiary": "#ffffff",
+                      "on-primary-fixed-variant": "#274e3d",
+                      "secondary-fixed-dim": "#95d4b3",
+                      "on-secondary-container": "#316e52",
+                      "on-error-container": "#93000a",
+                      "on-surface-variant": "#414844",
+                      "secondary": "#2c694e",
+                      "surface-tint": "#3f6653",
+                      "primary": "#012d1d",
+                      "on-secondary-fixed": "#002114",
+                      "on-surface": "#1a1c1a",
+                      "on-secondary-fixed-variant": "#0e5138",
+                      "on-error": "#ffffff",
+                      "inverse-surface": "#2f312f",
+                      "surface-dim": "#dadad7",
+                      "tertiary": "#002d1b",
+                      "surface-container-highest": "#e2e3e0",
+                      "background": "#f9faf6",
+                      "surface-container-low": "#f3f4f1",
+                      "surface-container-lowest": "#ffffff",
+                      "surface-variant": "#e2e3e0",
+                      "error-container": "#ffdad6",
+                      "on-tertiary-container": "#53b889",
+                      "outline-variant": "#c1c8c2",
+                      "on-primary": "#ffffff",
+                      "secondary-container": "#aeeecb",
+                      "tertiary-fixed-dim": "#75daa8",
+                      "primary-fixed-dim": "#a5d0b9",
+                      "inverse-on-surface": "#f0f1ee",
+                      "on-tertiary-fixed-variant": "#005235",
+                      "on-secondary": "#ffffff",
+                      "inverse-primary": "#a5d0b9",
+                      "primary-container": "#1b4332",
+                      "surface-container": "#eeeeeb",
+                      "on-primary-container": "#86af99",
+                      "surface": "#f9faf6",
+                      "surface-container-high": "#e8e8e5",
+                      "on-tertiary-fixed": "#002113",
+                      "primary-fixed": "#c1ecd4",
+                      "error": "#ba1a1a",
+                      "on-background": "#1a1c1a"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "sidebar-width": "280px",
+                      "margin-desktop": "32px",
+                      "container-max": "1440px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "base": "8px"
+              },
+              "fontFamily": {
+                      "body-md": [
+                              "Inter"
+                      ],
+                      "headline-lg": [
+                              "DM Serif Display"
+                      ],
+                      "label-md": [
+                              "Inter"
+                      ],
+                      "headline-lg-mobile": [
+                              "DM Serif Display"
+                      ],
+                      "body-sm": [
+                              "Inter"
+                      ],
+                      "headline-md": [
+                              "DM Serif Display"
+                      ],
+                      "headline-sm": [
+                              "DM Serif Display"
+                      ],
+                      "body-lg": [
+                              "Inter"
+                      ],
+                      "display-lg": [
+                              "DM Serif Display"
+                      ]
+              },
+              "fontSize": {
+                      "body-md": [
+                              "16px",
+                              {
+                                      "lineHeight": "24px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-lg": [
+                              "32px",
+                              {
+                                      "lineHeight": "40px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "label-md": [
+                              "12px",
+                              {
+                                      "lineHeight": "16px",
+                                      "letterSpacing": "0.05em",
+                                      "fontWeight": "600"
+                              }
+                      ],
+                      "headline-lg-mobile": [
+                              "28px",
+                              {
+                                      "lineHeight": "36px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-sm": [
+                              "14px",
+                              {
+                                      "lineHeight": "20px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-md": [
+                              "24px",
+                              {
+                                      "lineHeight": "32px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "headline-sm": [
+                              "20px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "body-lg": [
+                              "18px",
+                              {
+                                      "lineHeight": "28px",
+                                      "fontWeight": "400"
+                              }
+                      ],
+                      "display-lg": [
+                              "48px",
+                              {
+                                      "lineHeight": "56px",
+                                      "fontWeight": "400"
+                              }
+                      ]
+              }
+      },
+          },
+        }
+    </script>
+<style>
+        .topo-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%232D6A4F' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+    </style>
+</head>
+<body class="bg-surface-bright text-on-background font-body-md antialiased topo-bg min-h-screen flex flex-col">
+<!-- Header (Double-layered) -->
+<header class="fixed top-0 w-full z-50 transition-all duration-300 shadow-sm">
+<!-- Top Bar -->
+<div class="bg-primary text-on-primary py-2 px-margin-desktop text-xs hidden md:block border-b border-primary-container">
+<div class="max-w-container-max mx-auto flex justify-between items-center">
+<div class="flex items-center gap-6">
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">phone</span> +251 11 123 4567</span>
+<span class="flex items-center gap-2"><span class="material-symbols-outlined text-[14px]">email</span> info@tarc.gov.et</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="hover:text-secondary-fixed transition-colors">Portal Login</button>
+<span class="w-px h-3 bg-on-primary/30"></span>
+<button class="hover:text-secondary-fixed transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]" style="font-variation-settings: 'FILL' 0;">language</span>
+                        English (EN)
+                    </button>
+</div>
+</div>
+</div>
+<!-- Main Nav -->
+<div class="bg-surface-bright border-b border-[#2D6A4F]/20">
+<div class="flex justify-between items-center px-margin-desktop py-3 max-w-container-max mx-auto">
+<div class="flex items-center gap-4">
+<a class="font-headline-sm text-headline-sm font-bold text-primary tracking-tight hover:opacity-80 transition-opacity flex items-center gap-2" href="#">
+<span class="w-8 h-8 rounded bg-primary text-on-primary flex items-center justify-center font-bold text-lg">T</span>
+                    TARC
+                </a>
+</div>
+<nav class="hidden lg:flex items-center gap-6 flex-grow justify-center">
+<a aria-current="page" class="text-primary font-bold border-b-2 border-secondary pb-1 opacity-80 transition-opacity font-body-md text-sm" href="#">Home</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-secondary transition-all font-body-md text-sm font-semibold" href="#">Research</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-secondary transition-all font-body-md text-sm font-semibold" href="#">Publications</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-secondary transition-all font-body-md text-sm font-semibold" href="#">Staff</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors hover:text-secondary transition-all font-body-md text-sm font-semibold" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="relative hidden md:block">
+<input class="bg-surface-container-low border border-outline-variant/50 rounded-full py-1.5 pl-4 pr-10 text-sm focus:outline-none focus:border-secondary focus:ring-1 focus:ring-secondary w-48 lg:w-64" placeholder="Search research..." type="text"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-outline-variant text-[18px]">search</span>
+</div>
+<button class="hidden lg:flex items-center gap-2 bg-[#2D6A4F] text-white px-4 py-1.5 rounded font-label-md text-xs hover:bg-primary transition-colors uppercase tracking-wider">
+                    Director's Message
+                </button>
+<button class="lg:hidden text-on-surface-variant">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-[104px]"> <!-- Adjusted padding for double header -->
+<!-- Hero Section (Technical Layout) -->
+<section class="border-b border-[#2D6A4F]/20">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-20 flex flex-col lg:flex-row gap-12 items-center">
+<div class="flex-1">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-low border border-outline-variant/30 rounded-full font-label-md text-[11px] uppercase tracking-wider text-secondary mb-6">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+                    Agricultural Excellence Hub
+                </div>
+<h1 class="font-display-lg text-4xl md:text-5xl lg:text-6xl text-primary mb-6 leading-tight">
+                    Pioneering Agricultural Excellence in the <span class="text-[#2D6A4F]">Southwest Highlands</span>
+</h1>
+<p class="font-body-lg text-lg text-on-surface-variant mb-8 max-w-2xl border-l-4 border-[#2D6A4F] pl-4">
+                    Advancing sustainable farming practices, discovering high-yield cultivars, and empowering local communities through data-driven research at the Tepi Agricultural Research Center.
+                </p>
+<div class="flex flex-col sm:flex-row gap-4">
+<button class="bg-primary text-on-primary px-6 py-2.5 rounded font-label-md text-sm hover:bg-[#2D6A4F] transition-colors uppercase tracking-wider flex items-center justify-center gap-2">
+                        Explore Research Data
+                        <span class="material-symbols-outlined text-[16px]">database</span>
+</button>
+<button class="bg-transparent text-primary px-6 py-2.5 rounded font-label-md text-sm hover:bg-surface-container border border-[#2D6A4F]/30 transition-colors uppercase tracking-wider">
+                        Latest Publications
+                    </button>
+</div>
+</div>
+<div class="flex-1 w-full relative">
+<div class="aspect-video lg:aspect-square max-h-[500px] w-full rounded border border-[#2D6A4F]/20 overflow-hidden relative shadow-sm">
+
+<div class="absolute inset-0 border-[8px] border-surface-bright/20 z-10 pointer-events-none"></div>
+<div class="absolute bottom-4 right-4 bg-surface-bright/90 backdrop-blur text-primary text-[10px] font-mono px-2 py-1 rounded border border-[#2D6A4F]/30 z-20">SYS_ON_LINE_01</div>
+</div>
+</div>
+</div>
+<!-- Integrated Impact Stats -->
+<div class="border-t border-[#2D6A4F]/20 bg-surface-bright topo-bg">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop flex flex-wrap divide-y md:divide-y-0 md:divide-x divide-[#2D6A4F]/20">
+<div class="flex-1 py-6 md:py-8 px-4 flex items-center gap-4">
+<div class="p-3 bg-surface-container-low rounded border border-[#2D6A4F]/10">
+<span class="material-symbols-outlined text-3xl text-secondary">eco</span>
+</div>
+<div>
+<h4 class="font-display-lg text-3xl text-primary leading-none mb-1">42+</h4>
+<p class="font-label-md text-[11px] text-on-surface-variant uppercase tracking-widest">Active Programs</p>
+</div>
+</div>
+<div class="flex-1 py-6 md:py-8 px-4 flex items-center gap-4">
+<div class="p-3 bg-surface-container-low rounded border border-[#2D6A4F]/10">
+<span class="material-symbols-outlined text-3xl text-secondary">library_books</span>
+</div>
+<div>
+<h4 class="font-display-lg text-3xl text-primary leading-none mb-1">128+</h4>
+<p class="font-label-md text-[11px] text-on-surface-variant uppercase tracking-widest">Publications</p>
+</div>
+</div>
+<div class="flex-1 py-6 md:py-8 px-4 flex items-center gap-4">
+<div class="p-3 bg-surface-container-low rounded border border-[#2D6A4F]/10">
+<span class="material-symbols-outlined text-3xl text-secondary">groups</span>
+</div>
+<div>
+<h4 class="font-display-lg text-3xl text-primary leading-none mb-1">85+</h4>
+<p class="font-label-md text-[11px] text-on-surface-variant uppercase tracking-widest">Specialized Staff</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Intro Section -->
+<section class="py-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto border-b border-[#2D6A4F]/20">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+<div class="lg:col-span-5 relative rounded border border-[#2D6A4F]/30 overflow-hidden shadow-sm group h-[400px]">
+<img alt="Aerial view of TARC research fields" class="absolute inset-0 w-full h-full object-cover grayscale-[20%] transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCCuJnA7MWXegzONtbNjtbLDErrFaUC6sInCxm_oCw4snVfr4ro0CR-YgwBiSH6SxEqLfSnbLz3ydimw1qns51i5-gnqCZjnW5RW7auSjb6xqYeqgXuMXC3Yv1R6D_qW8u-UAWyb-ddhQON3KQ21uCb5bDZxjJby4DVHqG2g8em4s18-R46g9PNB45xRPQPjWI7YYziWguj7FwTr1SR7T5XLH8Wu8QAHH4kn3wz9UgJltbovF54u7nTmQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/90 via-primary/40 to-transparent flex items-end p-6">
+<div class="text-white w-full">
+<div class="flex justify-between items-end border-b border-white/20 pb-2 mb-2">
+<span class="font-mono text-[10px] uppercase tracking-widest text-secondary-fixed">Facility Overview</span>
+<span class="material-symbols-outlined text-sm">open_in_new</span>
+</div>
+<h3 class="font-headline-sm text-xl font-bold text-on-primary">The Sheka Highlands Facility</h3>
+</div>
+</div>
+</div>
+<div class="lg:col-span-7 flex flex-col justify-center">
+<div class="flex items-center gap-3 mb-6">
+<span class="w-8 h-px bg-[#2D6A4F]"></span>
+<span class="font-mono text-[10px] uppercase text-[#2D6A4F] tracking-widest font-bold">About TARC</span>
+</div>
+<h2 class="font-headline-lg text-3xl md:text-4xl text-primary mb-6">
+                        Cultivating the Future of Ethiopian Agriculture
+                    </h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8 text-sm">
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                            Nestled in the biodiverse southwest, the Tepi Agricultural Research Center serves as a vital hub for scientific inquiry and agricultural innovation. Our mission is to transform traditional farming methodologies through rigorous research, ensuring food security and economic prosperity for the region.
+                        </p>
+<p class="font-body-md text-on-surface-variant leading-relaxed">
+                            We specialize in highland crops, focusing on disease resistance, climate adaptability, and maximizing yield potential while preserving the delicate ecological balance of our surroundings.
+                        </p>
+</div>
+<a class="inline-flex items-center gap-2 text-primary font-label-md text-xs uppercase tracking-wider hover:text-secondary transition-colors w-max pb-1 border-b border-[#2D6A4F]/30 hover:border-[#2D6A4F]" href="#">
+                        Learn More About Our History
+                        <span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</a>
+</div>
+</div>
+</section>
+<!-- Featured Research (List Style) -->
+<section class="py-20 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto">
+<div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-6 border-b border-[#2D6A4F]/20 pb-4">
+<div>
+<div class="flex items-center gap-3 mb-2">
+<span class="w-8 h-px bg-[#2D6A4F]"></span>
+<span class="font-mono text-[10px] uppercase text-[#2D6A4F] tracking-widest font-bold">Ongoing Focus</span>
+</div>
+<h2 class="font-headline-lg text-3xl text-primary">Featured Research Areas</h2>
+</div>
+<a class="inline-flex items-center gap-2 text-primary font-label-md text-xs uppercase tracking-wider hover:text-secondary transition-colors bg-surface-container px-3 py-1.5 rounded border border-[#2D6A4F]/20" href="#">
+                    View All Projects
+                    <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</a>
+</div>
+<div class="flex flex-col gap-4">
+<!-- Research Item 1 -->
+<div class="group bg-surface-bright border border-[#2D6A4F]/30 rounded hover:border-[#2D6A4F] transition-all flex flex-col sm:flex-row shadow-sm hover:shadow-md">
+<div class="w-full sm:w-48 h-32 sm:h-auto bg-surface-container relative overflow-hidden flex-shrink-0 border-b sm:border-b-0 sm:border-r border-[#2D6A4F]/20">
+<div class="bg-cover bg-center w-full h-full transition-transform duration-500 group-hover:scale-105" data-alt="A macro, highly detailed photograph of vibrant, healthy ginger roots freshly harvested from rich, dark soil." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBDz87ZSMDQS0H-JOwFiMlnV572WeDqViKQprZoCDdhENepH3j_sJOyV-uF6TDLfZz75ds74pugLfVi5wFjv7VAFnctaZM2JWiVDvOcwxwvBVmXiy_ZIMWUhgnR516AEkKYPDDgV_V0tQ1zgn2BM-RtLFD5AXtjTbPSh9JxcoRTgqz_7y9K8VCKshj-hTXMq-UWvvq7-kl5IA487_5GibU7jC9hJV4ROgSlY0vMFZyrfSu6YwKRpHAv_g')"></div>
+</div>
+<div class="p-4 sm:p-6 flex-grow flex flex-col justify-center">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-lg text-primary font-bold group-hover:text-secondary transition-colors">High-Yielding Ginger Cultivars</h3>
+<span class="bg-surface-container-low text-[#2D6A4F] px-2 py-0.5 rounded font-mono text-[9px] uppercase tracking-wider border border-[#2D6A4F]/20 hidden sm:block">
+                                Horticulture
+                            </span>
+</div>
+<p class="font-body-sm text-sm text-on-surface-variant mb-4 max-w-3xl">
+                            Identifying and developing ginger varieties specifically adapted to the southwest highland ecology, maximizing rhizome size and disease resistance for local farmers.
+                        </p>
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-4">
+<span class="font-mono text-on-surface-variant uppercase text-[10px]">Status: <span class="text-[#2D6A4F] font-bold ml-1">Active Phase 2</span></span>
+<span class="font-mono text-on-surface-variant uppercase text-[10px] hidden md:inline">ID: <span class="text-primary ml-1">RES-23-014</span></span>
+</div>
+<button class="text-[#2D6A4F] hover:text-primary transition-colors flex items-center gap-1 font-semibold uppercase text-[10px]">
+                            Details <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Research Item 2 -->
+<div class="group bg-surface-bright border border-[#2D6A4F]/30 rounded hover:border-[#2D6A4F] transition-all flex flex-col sm:flex-row shadow-sm hover:shadow-md">
+<div class="w-full sm:w-48 h-32 sm:h-auto bg-surface-container relative overflow-hidden flex-shrink-0 border-b sm:border-b-0 sm:border-r border-[#2D6A4F]/20">
+<div class="bg-cover bg-center w-full h-full transition-transform duration-500 group-hover:scale-105" data-alt="A focused close-up shot of a coffee plant leaf being examined by a researcher wearing white gloves." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuCa0Y655TeXFLSbgpirW2F6uVsDq323ikaOh-9xepRhIVukmh-w8V7U1CJZYdbVN03BOedjCiWEZKt_YMvWdB3B71Jip3hfGSoS69g4T0kn8ctF95zVHdSe9zY8_kmu8uw9B2GW1eoR14oR4sPaGNdBmarYsp-2wngMISWZ1Z10oPgzNd2MnfAjf-M5mY0LjOdpuN-_6Lh15LXfce9S9W79VyBnGj3z7qQrHFnzXxSrm_ybEbZ_BcyjXw')"></div>
+</div>
+<div class="p-4 sm:p-6 flex-grow flex flex-col justify-center">
+<div class="flex justify-between items-start mb-2">
+<h3 class="font-headline-sm text-lg text-primary font-bold group-hover:text-secondary transition-colors">Coffee Wilt Disease Management</h3>
+<span class="bg-surface-container-low text-[#2D6A4F] px-2 py-0.5 rounded font-mono text-[9px] uppercase tracking-wider border border-[#2D6A4F]/20 hidden sm:block">
+                                Plant Pathology
+                            </span>
+</div>
+<p class="font-body-sm text-sm text-on-surface-variant mb-4 max-w-3xl">
+                            A comprehensive study investigating the epidemiology of Tracheomycosis in Arabica coffee, aiming to establish integrated pest management strategies to protect this vital cash crop.
+                        </p>
+<div class="flex items-center justify-between text-xs">
+<div class="flex items-center gap-4">
+<span class="font-mono text-on-surface-variant uppercase text-[10px]">Status: <span class="text-[#2D6A4F] font-bold ml-1">Ongoing</span></span>
+<span class="font-mono text-on-surface-variant uppercase text-[10px] hidden md:inline">ID: <span class="text-primary ml-1">RES-22-089</span></span>
+</div>
+<button class="text-[#2D6A4F] hover:text-primary transition-colors flex items-center gap-1 font-semibold uppercase text-[10px]">
+                            Details <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Director's Message Teaser -->
+<section class="py-20 bg-surface-container-low border-y border-[#2D6A4F]/20 relative overflow-hidden topo-bg">
+<div class="max-w-4xl mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+<div class="flex flex-col md:flex-row gap-10 items-center bg-surface-bright border border-[#2D6A4F]/30 rounded shadow-sm p-8">
+<div class="w-32 h-32 md:w-40 md:h-40 flex-shrink-0 rounded overflow-hidden border border-[#2D6A4F]/20">
+<img class="w-full h-full object-cover grayscale" data-alt="A professional headshot portrait of a distinguished agricultural research director." src="https://lh3.googleusercontent.com/aida-public/AB6AXuChWK5N3iNX-LB0A6MonHPvbg6XzmuQGNWpBujGiPoT9B1311CeEuhNDuX-uMw6tGYRaNlt2wn-LPVID3FQmd1BCl-SkGG91ydSrGtyq8_RQ88mtsnHSmwtRLtjChxXn2x9fnx9YBnUn7dqP1axVszuKTkCPHk3ZRt904SV4FdgpOh0hTynWsZNvW9VYRhSuC0E66aKdOtuQzNFRmNZcqvRRki-RORypKeVtY4UgwMHTvObvNOhBH9_6g"/>
+</div>
+<div class="flex flex-col">
+<span class="material-symbols-outlined text-3xl text-[#2D6A4F] mb-3 opacity-70" style="font-variation-settings: 'FILL' 1;">format_quote</span>
+<p class="font-body-md text-on-surface-variant italic mb-4 leading-relaxed text-sm">
+                            "Our commitment at TARC goes beyond the laboratory; it is rooted in the soil of the Sheka highlands and the livelihoods of the farmers who depend on it. We strive for excellence not just in publication, but in practical, sustainable implementation that elevates our entire agricultural ecosystem."
+                        </p>
+<h4 class="font-headline-sm text-lg font-bold text-primary">Dr. Alemayehu Tadesse</h4>
+<p class="font-mono text-[10px] text-on-surface-variant uppercase tracking-widest mt-1">Center Director, TARC</p>
+<a class="mt-6 inline-flex items-center gap-2 text-primary border border-[#2D6A4F]/30 px-4 py-1.5 rounded font-label-md text-xs uppercase tracking-wider hover:bg-surface-container transition-colors w-max" href="#">
+                            Read Full Message
+                        </a>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-primary border-t-4 border-[#2D6A4F] w-full mt-auto">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-12 max-w-container-max mx-auto">
+<div class="md:col-span-1 flex flex-col gap-4">
+<a class="font-headline-md text-2xl text-surface-bright flex items-center gap-2" href="#">
+<span class="w-8 h-8 rounded bg-surface-bright text-primary flex items-center justify-center font-bold text-lg">T</span>
+                    TARC
+                </a>
+<p class="font-body-sm text-sm text-on-primary opacity-80 mt-2 max-w-xs">
+                    Advancing agricultural science in the southwest highlands through dedicated research and community partnership.
+                </p>
+</div>
+<div class="md:col-span-3 flex flex-col md:flex-row justify-end gap-10 md:gap-20 mt-8 md:mt-0">
+<div class="flex flex-col gap-3">
+<h5 class="font-mono text-[10px] text-secondary-fixed uppercase tracking-widest font-bold">Legal &amp; Privacy</h5>
+<a class="font-body-sm text-sm text-on-primary/80 hover:text-white hover:underline transition-all" href="#">Privacy Policy</a>
+<a class="font-body-sm text-sm text-on-primary/80 hover:text-white hover:underline transition-all" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-3">
+<h5 class="font-mono text-[10px] text-secondary-fixed uppercase tracking-widest font-bold">Institutional Links</h5>
+<a class="font-body-sm text-sm text-on-primary/80 hover:text-white hover:underline transition-all" href="#">Ministry of Agriculture</a>
+<a class="font-body-sm text-sm text-on-primary/80 hover:text-white hover:underline transition-all" href="#">EIAR Portal</a>
+</div>
+</div>
+<div class="col-span-1 md:col-span-4 mt-10 pt-6 border-t border-on-primary/20 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="font-mono text-[10px] text-on-primary/60 text-center md:text-left uppercase tracking-wider">
+                    © 2024 Tepi Agricultural Research Center (TARC). All rights reserved. Government of Ethiopia Institutional Partner.
+                </p>
+<div class="font-mono text-[10px] text-secondary-fixed/50">SYS_VER_2.4.1</div>
+</div>
+</div>
+</footer>
+</body></html>

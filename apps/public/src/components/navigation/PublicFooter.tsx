@@ -1,56 +1,49 @@
 /**
  * @file apps/public/src/components/navigation/PublicFooter.tsx
- * @description Public site footer with institutional info, quick links, and copyright.
- * Displays contact information and navigation links.
+ * @description Public footer matching the TARCMS design screenshot.
+ * Dark green background with three columns.
  */
 
-import { Mail, MapPin, Phone, Sprout } from 'lucide-react';
-
-const QUICK_LINKS = [
-  { label: 'About Us', href: '#/about' },
-  { label: 'Research', href: '#/research' },
-  { label: 'Publications', href: '#/publications' },
-  { label: 'News', href: '#/news' },
-  { label: 'Contact', href: '#/contact' },
+const LEGAL_LINKS = [
+  { label: 'Privacy Policy', href: '#/privacy' },
+  { label: 'Terms of Service', href: '#/terms' },
 ];
 
-/**
- * Public site footer with institutional information and quick links.
- * Includes contact details and copyright notice.
- */
+const INSTITUTIONAL_LINKS = [
+  { label: 'Ministry of Agriculture', href: 'https://agriculture.gov.et' },
+  { label: 'EAR Portal', href: 'https://ear.gov.et' },
+];
+
 export function PublicFooter() {
   return (
-    <footer className="border-t border-border py-12 bg-muted/40">
-      <div className="container mx-auto px-4">
-        <div className="grid gap-8 md:grid-cols-3">
-          {/* Institutional info */}
+    <footer className="bg-[#1B4332] text-white">
+      <div className="max-w-[1440px] mx-auto px-6 py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+          {/* Logo and description */}
           <div>
-            <div className="flex items-center space-x-3 mb-4">
-              <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary font-bold">
-                <Sprout className="h-6 w-6" />
+            <div className="flex items-center gap-2 mb-4">
+              <div className="h-9 w-9 bg-white/10 rounded flex items-center justify-center font-bold text-base">
+                T
               </div>
-              <div>
-                <span className="font-bold text-lg leading-tight block">TARCMS</span>
-                <span className="text-xs text-muted-foreground">
-                  Tepi Agricultural Research Center
-                </span>
-              </div>
+              <span className="font-bold text-xl">TARC</span>
             </div>
-            <p className="text-sm text-muted-foreground">
-              Pioneering agricultural research in spices, coffee, and horticulture for Southwest
-              Ethiopia.
+            <p className="text-sm text-white/70 max-w-xs leading-relaxed">
+              Advancing agricultural science in the southwest highlands through dedicated research
+              and community partnership.
             </p>
           </div>
 
-          {/* Quick links */}
+          {/* Legal & Privacy */}
           <div>
-            <h3 className="font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-[10px] font-semibold tracking-[0.2em] uppercase text-white/50 mb-4">
+              Legal & Privacy
+            </h3>
             <ul className="space-y-2">
-              {QUICK_LINKS.map((link) => (
+              {LEGAL_LINKS.map((link) => (
                 <li key={link.href}>
                   <a
                     href={link.href}
-                    className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                    className="text-sm text-white/70 hover:text-white transition-colors"
                   >
                     {link.label}
                   </a>
@@ -59,32 +52,37 @@ export function PublicFooter() {
             </ul>
           </div>
 
-          {/* Contact info */}
+          {/* Institutional Links */}
           <div>
-            <h3 className="font-semibold mb-4">Contact</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <MapPin className="h-4 w-4" />
-                <span>Tepi, Sheka Zone, Southwest Ethiopia</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Phone className="h-4 w-4" />
-                <span>+251 46 550 XXXX</span>
-              </li>
-              <li className="flex items-center gap-2 text-sm text-muted-foreground">
-                <Mail className="h-4 w-4" />
-                <span>info@tarc.gov.et</span>
-              </li>
+            <h3 className="text-[10px] font-semibold tracking-[0.2em] uppercase text-white/50 mb-4">
+              Institutional Links
+            </h3>
+            <ul className="space-y-2">
+              {INSTITUTIONAL_LINKS.map((link) => (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-sm text-white/70 hover:text-white transition-colors"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
+      </div>
 
-        {/* Copyright */}
-        <div className="mt-8 pt-8 border-t border-border text-center text-sm text-muted-foreground">
-          <p>
-            © {new Date().getFullYear()} Tepi Agricultural Research Center (TARC). All rights
-            reserved.
+      {/* Copyright bar */}
+      <div className="border-t border-white/10">
+        <div className="max-w-[1440px] mx-auto px-6 py-4 flex flex-col md:flex-row items-center justify-between text-[10px] text-white/40 tracking-wider">
+          <p className="uppercase">
+            © 2024 TEPI AGRICULTURAL RESEARCH CENTER (TARC). ALL RIGHTS RESERVED. GOVERNMENT OF
+            ETHIOPIA INSTITUTIONAL PARTNER.
           </p>
+          <p className="mt-2 md:mt-0">SYS_VER_4.2_2029</p>
         </div>
       </div>
     </footer>

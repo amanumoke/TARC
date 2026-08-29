@@ -1,13 +1,21 @@
-/**
- * @file apps/dashboard/src/App.tsx
- * @description Main application root for the TARCMS Management & Operations Dashboard.
- * Provides the authenticated management dashboard shell with routing.
- */
-
 import { LoginPage } from '@/features/auth/LoginPage';
-import { DashboardLayout } from '@/layouts/DashboardLayout';
+import { DashboardOverviewPage } from '@/features/dashboard/DashboardOverviewPage';
+import { AdminDepartmentsPage } from '@/features/departments/AdminDepartmentsPage';
+import { AdminEventsPage } from '@/features/events/AdminEventsPage';
+import { AdminGalleryPage } from '@/features/gallery/AdminGalleryPage';
+import { AdminLayout } from '@/features/layout/AdminLayout';
+import { AdminMessagesPage } from '@/features/messages/AdminMessagesPage';
+import { AdminNewsPage } from '@/features/news/AdminNewsPage';
+import { AdminProfilePage } from '@/features/profile/AdminProfilePage';
+import { AdminPublicationsPage } from '@/features/publications/AdminPublicationsPage';
+import { AdminProjectsPage } from '@/features/research/AdminProjectsPage';
+import { AdminResearchProgramsPage } from '@/features/research/AdminResearchProgramsPage';
+import { ProjectDetailPage } from '@/features/research/ProjectDetailPage';
+import { AdminSettingsPage } from '@/features/settings/AdminSettingsPage';
+import { AdminStaffPage } from '@/features/staff/AdminStaffPage';
+import { AdminVehiclesPage } from '@/features/vehicles/AdminVehiclesPage';
 import { useEffect, useState } from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 
 interface User {
   id: string;
@@ -21,7 +29,7 @@ function Placeholder({ title }: { title: string }) {
   return (
     <div className="rounded-lg border bg-card p-6 text-card-foreground shadow-sm">
       <h2 className="text-lg font-semibold">{title}</h2>
-      <p className="text-sm text-muted-foreground mt-2">This page is under development.</p>
+      <p className="mt-2 text-sm text-muted-foreground">This page is under development.</p>
     </div>
   );
 }
@@ -34,33 +42,28 @@ interface DashboardProps {
 function Dashboard({ user, onLogout }: DashboardProps) {
   return (
     <Routes>
-      <Route element={<DashboardLayout user={user} onLogout={onLogout} />}>
-        <Route path="/dashboard" element={<Placeholder title="Overview" />} />
-        <Route path="/dashboard/departments" element={<Placeholder title="Departments" />} />
-        <Route path="/dashboard/staff" element={<Placeholder title="Staff" />} />
-        <Route
-          path="/dashboard/research-programs"
-          element={<Placeholder title="Research Programs" />}
-        />
-        <Route path="/dashboard/projects" element={<Placeholder title="Projects" />} />
-        <Route path="/dashboard/publications" element={<Placeholder title="Publications" />} />
-        <Route path="/dashboard/news" element={<Placeholder title="News" />} />
-        <Route path="/dashboard/events" element={<Placeholder title="Events" />} />
-        <Route path="/dashboard/gallery" element={<Placeholder title="Gallery" />} />
-        <Route path="/dashboard/vehicles" element={<Placeholder title="Vehicles" />} />
-        <Route path="/dashboard/messages" element={<Placeholder title="Messages" />} />
-        <Route path="/dashboard/settings" element={<Placeholder title="Settings" />} />
+      <Route element={<AdminLayout user={user} onLogout={onLogout} />}>
+        <Route path="/dashboard" element={<DashboardOverviewPage />} />
+        <Route path="/dashboard/departments" element={<AdminDepartmentsPage />} />
+        <Route path="/dashboard/staff" element={<AdminStaffPage />} />
+        <Route path="/dashboard/research-programs" element={<AdminResearchProgramsPage />} />
+        <Route path="/dashboard/projects" element={<AdminProjectsPage />} />
+        <Route path="/dashboard/projects/:id" element={<ProjectDetailPage />} />
+        <Route path="/dashboard/publications" element={<AdminPublicationsPage />} />
+        <Route path="/dashboard/news" element={<AdminNewsPage />} />
+        <Route path="/dashboard/events" element={<AdminEventsPage />} />
+        <Route path="/dashboard/gallery" element={<AdminGalleryPage />} />
+        <Route path="/dashboard/vehicles" element={<AdminVehiclesPage />} />
+        <Route path="/dashboard/messages" element={<AdminMessagesPage />} />
+        <Route path="/dashboard/settings" element={<AdminSettingsPage />} />
+        <Route path="/dashboard/profile" element={<AdminProfilePage />} />
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
         <Route path="*" element={<Placeholder title="Page Not Found" />} />
       </Route>
     </Routes>
   );
 }
 
-/**
- * Root Dashboard Application Component.
- * Shows login page when unauthenticated, dashboard when authenticated.
- * Persists auth state in localStorage to survive page reloads.
- */
 export function App(): React.ReactElement {
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('tarcms_user');

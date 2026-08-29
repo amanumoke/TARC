@@ -1,144 +1,158 @@
-/**
- * @file apps/dashboard/src/features/messages/AdminMessagesPage.tsx
- * @description Admin messages management page with status filtering.
- * Allows administrators to manage contact inquiries and reply notes.
- */
-
+import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Trash2 } from 'lucide-react';
+import { Card, CardContent } from '@/components/ui/card';
+import { EmptyState } from '@/features/shared/EmptyState';
+import { PageHeader } from '@/features/shared/PageHeader';
+import { StatusBadge } from '@/features/shared/StatusBadge';
+import { useApiQuery } from '@/hooks/useApiQuery';
+import { cn } from '@/lib/utils';
+import { Mail, Trash2 } from 'lucide-react';
+import { useState } from 'react';
 
 interface Message {
   id: string;
   senderName: string;
   senderEmail: string;
   subject: string;
+  message: string;
   status: string;
   createdAt: string;
 }
 
-async function fetchMessages(): Promise<Message[]> {
-  const response = await fetch('/api/v1/admin/operations/admin/messages', {
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-  const data = await response.json();
-  return data.data;
+interface MessageResponse {
+  data: Message[];
+  meta?: { total: number; totalPages: number };
 }
 
-async function deleteMessage(id: string): Promise<void> {
-  await fetch(`/api/v1/admin/operations/admin/messages/${id}`, {
-    method: 'DELETE',
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
+function getInitials(name: string): string {
+  return name
+    .split(' ')
+    .map((n) => n[0])
+    .join('')
+    .toUpperCase()
+    .slice(0, 2);
 }
-
-function MessageRowSkeleton() {
-  return (
-    <tr>
-      <td className="p-3">
-        <Skeleton className="h-4 w-32" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-48" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-32" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-20" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-20" />
-      </td>
-    </tr>
-  );
-}
-
-const statusColors: Record<string, string> = {
-  UNREAD: 'bg-red-100 text-red-700',
-  READ: 'bg-blue-100 text-blue-700',
-  IN_PROGRESS: 'bg-yellow-100 text-yellow-700',
-  REPLIED: 'bg-green-100 text-green-700',
-  ARCHIVED: 'bg-gray-100 text-gray-700',
-};
 
 export function AdminMessagesPage() {
-  const queryClient = useQueryClient();
+  const [selectedId, setSelectedId] = useState<string | null>(null);
 
-  const { data: messages, isLoading } = useQuery({
+  const { data: messageData, isLoading } = useApiQuery<MessageResponse>({
     queryKey: ['admin-messages'],
-    queryFn: fetchMessages,
+    endpoint: '/api/v1/admin/operations/messages',
   });
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteMessage,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-messages'] });
-    },
-  });
-
-  const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this message?')) {
-      deleteMutation.mutate(id);
-    }
-  };
+  const messages = messageData?.data || [];
+  const selectedMessage = messages.find((m) => m.id === selectedId);
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="text-3xl font-bold">Messages</h1>
-        <p className="text-muted-foreground">Manage contact inquiries and submissions</p>
-      </div>
+      <PageHeader
+        title="Messages"
+        description="Review and manage contact messages from the public."
+      />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Inbox</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="p-3 text-left font-medium">From</th>
-                <th className="p-3 text-left font-medium">Subject</th>
-                <th className="p-3 text-left font-medium">Date</th>
-                <th className="p-3 text-left font-medium">Status</th>
-                <th className="p-3 text-left font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading
-                ? Array.from({ length: 5 }).map(() => (
-                    <MessageRowSkeleton key={crypto.randomUUID()} />
-                  ))
-                : messages?.map((message) => (
-                    <tr key={message.id} className="border-b hover:bg-muted/50">
-                      <td className="p-3">{message.senderName}</td>
-                      <td className="p-3">{message.subject}</td>
-                      <td className="p-3">{new Date(message.createdAt).toLocaleDateString()}</td>
-                      <td className="p-3">
-                        <span
-                          className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${statusColors[message.status] || 'bg-gray-100 text-gray-700'}`}
-                        >
-                          {message.status.replace(/_/g, ' ')}
-                        </span>
-                      </td>
-                      <td className="p-3">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDelete(message.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-        </CardContent>
-      </Card>
+      {isLoading ? (
+        <div className="grid gap-4 lg:grid-cols-2">
+          {Array.from({ length: 3 }, (_, i) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: Fixed-count skeleton placeholders
+            <Card key={`skeleton-${i}`} className="animate-pulse">
+              <CardContent className="p-4">
+                <div className="space-y-2">
+                  <div className="h-4 w-1/3 rounded bg-muted" />
+                  <div className="h-3 w-1/2 rounded bg-muted" />
+                  <div className="h-3 w-full rounded bg-muted" />
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      ) : messages.length === 0 ? (
+        <EmptyState
+          icon={Mail}
+          title="No messages"
+          description="Contact messages from the public will appear here."
+        />
+      ) : (
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="space-y-2">
+            {messages.map((msg) => (
+              <button
+                type="button"
+                key={msg.id}
+                onClick={() => setSelectedId(msg.id)}
+                className={cn(
+                  'flex w-full items-start gap-3 rounded-lg border p-3 text-left transition-colors hover:bg-muted/50',
+                  selectedId === msg.id && 'border-primary bg-primary/5'
+                )}
+              >
+                <Avatar className="h-8 w-8 shrink-0">
+                  <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                    {getInitials(msg.senderName)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="min-w-0 flex-1">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="truncate text-sm font-medium">{msg.senderName}</p>
+                    <StatusBadge status={msg.status} />
+                  </div>
+                  <p className="mt-0.5 truncate text-xs font-medium text-foreground">
+                    {msg.subject}
+                  </p>
+                  <p className="mt-0.5 truncate text-xs text-muted-foreground">{msg.message}</p>
+                  <p className="mt-1 text-[10px] text-muted-foreground">
+                    {new Date(msg.createdAt).toLocaleDateString('en-US', {
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
+                  </p>
+                </div>
+              </button>
+            ))}
+          </div>
+
+          <Card className="sticky top-4 hidden lg:block">
+            {selectedMessage ? (
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-lg font-semibold">{selectedMessage.subject}</h3>
+                    <p className="text-muted-foreground text-sm">
+                      From: {selectedMessage.senderName} ({selectedMessage.senderEmail})
+                    </p>
+                    <p className="text-muted-foreground text-xs">
+                      {new Date(selectedMessage.createdAt).toLocaleDateString('en-US', {
+                        weekday: 'long',
+                        month: 'long',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
+                    </p>
+                  </div>
+                  <div className="border-t pt-4">
+                    <p className="text-sm leading-relaxed whitespace-pre-wrap">
+                      {selectedMessage.message}
+                    </p>
+                  </div>
+                  <div className="flex gap-2 border-t pt-4">
+                    <Button variant="outline" size="sm">
+                      Mark as Read
+                    </Button>
+                    <Button variant="outline" size="sm" className="text-destructive">
+                      <Trash2 className="mr-1 h-3 w-3" />
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              </CardContent>
+            ) : (
+              <CardContent className="flex items-center justify-center p-12">
+                <p className="text-muted-foreground text-sm">Select a message to view details</p>
+              </CardContent>
+            )}
+          </Card>
+        </div>
+      )}
     </div>
   );
 }

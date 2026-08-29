@@ -1,134 +1,209 @@
-/**
- * @file apps/dashboard/src/features/news/AdminNewsPage.tsx
- * @description Admin news management page with CRUD table.
- * Allows administrators to manage news articles with publish status.
- */
-
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Plus, Trash2 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { ConfirmDialog } from '@/features/shared/ConfirmDialog';
+import { Column, DataTable } from '@/features/shared/DataTable';
+import { PageHeader } from '@/features/shared/PageHeader';
+import { StatusBadge } from '@/features/shared/StatusBadge';
+import { useApiMutation } from '@/hooks/useApiMutation';
+import { useApiQuery } from '@/hooks/useApiQuery';
+import { MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { NewsForm } from './NewsForm';
 
-interface NewsArticle {
+interface NewsItem {
   id: string;
   title: string;
   category: string;
   isPublished: boolean;
-  publishedAt: string;
+  publishedAt?: string | null;
+  authorName?: string;
 }
 
-async function fetchNews(): Promise<NewsArticle[]> {
-  const response = await fetch('/api/v1/admin/communication/admin/news', {
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-  const data = await response.json();
-  return data.data;
-}
-
-async function deleteNews(id: string): Promise<void> {
-  await fetch(`/api/v1/admin/communication/admin/news/${id}`, {
-    method: 'DELETE',
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-}
-
-function NewsRowSkeleton() {
-  return (
-    <tr>
-      <td className="p-3">
-        <Skeleton className="h-4 w-64" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-32" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-20" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-20" />
-      </td>
-    </tr>
-  );
+interface NewsResponse {
+  data: NewsItem[];
+  meta?: { total: number; totalPages: number };
 }
 
 export function AdminNewsPage() {
-  const queryClient = useQueryClient();
+  const [search, setSearch] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
-  const { data: articles, isLoading } = useQuery({
-    queryKey: ['admin-news'],
-    queryFn: fetchNews,
+  const { data: newsData, isLoading } = useApiQuery<NewsResponse>({
+    queryKey: ['admin-news', page, search],
+    endpoint: `/api/v1/admin/communication/news?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteNews,
+  const deleteMutation = useApiMutation<unknown, string>({
+    endpoint: `/api/v1/admin/communication/news/${deletingId}`,
+    method: 'DELETE',
+    queryKeyToInvalidate: ['admin-news'],
+    onSuccess: () => setDeletingId(null),
+  });
+
+  const createMutation = useApiMutation<NewsItem, Partial<NewsItem>>({
+    endpoint: '/api/v1/admin/communication/news',
+    method: 'POST',
+    queryKeyToInvalidate: ['admin-news'],
+    onSuccess: () => setShowForm(false),
+  });
+
+  const updateMutation = useApiMutation<NewsItem, Partial<NewsItem> & { id: string }>({
+    endpoint: `/api/v1/admin/communication/news/${editingNews?.id}`,
+    method: 'PATCH',
+    queryKeyToInvalidate: ['admin-news'],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-news'] });
+      setShowForm(false);
+      setEditingNews(null);
     },
   });
 
-  const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this article?')) {
-      deleteMutation.mutate(id);
+  const news = newsData?.data || [];
+  const meta = newsData?.meta;
+
+  const columns: Column<NewsItem>[] = [
+    {
+      key: 'title',
+      header: 'Title',
+      render: (item) => <p className="font-medium">{item.title}</p>,
+    },
+    {
+      key: 'category',
+      header: 'Category',
+      render: (item) => <span className="text-xs">{item.category.replace(/_/g, ' ')}</span>,
+    },
+    {
+      key: 'authorName',
+      header: 'Author',
+      render: (item) => item.authorName || '-',
+    },
+    {
+      key: 'publishedAt',
+      header: 'Published',
+      render: (item) =>
+        item.publishedAt
+          ? new Date(item.publishedAt).toLocaleDateString('en-US', {
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })
+          : '-',
+    },
+    {
+      key: 'isPublished',
+      header: 'Status',
+      render: (item) => <StatusBadge status={item.isPublished ? 'PUBLISHED' : 'DRAFT'} />,
+    },
+    {
+      key: 'actions',
+      header: '',
+      className: 'w-[50px]',
+      render: (item) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="ghost" size="icon" className="h-8 w-8" />}>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => {
+                setEditingNews(item);
+                setShowForm(true);
+              }}
+            >
+              <Pencil className="mr-2 h-4 w-4" /> Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setDeletingId(item.id)} className="text-destructive">
+              <Trash2 className="mr-2 h-4 w-4" /> Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
+  ];
+
+  const handleSubmit = (data: Partial<NewsItem>) => {
+    if (editingNews) {
+      updateMutation.mutate({ ...data, id: editingNews.id });
+    } else {
+      createMutation.mutate(data);
     }
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">News</h1>
-          <p className="text-muted-foreground">Manage news articles and announcements</p>
-        </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Article
-        </Button>
+      <PageHeader
+        title="News"
+        description="Manage institutional news and announcements."
+        action={{ label: 'Add News', onClick: () => setShowForm(true) }}
+      />
+
+      <div className="space-y-4">
+        <input
+          type="text"
+          placeholder="Search news..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+          className="h-9 max-w-sm rounded-md border bg-transparent px-3 text-sm"
+        />
+
+        <DataTable
+          columns={columns}
+          data={news}
+          loading={isLoading}
+          keyExtractor={(item) => item.id}
+          page={page}
+          totalPages={meta?.totalPages || 1}
+          total={meta?.total}
+          onPageChange={setPage}
+          emptyTitle="No news articles found"
+          emptyDescription="Create your first news article to get started."
+        />
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>All Articles</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="p-3 text-left font-medium">Title</th>
-                <th className="p-3 text-left font-medium">Category</th>
-                <th className="p-3 text-left font-medium">Status</th>
-                <th className="p-3 text-left font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading
-                ? Array.from({ length: 5 }).map(() => <NewsRowSkeleton key={crypto.randomUUID()} />)
-                : articles?.map((article) => (
-                    <tr key={article.id} className="border-b hover:bg-muted/50">
-                      <td className="p-3">{article.title}</td>
-                      <td className="p-3">{article.category}</td>
-                      <td className="p-3">
-                        <span
-                          className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-medium ${article.isPublished ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}`}
-                        >
-                          {article.isPublished ? 'Published' : 'Draft'}
-                        </span>
-                      </td>
-                      <td className="p-3">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          onClick={() => handleDelete(article.id)}
-                        >
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-        </CardContent>
-      </Card>
+      <NewsForm
+        open={showForm}
+        onOpenChange={(open) => {
+          setShowForm(open);
+          if (!open) setEditingNews(null);
+        }}
+        initialData={
+          editingNews
+            ? {
+                title: editingNews.title,
+                category: editingNews.category,
+                isPublished: editingNews.isPublished,
+                publishedAt: editingNews.publishedAt ? editingNews.publishedAt.split('T')[0] : '',
+              }
+            : undefined
+        }
+        onSubmit={handleSubmit}
+        loading={createMutation.isPending || updateMutation.isPending}
+      />
+
+      <ConfirmDialog
+        open={!!deletingId}
+        onOpenChange={(open) => {
+          if (!open) setDeletingId(null);
+        }}
+        title="Delete news article?"
+        description="This action cannot be undone. The news article will be permanently removed."
+        onConfirm={() => {
+          if (deletingId) deleteMutation.mutate(deletingId);
+        }}
+        loading={deleteMutation.isPending}
+      />
     </div>
   );
 }

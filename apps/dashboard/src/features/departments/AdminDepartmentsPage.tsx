@@ -1,15 +1,18 @@
-/**
- * @file apps/dashboard/src/features/departments/AdminDepartmentsPage.tsx
- * @description Admin department management page with CRUD table and modal forms.
- * Allows administrators to create, edit, and delete departments.
- */
-
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Pencil, Plus, Trash2 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { ConfirmDialog } from '@/features/shared/ConfirmDialog';
+import { Column, DataTable } from '@/features/shared/DataTable';
+import { PageHeader } from '@/features/shared/PageHeader';
+import { useApiMutation } from '@/hooks/useApiMutation';
+import { useApiQuery } from '@/hooks/useApiQuery';
+import { MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
+import { DepartmentForm, DepartmentFormData } from './DepartmentForm';
 
 interface Department {
   id: string;
@@ -19,115 +22,172 @@ interface Department {
   establishedYear: number | null;
 }
 
-async function fetchDepartments(): Promise<Department[]> {
-  const response = await fetch('/api/v1/admin/departments', {
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-  const data = await response.json();
-  return data.data;
-}
-
-async function deleteDepartment(id: string): Promise<void> {
-  await fetch(`/api/v1/admin/departments/${id}`, {
-    method: 'DELETE',
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-}
-
-function DepartmentRowSkeleton() {
-  return (
-    <tr>
-      <td className="p-3">
-        <Skeleton className="h-4 w-32" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-20" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-16" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-20" />
-      </td>
-    </tr>
-  );
+interface DepartmentResponse {
+  data: Department[];
+  meta?: { total: number; totalPages: number };
 }
 
 export function AdminDepartmentsPage() {
-  const queryClient = useQueryClient();
-  const [showModal, setShowModal] = useState(false);
+  const [search, setSearch] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [editingDept, setEditingDept] = useState<Department | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
-  const { data: departments, isLoading } = useQuery({
-    queryKey: ['admin-departments'],
-    queryFn: fetchDepartments,
+  const { data: deptData, isLoading } = useApiQuery<DepartmentResponse>({
+    queryKey: ['admin-departments', page, search],
+    endpoint: `/api/v1/admin/departments?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteDepartment,
+  const deleteMutation = useApiMutation<unknown, string>({
+    endpoint: `/api/v1/admin/departments/${deletingId}`,
+    method: 'DELETE',
+    queryKeyToInvalidate: ['admin-departments'],
+    onSuccess: () => setDeletingId(null),
+  });
+
+  const createMutation = useApiMutation<Department, Partial<Department>>({
+    endpoint: '/api/v1/admin/departments',
+    method: 'POST',
+    queryKeyToInvalidate: ['admin-departments'],
+    onSuccess: () => setShowForm(false),
+  });
+
+  const updateMutation = useApiMutation<Department, Partial<Department> & { id: string }>({
+    endpoint: `/api/v1/admin/departments/${editingDept?.id}`,
+    method: 'PATCH',
+    queryKeyToInvalidate: ['admin-departments'],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-departments'] });
+      setShowForm(false);
+      setEditingDept(null);
     },
   });
 
-  const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this department?')) {
-      deleteMutation.mutate(id);
+  const departments = deptData?.data || [];
+  const meta = deptData?.meta;
+
+  const columns: Column<Department>[] = [
+    { key: 'name', header: 'Name', render: (item) => <p className="font-medium">{item.name}</p> },
+    { key: 'code', header: 'Code' },
+    {
+      key: 'description',
+      header: 'Description',
+      render: (item) => (
+        <p className="max-w-xs truncate text-muted-foreground text-xs">{item.description || '-'}</p>
+      ),
+    },
+    {
+      key: 'establishedYear',
+      header: 'Established',
+      render: (item) => item.establishedYear || '-',
+    },
+    {
+      key: 'actions',
+      header: '',
+      className: 'w-[50px]',
+      render: (item) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="ghost" size="icon" className="h-8 w-8" />}>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => {
+                setEditingDept(item);
+                setShowForm(true);
+              }}
+            >
+              <Pencil className="mr-2 h-4 w-4" /> Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setDeletingId(item.id)} className="text-destructive">
+              <Trash2 className="mr-2 h-4 w-4" /> Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
+  ];
+
+  const handleSubmit = (data: DepartmentFormData) => {
+    const submitData: Partial<Department> = {
+      ...data,
+      establishedYear: data.establishedYear ? Number.parseInt(data.establishedYear, 10) : undefined,
+    };
+    if (editingDept) {
+      updateMutation.mutate({ ...submitData, id: editingDept.id });
+    } else {
+      createMutation.mutate(submitData);
     }
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Departments</h1>
-          <p className="text-muted-foreground">Manage research departments</p>
-        </div>
-        <Button onClick={() => setShowModal(true)}>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Department
-        </Button>
+      <PageHeader
+        title="Departments"
+        description="Manage research departments."
+        action={{ label: 'Add Department', onClick: () => setShowForm(true) }}
+      />
+
+      <div className="space-y-4">
+        <input
+          type="text"
+          placeholder="Search departments..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+          className="h-9 max-w-sm rounded-md border bg-transparent px-3 text-sm"
+        />
+
+        <DataTable
+          columns={columns}
+          data={departments}
+          loading={isLoading}
+          keyExtractor={(item) => item.id}
+          page={page}
+          totalPages={meta?.totalPages || 1}
+          total={meta?.total}
+          onPageChange={setPage}
+          emptyTitle="No departments found"
+          emptyDescription="Create your first department to get started."
+        />
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>All Departments</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="p-3 text-left font-medium">Name</th>
-                <th className="p-3 text-left font-medium">Code</th>
-                <th className="p-3 text-left font-medium">Established</th>
-                <th className="p-3 text-left font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading
-                ? Array.from({ length: 5 }).map(() => (
-                    <DepartmentRowSkeleton key={crypto.randomUUID()} />
-                  ))
-                : departments?.map((dept) => (
-                    <tr key={dept.id} className="border-b hover:bg-muted/50">
-                      <td className="p-3">{dept.name}</td>
-                      <td className="p-3">{dept.code}</td>
-                      <td className="p-3">{dept.establishedYear || '-'}</td>
-                      <td className="p-3">
-                        <div className="flex gap-2">
-                          <Button variant="ghost" size="icon">
-                            <Pencil className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDelete(dept.id)}>
-                            <Trash2 className="h-4 w-4 text-destructive" />
-                          </Button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-        </CardContent>
-      </Card>
+      <DepartmentForm
+        open={showForm}
+        onOpenChange={(open) => {
+          setShowForm(open);
+          if (!open) setEditingDept(null);
+        }}
+        initialData={
+          editingDept
+            ? {
+                name: editingDept.name,
+                code: editingDept.code,
+                description: editingDept.description || undefined,
+                establishedYear: editingDept.establishedYear?.toString(),
+              }
+            : undefined
+        }
+        onSubmit={handleSubmit}
+        loading={createMutation.isPending || updateMutation.isPending}
+      />
+
+      <ConfirmDialog
+        open={!!deletingId}
+        onOpenChange={(open) => {
+          if (!open) setDeletingId(null);
+        }}
+        title="Delete department?"
+        description="This action cannot be undone. The department will be permanently removed."
+        onConfirm={() => {
+          if (deletingId) deleteMutation.mutate(deletingId);
+        }}
+        loading={deleteMutation.isPending}
+      />
     </div>
   );
 }

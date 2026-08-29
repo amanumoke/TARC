@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>TARCMS - Contact</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary": "#012d1d",
+                      "cream": "#FEFAE0",
+                      "surface-container": "#f2efd5",
+                      "on-primary-container": "#86af99",
+                      "on-tertiary-container": "#75b393",
+                      "outline": "#717973",
+                      "surface-container-highest": "#e7e3ca",
+                      "inverse-surface": "#323120",
+                      "fern": "#52B788",
+                      "secondary-fixed-dim": "#f0bd8b",
+                      "tertiary-fixed-dim": "#95d4b3",
+                      "background": "#fefae0",
+                      "tertiary-fixed": "#b1f0ce",
+                      "on-secondary": "#ffffff",
+                      "on-secondary-fixed-variant": "#623f18",
+                      "on-primary-fixed": "#002114",
+                      "on-surface-variant": "#414844",
+                      "surface-variant": "#e7e3ca",
+                      "on-secondary-container": "#7a532a",
+                      "surface": "#fefae0",
+                      "primary-container": "#1b4332",
+                      "on-tertiary-fixed": "#002114",
+                      "on-primary": "#ffffff",
+                      "surface-dim": "#dedbc2",
+                      "canopy": "#2D6A4F",
+                      "surface-container-lowest": "#ffffff",
+                      "primary-fixed": "#c1ecd4",
+                      "surface-container-low": "#f8f4db",
+                      "earth": "#D4A373",
+                      "secondary-fixed": "#ffdcbd",
+                      "on-error": "#ffffff",
+                      "on-error-container": "#93000a",
+                      "primary-fixed-dim": "#a5d0b9",
+                      "surface-tint": "#3f6653",
+                      "error": "#ba1a1a",
+                      "on-tertiary-fixed-variant": "#0e5138",
+                      "error-container": "#ffdad6",
+                      "inverse-on-surface": "#f5f1d8",
+                      "surface-container-high": "#ede9cf",
+                      "surface-muted": "#F2EED7",
+                      "inverse-primary": "#a5d0b9",
+                      "surface-bright": "#fefae0",
+                      "outline-variant": "#c1c8c2",
+                      "secondary": "#7d562d",
+                      "on-surface": "#1d1c0d",
+                      "tertiary": "#002d1c",
+                      "on-primary-fixed-variant": "#274e3d",
+                      "on-background": "#1d1c0d",
+                      "secondary-container": "#ffca98",
+                      "deep-forest": "#1B4332",
+                      "on-tertiary": "#ffffff",
+                      "tertiary-container": "#00452e",
+                      "on-secondary-fixed": "#2c1600"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.25rem",
+                      "lg": "0.5rem",
+                      "xl": "0.75rem",
+                      "full": "9999px"
+              },
+              "spacing": {
+                      "container-max": "1280px",
+                      "margin-mobile": "16px",
+                      "gutter": "24px",
+                      "unit": "8px",
+                      "margin-desktop": "48px"
+              },
+              "fontFamily": {
+                      "headline-lg-mobile": ["DM Serif Display"],
+                      "body-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "display-lg": ["DM Serif Display"],
+                      "title-md": ["Inter"],
+                      "headline-lg": ["DM Serif Display"],
+                      "caption": ["Inter"],
+                      "label-md": ["Inter"]
+              },
+              "fontSize": {
+                      "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "400"}],
+                      "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                      "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "display-lg": ["48px", {"lineHeight": "56px", "fontWeight": "400"}],
+                      "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                      "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                      "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                      "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}]
+              }
+            }
+          }
+        }
+    </script>
+<style>
+        .topo-bg {
+            background-image: url('data:image/svg+xml;utf8,<svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg"><path d="M0 50 Q 50 10 100 50 T 200 50" stroke="%23D4A373" fill="none" opacity="0.1"/></svg>');
+        }
+    </style>
+</head>
+<body class="bg-cream text-on-surface font-body-md min-h-screen flex flex-col topo-bg">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 dark:bg-primary/80 backdrop-blur-md shadow-[0_4px_20px_-5px_rgba(27,67,50,0.08)] shadow-sm bg-background dark:bg-primary">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20">
+<a class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-deep-forest dark:text-on-primary-fixed" href="#">
+                TARCMS
+            </a>
+<nav class="hidden md:flex gap-6 items-center">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">About</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">Research</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">Publications</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">News</a>
+<a class="font-label-md text-label-md text-canopy dark:text-fern font-bold border-b-2 border-canopy dark:border-fern pb-1 opacity-80 transition-all duration-200" href="#">Contact</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="hidden md:block px-4 py-2 bg-deep-forest text-cream rounded-lg font-label-md text-label-md hover:shadow-[0_4px_20px_-5px_rgba(27,67,50,0.2)] transition-all">
+                    Portal Login
+                </button>
+<button class="md:hidden text-deep-forest">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</div>
+</header>
+<main class="flex-grow pt-32 pb-24 px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto w-full relative z-10">
+<div class="text-center mb-16">
+<h1 class="font-display-lg text-display-lg text-deep-forest mb-4">Get in Touch</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mx-auto">We welcome inquiries regarding our research initiatives, publications, and collaborative opportunities at the Tepi Agricultural Research Center.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+<!-- Left Column: Contact Info & Map -->
+<div class="space-y-12">
+<div class="space-y-8">
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface-muted rounded-full text-canopy flex-shrink-0">
+<span class="material-symbols-outlined" data-icon="location_on">location_on</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-deep-forest mb-1">Official Address</h3>
+<p class="text-on-surface-variant">Tepi Agricultural Research Center<br/>Sheka Zone, South West Ethiopia Peoples' Region<br/>P.O. Box 34, Tepi, Ethiopia</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface-muted rounded-full text-canopy flex-shrink-0">
+<span class="material-symbols-outlined" data-icon="phone">phone</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-deep-forest mb-1">Phone</h3>
+<p class="text-on-surface-variant">+251 (0) 47 331 1122<br/>+251 (0) 47 331 1123 (Admin)</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<div class="p-3 bg-surface-muted rounded-full text-canopy flex-shrink-0">
+<span class="material-symbols-outlined" data-icon="mail">mail</span>
+</div>
+<div>
+<h3 class="font-title-md text-title-md text-deep-forest mb-1">Email</h3>
+<p class="text-on-surface-variant">info@tarc.gov.et<br/>research@tarc.gov.et</p>
+</div>
+</div>
+</div>
+<!-- Map Placeholder -->
+<div class="rounded-xl overflow-hidden shadow-[0_4px_20px_-5px_rgba(27,67,50,0.08)] bg-white h-64 border-t-4 border-fern relative">
+<img class="w-full h-full object-cover" data-alt="A detailed, modern map interface showing the location of Tepi, Ethiopia, in a light mode aesthetic with subtle green highlights indicating the agricultural research center, set against a clean, minimal cream-toned geography." data-location="Tepi, Ethiopia" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMeI149LEXCoR8yc-IVM_d1ugoJWZqR0HD0qkUWs6eISupxjyILbL4GtUY8JCgcLracXKRNZE6A5aToVtYRbjj9rSTCZ43jrrj25JWQolJrLzqClZBgm1CqOVtve9yacWyKbDQLedWrfkwkJ5D0iJLKO9Wy5YIUl3grFdXqmSIZIDKm9bhMfQ0iWwL7yka1X3FeJjW-1Dj86v_8wlqYMpRdMAQYtb2Gyg62ZWjaDd3T3WLVAApfng5IA"/>
+</div>
+</div>
+<!-- Right Column: Inquiry Form -->
+<div class="bg-surface-container-lowest p-6 md:p-8 rounded-xl shadow-[0_4px_20px_-5px_rgba(27,67,50,0.08)] border border-surface-container-highest">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-deep-forest mb-6">Send an Inquiry</h2>
+<form class="space-y-6">
+<div>
+<label class="block font-label-md text-label-md text-deep-forest mb-2" for="name">Full Name</label>
+<input class="w-full rounded bg-surface-muted border-none focus:ring-2 focus:ring-canopy p-3 text-on-surface" id="name" placeholder="Dr. Abebe Bekele" type="text"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-deep-forest mb-2" for="email">Email Address</label>
+<input class="w-full rounded bg-surface-muted border-none focus:ring-2 focus:ring-canopy p-3 text-on-surface" id="email" placeholder="abebe@example.com" type="email"/>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-deep-forest mb-2" for="subject">Subject</label>
+<select class="w-full rounded bg-surface-muted border-none focus:ring-2 focus:ring-canopy p-3 text-on-surface" id="subject">
+<option>Research Collaboration</option>
+<option>Publication Request</option>
+<option>General Inquiry</option>
+<option>Media Request</option>
+</select>
+</div>
+<div>
+<label class="block font-label-md text-label-md text-deep-forest mb-2" for="message">Message</label>
+<textarea class="w-full rounded bg-surface-muted border-none focus:ring-2 focus:ring-canopy p-3 text-on-surface resize-none" id="message" placeholder="How can we assist you?" rows="5"></textarea>
+</div>
+<button class="w-full bg-deep-forest text-cream font-bold font-label-md text-label-md py-4 rounded-lg hover:shadow-[0_4px_20px_-5px_rgba(27,67,50,0.3)] transition-all hover:-translate-y-0.5 flex justify-center items-center gap-2" type="button">
+<span>Send Message</span>
+<span class="material-symbols-outlined text-[20px]" data-icon="send">send</span>
+</button>
+</form>
+</div>
+</div>
+<!-- FAQ Section -->
+<div class="mt-32 max-w-3xl mx-auto">
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-deep-forest mb-8 text-center">Frequently Asked Questions</h2>
+<div class="space-y-4">
+<div class="bg-surface-container-lowest p-6 rounded-lg border border-surface-container-highest cursor-pointer hover:shadow-sm transition-all">
+<h3 class="font-title-md text-title-md text-deep-forest flex justify-between items-center">
+                        Can researchers visit the center?
+                        <span class="material-symbols-outlined text-canopy" data-icon="expand_more">expand_more</span>
+</h3>
+<p class="mt-4 text-on-surface-variant hidden">Yes, we welcome visiting researchers. Please arrange your visit at least one month in advance by contacting our research coordination office.</p>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-lg border border-surface-container-highest cursor-pointer hover:shadow-sm transition-all">
+<h3 class="font-title-md text-title-md text-deep-forest flex justify-between items-center">
+                        How can I access TARC publications?
+                        <span class="material-symbols-outlined text-canopy" data-icon="expand_more">expand_more</span>
+</h3>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-lg border border-surface-container-highest cursor-pointer hover:shadow-sm transition-all">
+<h3 class="font-title-md text-title-md text-deep-forest flex justify-between items-center">
+                        Do you provide agricultural extension services?
+                        <span class="material-symbols-outlined text-canopy" data-icon="expand_more">expand_more</span>
+</h3>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="bg-deep-forest dark:bg-primary full-width flex flex-col md:flex-row justify-between items-start w-full px-margin-mobile md:px-margin-desktop py-gutter max-w-container-max mx-auto border-t border-canopy/20">
+<div class="mb-6 md:mb-0">
+<span class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-cream dark:text-surface-bright block mb-2">TARCMS</span>
+<span class="font-body-md text-body-md text-surface-container-highest dark:text-outline-variant">© 2024 Tepi Agricultural Research Center. All Rights Reserved.</span>
+</div>
+<nav class="flex flex-col md:flex-row gap-4 md:gap-8">
+<a class="font-body-md text-body-md text-surface-container-highest dark:text-outline-variant hover:text-fern dark:hover:text-primary-fixed transition-colors duration-200" href="#">Privacy Policy</a>
+<a class="font-body-md text-body-md text-surface-container-highest dark:text-outline-variant hover:text-fern dark:hover:text-primary-fixed transition-colors duration-200" href="#">Terms of Service</a>
+<a class="font-body-md text-body-md text-surface-container-highest dark:text-outline-variant hover:text-fern dark:hover:text-primary-fixed transition-colors duration-200" href="#">Sitemap</a>
+<a class="font-body-md text-body-md text-surface-container-highest dark:text-outline-variant hover:text-fern dark:hover:text-primary-fixed transition-colors duration-200" href="#">Accessibility</a>
+</nav>
+</footer>
+<script>
+        // Simple FAQ toggle interaction
+        document.querySelectorAll('.bg-surface-container-lowest').forEach(card => {
+            card.addEventListener('click', () => {
+                const p = card.querySelector('p');
+                const icon = card.querySelector('.material-symbols-outlined');
+                if(p) {
+                    p.classList.toggle('hidden');
+                    icon.textContent = p.classList.contains('hidden') ? 'expand_more' : 'expand_less';
+                }
+            });
+        });
+    </script>
+</body></html>

@@ -1,0 +1,410 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Research Directory - TARCMS</title>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-error-container": "#93000a",
+                    "primary-fixed": "#c1ecd4",
+                    "canopy": "#2D6A4F",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#fefae0",
+                    "surface-container-high": "#ede9cf",
+                    "error-container": "#ffdad6",
+                    "primary-fixed-dim": "#a5d0b9",
+                    "cream": "#FEFAE0",
+                    "secondary-container": "#ffca98",
+                    "on-secondary-fixed-variant": "#623f18",
+                    "outline": "#717973",
+                    "inverse-primary": "#a5d0b9",
+                    "on-tertiary-container": "#75b393",
+                    "on-secondary-container": "#7a532a",
+                    "surface-tint": "#3f6653",
+                    "tertiary-fixed-dim": "#95d4b3",
+                    "primary": "#012d1d",
+                    "earth": "#D4A373",
+                    "surface-variant": "#e7e3ca",
+                    "background": "#fefae0",
+                    "surface-container-highest": "#e7e3ca",
+                    "on-surface": "#1d1c0d",
+                    "inverse-on-surface": "#f5f1d8",
+                    "surface-dim": "#dedbc2",
+                    "primary-container": "#1b4332",
+                    "deep-forest": "#1B4332",
+                    "on-tertiary-fixed-variant": "#0e5138",
+                    "tertiary-container": "#00452e",
+                    "tertiary": "#002d1c",
+                    "on-error": "#ffffff",
+                    "secondary": "#7d562d",
+                    "tertiary-fixed": "#b1f0ce",
+                    "on-surface-variant": "#414844",
+                    "secondary-fixed-dim": "#f0bd8b",
+                    "error": "#ba1a1a",
+                    "on-tertiary-fixed": "#002114",
+                    "on-background": "#1d1c0d",
+                    "on-primary": "#ffffff",
+                    "on-primary-container": "#86af99",
+                    "on-secondary-fixed": "#2c1600",
+                    "surface-container": "#f2efd5",
+                    "inverse-surface": "#323120",
+                    "secondary-fixed": "#ffdcbd",
+                    "surface-muted": "#F2EED7",
+                    "on-primary-fixed-variant": "#274e3d",
+                    "outline-variant": "#c1c8c2",
+                    "fern": "#52B788",
+                    "surface-bright": "#fefae0",
+                    "on-primary-fixed": "#002114",
+                    "surface-container-low": "#f8f4db",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin-mobile": "16px",
+                    "gutter": "24px",
+                    "unit": "8px",
+                    "container-max": "1280px",
+                    "margin-desktop": "48px"
+            },
+            "fontFamily": {
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["DM Serif Display"],
+                    "label-md": ["Inter"],
+                    "headline-lg-mobile": ["DM Serif Display"],
+                    "body-md": ["Inter"],
+                    "caption": ["Inter"],
+                    "display-lg": ["DM Serif Display"],
+                    "title-md": ["Inter"]
+            },
+            "fontSize": {
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "400"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "caption": ["12px", {"lineHeight": "16px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "fontWeight": "400"}],
+                    "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        /* Base styles to ensure consistency */
+        body {
+            background-color: theme('colors.cream');
+            color: theme('colors.on-surface');
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        /* Custom scrollbar for webkit */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: theme('colors.cream');
+        }
+        ::-webkit-scrollbar-thumb {
+            background: theme('colors.surface-dim');
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: theme('colors.outline');
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-body-md text-body-md">
+<!-- TopNavBar (Shared Component) -->
+<header class="sticky top-0 z-50 bg-background/80 dark:bg-primary/80 backdrop-blur-md shadow-sm bg-background dark:bg-primary shadow-[0_4px_20px_-5px_rgba(27,67,50,0.08)]">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20">
+<!-- Brand Logo -->
+<a class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-deep-forest dark:text-on-primary-fixed shrink-0" href="#">
+                TARCMS
+            </a>
+<!-- Navigation Links (Desktop) -->
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">About</a>
+<!-- Active Navigation Item -->
+<a aria-current="page" class="font-label-md text-label-md text-canopy dark:text-fern font-bold border-b-2 border-canopy dark:border-fern pb-1 hover:text-canopy dark:hover:text-fern transition-colors duration-200 Active: opacity-80 transition-all" href="#">Research</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">Publications</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">News</a>
+<a class="font-label-md text-label-md text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">Contact</a>
+</nav>
+<!-- Trailing Action -->
+<div class="flex items-center gap-4">
+<!-- Search Icon (Mobile mostly, or alternative to bar) -->
+<button aria-label="Search" class="hidden md:flex text-deep-forest hover:text-canopy transition-colors">
+<span class="material-symbols-outlined">search</span>
+</button>
+<a class="font-label-md text-label-md bg-deep-forest text-cream px-6 py-2.5 rounded-lg hover:bg-primary transition-all duration-200 shadow-sm hover:shadow-md hover:-translate-y-0.5" href="#">
+                    Portal Login
+                </a>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="flex-grow">
+<!-- Hero Section -->
+<section class="relative pt-24 pb-16 px-margin-mobile md:px-margin-desktop bg-surface-muted overflow-hidden">
+<!-- Decorative Topographic Element (Simulated via SVG inline for simplicity as requested to avoid data URIs, using a subtle repeating linear gradient to mimic structure) -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none" style="background-image: repeating-linear-gradient(45deg, #1B4332 25%, transparent 25%, transparent 75%, #1B4332 75%, #1B4332), repeating-linear-gradient(45deg, #1B4332 25%, transparent 25%, transparent 75%, #1B4332 75%, #1B4332); background-position: 0 0, 10px 10px; background-size: 20px 20px;"></div>
+<div class="max-w-container-max mx-auto relative z-10 flex flex-col md:flex-row gap-12 items-end justify-between">
+<div class="max-w-2xl">
+<h1 class="font-display-lg text-display-lg text-deep-forest mb-4">Research Directory</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Explore our ongoing and completed scientific investigations focused on optimizing agricultural practices in the Sheka highlands, emphasizing coffee, spices, and resilient crop varieties.</p>
+</div>
+<!-- Main Search Bar -->
+<div class="w-full md:w-96 relative">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-lowest border-none rounded-lg pl-12 pr-4 py-3.5 shadow-sm focus:ring-2 focus:ring-canopy text-body-md font-body-md text-on-surface placeholder:text-outline transition-all" placeholder="Search programs or keywords..." type="text">
+</div>
+</div>
+</section>
+<!-- Directory Layout -->
+<section class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-12 md:py-16">
+<div class="flex flex-col lg:flex-row gap-12">
+<!-- Sidebar / Filters -->
+<aside class="w-full lg:w-64 shrink-0">
+<div class="sticky top-28 space-y-8">
+<!-- Filter Group: Category -->
+<div>
+<h3 class="font-title-md text-title-md text-deep-forest border-b border-surface-dim pb-2 mb-4 flex items-center justify-between">
+                                Categories
+                                <span class="material-symbols-outlined text-outline text-sm">filter_list</span>
+</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-outline text-canopy focus:ring-canopy focus:ring-offset-cream bg-surface-container-lowest" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-deep-forest transition-colors">Coffee</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-outline text-canopy focus:ring-canopy focus:ring-offset-cream bg-surface-container-lowest" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-deep-forest transition-colors">Spices</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input checked="" class="w-5 h-5 rounded border-outline text-canopy focus:ring-canopy focus:ring-offset-cream bg-surface-container-lowest" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-deep-forest transition-colors">Highland Crops</span>
+</label>
+</div>
+</div>
+<!-- Filter Group: Status -->
+<div>
+<h3 class="font-title-md text-title-md text-deep-forest border-b border-surface-dim pb-2 mb-4">Status</h3>
+<div class="space-y-3">
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-canopy focus:ring-canopy focus:ring-offset-cream bg-surface-container-lowest" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-deep-forest transition-colors">Ongoing</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-canopy focus:ring-canopy focus:ring-offset-cream bg-surface-container-lowest" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-deep-forest transition-colors">Completed</span>
+</label>
+<label class="flex items-center gap-3 cursor-pointer group">
+<input class="w-5 h-5 rounded border-outline text-canopy focus:ring-canopy focus:ring-offset-cream bg-surface-container-lowest" type="checkbox">
+<span class="font-body-md text-body-md text-on-surface-variant group-hover:text-deep-forest transition-colors">Pending Review</span>
+</label>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="pt-4">
+<button class="w-full font-label-md text-label-md bg-transparent border-2 border-earth text-deep-forest px-4 py-2 rounded-lg hover:bg-earth/10 transition-colors">
+                                Reset Filters
+                            </button>
+</div>
+</div>
+</aside>
+<!-- Project Grid -->
+<div class="flex-grow">
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-gutter">
+<!-- Research Card 1 -->
+<article class="bg-surface-container-lowest border-t-4 border-canopy rounded-b-lg p-gutter shadow-[0_4px_20px_-5px_rgba(27,67,50,0.08)] flex flex-col h-full hover:shadow-[0_8px_30px_-5px_rgba(27,67,50,0.12)] hover:-translate-y-0.5 transition-all duration-300">
+<div class="mb-4">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider text-xs">Coffee</span>
+</div>
+<h2 class="font-title-md text-title-md text-deep-forest mb-3 leading-tight">High-Altitude Arabica Yield Optimization</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow line-clamp-3">
+                                Investigating the impact of varying shade structures and organic soil amendments on Arabica coffee bean density and overall yield in elevations above 1,500 meters.
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-surface-muted">
+<!-- Status Badge: Ongoing -->
+<div class="flex items-center gap-1.5 bg-earth/15 text-secondary px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span class="font-label-md text-label-md text-sm">Ongoing</span>
+</div>
+<a class="font-label-md text-label-md text-canopy hover:text-deep-forest flex items-center gap-1 transition-colors" href="#">
+                                    Details <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Research Card 2 -->
+<article class="bg-surface-container-lowest border-t-4 border-fern rounded-b-lg p-gutter shadow-[0_4px_20px_-5px_rgba(27,67,50,0.08)] flex flex-col h-full hover:shadow-[0_8px_30px_-5px_rgba(27,67,50,0.12)] hover:-translate-y-0.5 transition-all duration-300">
+<div class="mb-4">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider text-xs">Spices</span>
+</div>
+<h2 class="font-title-md text-title-md text-deep-forest mb-3 leading-tight">Cardamom Rhizome Rot Resistance Screening</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow line-clamp-3">
+                                A comparative study of three local Cardamom landraces against common fungal pathogens to identify genetic markers for inherent rot resistance in wet highland conditions.
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-surface-muted">
+<!-- Status Badge: Completed -->
+<div class="flex items-center gap-1.5 bg-fern/15 text-canopy px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">check_circle</span>
+<span class="font-label-md text-label-md text-sm">Completed</span>
+</div>
+<a class="font-label-md text-label-md text-canopy hover:text-deep-forest flex items-center gap-1 transition-colors" href="#">
+                                    Details <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Research Card 3 -->
+<article class="bg-surface-container-lowest border-t-4 border-canopy rounded-b-lg p-gutter shadow-[0_4px_20px_-5px_rgba(27,67,50,0.08)] flex flex-col h-full hover:shadow-[0_8px_30px_-5px_rgba(27,67,50,0.12)] hover:-translate-y-0.5 transition-all duration-300">
+<div class="mb-4">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider text-xs">Highland Crops</span>
+</div>
+<h2 class="font-title-md text-title-md text-deep-forest mb-3 leading-tight">Teff Variant Adaptability Trials</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow line-clamp-3">
+                                Field trials assessing the growth rate, lodging resistance, and nutritional profile of newly developed Teff variants when introduced to the specific soil composition of the Sheka zone.
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-surface-muted">
+<!-- Status Badge: Ongoing -->
+<div class="flex items-center gap-1.5 bg-earth/15 text-secondary px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">sync</span>
+<span class="font-label-md text-label-md text-sm">Ongoing</span>
+</div>
+<a class="font-label-md text-label-md text-canopy hover:text-deep-forest flex items-center gap-1 transition-colors" href="#">
+                                    Details <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</article>
+<!-- Research Card 4 -->
+<article class="bg-surface-container-lowest border-t-4 border-surface-dim rounded-b-lg p-gutter shadow-[0_4px_20px_-5px_rgba(27,67,50,0.08)] flex flex-col h-full hover:shadow-[0_8px_30px_-5px_rgba(27,67,50,0.12)] hover:-translate-y-0.5 transition-all duration-300">
+<div class="mb-4">
+<span class="font-label-md text-label-md text-outline uppercase tracking-wider text-xs">Spices</span>
+</div>
+<h2 class="font-title-md text-title-md text-deep-forest mb-3 leading-tight">Turmeric Intercropping Dynamics</h2>
+<p class="font-body-md text-body-md text-on-surface-variant mb-6 flex-grow line-clamp-3">
+                                Evaluating the economic and ecological viability of intercropping Turmeric with established Enset plantations to maximize land use efficiency.
+                            </p>
+<div class="flex items-center justify-between mt-auto pt-4 border-t border-surface-muted">
+<!-- Status Badge: Pending -->
+<div class="flex items-center gap-1.5 bg-surface-variant text-on-surface-variant px-3 py-1 rounded-full">
+<span class="material-symbols-outlined text-[16px]">pending</span>
+<span class="font-label-md text-label-md text-sm">Pending</span>
+</div>
+<a class="font-label-md text-label-md text-canopy hover:text-deep-forest flex items-center gap-1 transition-colors" href="#">
+                                    Details <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+</div>
+</article>
+</div>
+<!-- Pagination (Simple) -->
+<div class="mt-12 flex justify-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-surface-dim text-outline hover:border-canopy hover:text-canopy transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg bg-canopy text-cream font-label-md">1</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-surface-dim text-on-surface hover:border-canopy hover:text-canopy transition-colors font-label-md">2</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-surface-dim text-on-surface hover:border-canopy hover:text-canopy transition-colors font-label-md">3</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-lg border border-surface-dim text-outline hover:border-canopy hover:text-canopy transition-colors">
+<span class="material-symbols-outlined text-[20px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="bg-deep-forest dark:bg-primary border-t border-canopy/20"><div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-12">
+        <!-- Brand & Description -->
+        <div class="lg:col-span-2">
+            <div class="font-headline-lg text-headline-lg text-cream mb-6">TARCMS</div>
+            <p class="text-surface-container-highest opacity-80 mb-8 max-w-sm">
+                The Tepi Agricultural Research Center Management System (TARCMS) is dedicated to advancing sustainable agricultural practices through scientific innovation and community engagement in the Sheka highlands.
+            </p>
+            <div class="flex gap-4">
+                <a href="#" class="w-10 h-10 rounded-full bg-canopy flex items-center justify-center text-cream hover:bg-fern transition-colors">
+                    <span class="material-symbols-outlined">public</span>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-canopy flex items-center justify-center text-cream hover:bg-fern transition-colors">
+                    <span class="material-symbols-outlined">share</span>
+                </a>
+                <a href="#" class="w-10 h-10 rounded-full bg-canopy flex items-center justify-center text-cream hover:bg-fern transition-colors">
+                    <span class="material-symbols-outlined">mail</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+            <h4 class="font-title-md text-cream mb-6">Quick Links</h4>
+            <ul class="space-y-4">
+                <li class=""><a href="#" class="text-surface-container-highest hover:text-fern transition-colors">About Us</a></li>
+                <li class=""><a href="#" class="text-surface-container-highest hover:text-fern transition-colors">News &amp; Updates</a></li>
+                <li class=""><a href="#" class="text-surface-container-highest hover:text-fern transition-colors">Publications</a></li>
+                <li class=""><a href="#" class="text-surface-container-highest hover:text-fern transition-colors">Contact</a></li>
+            </ul>
+        </div>
+
+        <!-- Research -->
+        <div>
+            <h4 class="font-title-md text-cream mb-6">Research</h4>
+            <ul class="space-y-4">
+                <li class=""><a href="#" class="text-surface-container-highest hover:text-fern transition-colors">Coffee Programs</a></li>
+                <li class=""><a href="#" class="text-surface-container-highest hover:text-fern transition-colors">Spice Research</a></li>
+                <li class=""><a href="#" class="text-surface-container-highest hover:text-fern transition-colors">Highland Crops</a></li>
+                <li class=""><a href="#" class="text-surface-container-highest hover:text-fern transition-colors">Soil Science</a></li>
+            </ul>
+        </div>
+
+        <!-- Contact Details -->
+        <div>
+            <h4 class="font-title-md text-cream mb-6">Contact</h4>
+            <ul class="space-y-4">
+                <li class="flex items-start gap-3 text-surface-container-highest">
+                    <span class="material-symbols-outlined text-fern">location_on</span>
+                    <span class="">Tepi, Sheka Zone,<br>South West Ethiopia</span>
+                </li>
+                <li class="flex items-center gap-3 text-surface-container-highest">
+                    <span class="material-symbols-outlined text-fern">call</span>
+                    <span class="">+251 47 111 2233</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="pt-8 border-t border-canopy/20 flex flex-col md:flex-row justify-between items-center gap-4">
+        <p class="text-surface-container-highest opacity-60 text-sm">
+            © 2024 Tepi Agricultural Research Center. All Rights Reserved.
+        </p>
+        <div class="flex gap-6 text-sm">
+            <a href="#" class="text-surface-container-highest opacity-60 hover:opacity-100 transition-opacity">Privacy Policy</a>
+            <a href="#" class="text-surface-container-highest opacity-60 hover:opacity-100 transition-opacity">Terms of Service</a>
+            <a href="#" class="text-surface-container-highest opacity-60 hover:opacity-100 transition-opacity">Sitemap</a>
+        </div>
+    </div>
+</div></footer>
+
+
+</body></html>

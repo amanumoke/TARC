@@ -1,127 +1,204 @@
-/**
- * @file apps/dashboard/src/features/events/AdminEventsPage.tsx
- * @description Admin events management page with CRUD table.
- * Allows administrators to manage scheduled events.
- */
-
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Skeleton } from '@/components/ui/skeleton';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Plus, Trash2 } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { ConfirmDialog } from '@/features/shared/ConfirmDialog';
+import { Column, DataTable } from '@/features/shared/DataTable';
+import { PageHeader } from '@/features/shared/PageHeader';
+import { StatusBadge } from '@/features/shared/StatusBadge';
+import { useApiMutation } from '@/hooks/useApiMutation';
+import { useApiQuery } from '@/hooks/useApiQuery';
+import { MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { EventForm } from './EventForm';
 
-interface Event {
+interface EventItem {
   id: string;
   title: string;
   eventType: string;
-  startTime: string;
   location: string;
+  startTime: string;
   isPublished: boolean;
 }
 
-async function fetchEvents(): Promise<Event[]> {
-  const response = await fetch('/api/v1/admin/communication/admin/events', {
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-  const data = await response.json();
-  return data.data;
-}
-
-async function deleteEvent(id: string): Promise<void> {
-  await fetch(`/api/v1/admin/communication/admin/events/${id}`, {
-    method: 'DELETE',
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
-  });
-}
-
-function EventRowSkeleton() {
-  return (
-    <tr>
-      <td className="p-3">
-        <Skeleton className="h-4 w-64" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-32" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-32" />
-      </td>
-      <td className="p-3">
-        <Skeleton className="h-4 w-20" />
-      </td>
-    </tr>
-  );
+interface EventResponse {
+  data: EventItem[];
+  meta?: { total: number; totalPages: number };
 }
 
 export function AdminEventsPage() {
-  const queryClient = useQueryClient();
+  const [search, setSearch] = useState('');
+  const [showForm, setShowForm] = useState(false);
+  const [editingEvent, setEditingEvent] = useState<EventItem | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [page, setPage] = useState(1);
 
-  const { data: events, isLoading } = useQuery({
-    queryKey: ['admin-events'],
-    queryFn: fetchEvents,
+  const { data: eventData, isLoading } = useApiQuery<EventResponse>({
+    queryKey: ['admin-events', page, search],
+    endpoint: `/api/v1/admin/communication/events?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
-  const deleteMutation = useMutation({
-    mutationFn: deleteEvent,
+  const deleteMutation = useApiMutation<unknown, string>({
+    endpoint: `/api/v1/admin/communication/events/${deletingId}`,
+    method: 'DELETE',
+    queryKeyToInvalidate: ['admin-events'],
+    onSuccess: () => setDeletingId(null),
+  });
+
+  const createMutation = useApiMutation<EventItem, Partial<EventItem>>({
+    endpoint: '/api/v1/admin/communication/events',
+    method: 'POST',
+    queryKeyToInvalidate: ['admin-events'],
+    onSuccess: () => setShowForm(false),
+  });
+
+  const updateMutation = useApiMutation<EventItem, Partial<EventItem> & { id: string }>({
+    endpoint: `/api/v1/admin/communication/events/${editingEvent?.id}`,
+    method: 'PATCH',
+    queryKeyToInvalidate: ['admin-events'],
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['admin-events'] });
+      setShowForm(false);
+      setEditingEvent(null);
     },
   });
 
-  const handleDelete = (id: string) => {
-    if (window.confirm('Are you sure you want to delete this event?')) {
-      deleteMutation.mutate(id);
+  const events = eventData?.data || [];
+  const meta = eventData?.meta;
+
+  const columns: Column<EventItem>[] = [
+    {
+      key: 'title',
+      header: 'Title',
+      render: (item) => <p className="font-medium">{item.title}</p>,
+    },
+    {
+      key: 'eventType',
+      header: 'Type',
+      render: (item) => <span className="text-xs">{item.eventType.replace(/_/g, ' ')}</span>,
+    },
+    { key: 'location', header: 'Location' },
+    {
+      key: 'startTime',
+      header: 'Date',
+      render: (item) =>
+        new Date(item.startTime).toLocaleDateString('en-US', {
+          month: 'short',
+          day: 'numeric',
+          year: 'numeric',
+        }),
+    },
+    {
+      key: 'isPublished',
+      header: 'Status',
+      render: (item) => <StatusBadge status={item.isPublished ? 'PUBLISHED' : 'DRAFT'} />,
+    },
+    {
+      key: 'actions',
+      header: '',
+      className: 'w-[50px]',
+      render: (item) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="ghost" size="icon" className="h-8 w-8" />}>
+            <Button variant="ghost" size="icon" className="h-8 w-8">
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem
+              onClick={() => {
+                setEditingEvent(item);
+                setShowForm(true);
+              }}
+            >
+              <Pencil className="mr-2 h-4 w-4" /> Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setDeletingId(item.id)} className="text-destructive">
+              <Trash2 className="mr-2 h-4 w-4" /> Delete
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      ),
+    },
+  ];
+
+  const handleSubmit = (data: Partial<EventItem>) => {
+    if (editingEvent) {
+      updateMutation.mutate({ ...data, id: editingEvent.id });
+    } else {
+      createMutation.mutate(data);
     }
   };
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold">Events</h1>
-          <p className="text-muted-foreground">Manage scheduled events and workshops</p>
-        </div>
-        <Button>
-          <Plus className="mr-2 h-4 w-4" />
-          Add Event
-        </Button>
+      <PageHeader
+        title="Events"
+        description="Manage events, workshops, and field days."
+        action={{ label: 'Add Event', onClick: () => setShowForm(true) }}
+      />
+
+      <div className="space-y-4">
+        <input
+          type="text"
+          placeholder="Search events..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+          className="h-9 max-w-sm rounded-md border bg-transparent px-3 text-sm"
+        />
+
+        <DataTable
+          columns={columns}
+          data={events}
+          loading={isLoading}
+          keyExtractor={(item) => item.id}
+          page={page}
+          totalPages={meta?.totalPages || 1}
+          total={meta?.total}
+          onPageChange={setPage}
+          emptyTitle="No events found"
+          emptyDescription="Create your first event to get started."
+        />
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>All Events</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <table className="w-full">
-            <thead>
-              <tr className="border-b">
-                <th className="p-3 text-left font-medium">Title</th>
-                <th className="p-3 text-left font-medium">Type</th>
-                <th className="p-3 text-left font-medium">Date</th>
-                <th className="p-3 text-left font-medium">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {isLoading
-                ? Array.from({ length: 5 }).map(() => (
-                    <EventRowSkeleton key={crypto.randomUUID()} />
-                  ))
-                : events?.map((event) => (
-                    <tr key={event.id} className="border-b hover:bg-muted/50">
-                      <td className="p-3">{event.title}</td>
-                      <td className="p-3">{event.eventType}</td>
-                      <td className="p-3">{new Date(event.startTime).toLocaleDateString()}</td>
-                      <td className="p-3">
-                        <Button variant="ghost" size="icon" onClick={() => handleDelete(event.id)}>
-                          <Trash2 className="h-4 w-4 text-destructive" />
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-            </tbody>
-          </table>
-        </CardContent>
-      </Card>
+      <EventForm
+        open={showForm}
+        onOpenChange={(open) => {
+          setShowForm(open);
+          if (!open) setEditingEvent(null);
+        }}
+        initialData={
+          editingEvent
+            ? {
+                title: editingEvent.title,
+                eventType: editingEvent.eventType,
+                location: editingEvent.location,
+                startTime: editingEvent.startTime,
+                isPublished: editingEvent.isPublished,
+              }
+            : undefined
+        }
+        onSubmit={handleSubmit}
+        loading={createMutation.isPending || updateMutation.isPending}
+      />
+
+      <ConfirmDialog
+        open={!!deletingId}
+        onOpenChange={(open) => {
+          if (!open) setDeletingId(null);
+        }}
+        title="Delete event?"
+        description="This action cannot be undone. The event will be permanently removed."
+        onConfirm={() => {
+          if (deletingId) deleteMutation.mutate(deletingId);
+        }}
+        loading={deleteMutation.isPending}
+      />
     </div>
   );
 }

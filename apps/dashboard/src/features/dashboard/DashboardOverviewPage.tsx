@@ -1,7 +1,11 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
 import { BookOpen, Car, FolderOpen, MessageSquare, Users } from 'lucide-react';
+import { ContentOverviewChart } from './ContentOverviewChart';
+import { KPICard } from './KPICard';
+import { LatestProjectsTable } from './LatestProjectsTable';
+import { RecentActivityList } from './RecentActivityList';
+import { UnreadMessagesList } from './UnreadMessagesList';
 
 interface DashboardMetrics {
   totalProjects: number;
@@ -15,23 +19,23 @@ interface DashboardMetrics {
 
 async function fetchMetrics(): Promise<DashboardMetrics> {
   const response = await fetch('/api/v1/admin/dashboard/metrics', {
-    headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
+    headers: { Authorization: `Bearer ${localStorage.getItem('tarcms_token')}` },
   });
   const data = await response.json();
   return data.data;
 }
 
-function MetricCardSkeleton() {
+function KPICardSkeleton() {
   return (
-    <Card>
-      <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <Skeleton className="h-4 w-24" />
-        <Skeleton className="h-4 w-4" />
-      </CardHeader>
-      <CardContent>
-        <Skeleton className="h-8 w-16" />
-      </CardContent>
-    </Card>
+    <div className="rounded-lg border bg-card p-4">
+      <div className="flex items-start justify-between">
+        <div className="space-y-2">
+          <Skeleton className="h-3 w-20" />
+          <Skeleton className="h-7 w-12" />
+        </div>
+        <Skeleton className="h-9 w-9 rounded-lg" />
+      </div>
+    </div>
   );
 }
 
@@ -41,51 +45,70 @@ export function DashboardOverviewPage() {
     queryFn: fetchMetrics,
   });
 
-  const cards = metrics
+  const kpiCards = metrics
     ? [
-        { title: 'Total Projects', value: metrics.totalProjects, icon: FolderOpen },
-        { title: 'Active Projects', value: metrics.activeProjects, icon: FolderOpen },
-        { title: 'Publications', value: metrics.totalPublications, icon: BookOpen },
-        { title: 'Staff Members', value: metrics.totalStaff, icon: Users },
+        { icon: Users, label: 'Staff', value: metrics.totalStaff, href: '/dashboard/staff' },
         {
-          title: 'Available Vehicles',
-          value: `${metrics.availableVehicles} / ${metrics.totalVehicles}`,
-          icon: Car,
+          icon: FolderOpen,
+          label: 'Projects',
+          value: metrics.totalProjects,
+          href: '/dashboard/projects',
         },
-        { title: 'Unread Messages', value: metrics.unreadMessages, icon: MessageSquare },
+        {
+          icon: BookOpen,
+          label: 'Publications',
+          value: metrics.totalPublications,
+          href: '/dashboard/publications',
+        },
+        {
+          icon: Car,
+          label: 'Vehicles',
+          value: `${metrics.availableVehicles} / ${metrics.totalVehicles}`,
+          href: '/dashboard/vehicles',
+        },
+        {
+          icon: MessageSquare,
+          label: 'Messages',
+          value: metrics.unreadMessages,
+          href: '/dashboard/messages',
+        },
       ]
     : [];
+
+  const chartData = [
+    { label: 'Projects', value: metrics?.totalProjects || 0, color: 'hsl(var(--chart-1))' },
+    {
+      label: 'Publications',
+      value: metrics?.totalPublications || 0,
+      color: 'hsl(var(--chart-2))',
+    },
+    { label: 'Staff', value: metrics?.totalStaff || 0, color: 'hsl(var(--chart-3))' },
+  ];
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold">Dashboard Overview</h1>
-        <p className="text-muted-foreground">Welcome to the TARC Management Portal</p>
+        <h1 className="text-2xl font-bold tracking-tight lg:text-3xl">Dashboard</h1>
+        <p className="text-sm text-muted-foreground">Overview of TARCMS content and activities.</p>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
         {isLoading
-          ? [
-              'skeleton-1',
-              'skeleton-2',
-              'skeleton-3',
-              'skeleton-4',
-              'skeleton-5',
-              'skeleton-6',
-            ].map((key) => <MetricCardSkeleton key={key} />)
-          : cards.map((card) => (
-              <Card key={card.title}>
-                <CardHeader className="flex flex-row items-center justify-between pb-2">
-                  <CardTitle className="text-sm font-medium text-muted-foreground">
-                    {card.title}
-                  </CardTitle>
-                  <card.icon className="h-4 w-4 text-muted-foreground" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-2xl font-bold">{card.value}</div>
-                </CardContent>
-              </Card>
-            ))}
+          ? Array.from({ length: 5 }, (_, i) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: Fixed-count skeleton placeholders
+              <KPICardSkeleton key={`skeleton-${i}`} />
+            ))
+          : kpiCards.map((card) => <KPICard key={card.label} {...card} />)}
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <ContentOverviewChart data={chartData} />
+        <RecentActivityList activities={[]} />
+      </div>
+
+      <div className="grid gap-6 lg:grid-cols-2">
+        <LatestProjectsTable projects={[]} />
+        <UnreadMessagesList messages={[]} />
       </div>
     </div>
   );

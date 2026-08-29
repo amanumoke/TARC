@@ -1,13 +1,12 @@
 /**
  * @file apps/public/src/features/home/StatsCounter.tsx
- * @description Dynamic statistics counter displaying key institutional metrics.
- * Shows active projects, published papers, and varieties released.
+ * @description Stats section matching the TARCMS design screenshot.
+ * Three stat cards with icons in a row.
  */
 
-import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
-import { Beaker, BookOpen, Sprout } from 'lucide-react';
+import { BookOpen, FileText, Users } from 'lucide-react';
 
 interface DashboardStats {
   totalDepartments: number;
@@ -22,10 +21,6 @@ async function fetchStats(): Promise<DashboardStats> {
   return data.data;
 }
 
-/**
- * Stats counter section displaying key institutional metrics.
- * Fetches data from dashboard metrics API.
- */
 export function StatsCounter() {
   const { data: stats, isLoading } = useQuery({
     queryKey: ['public-stats'],
@@ -34,44 +29,54 @@ export function StatsCounter() {
 
   const statItems = [
     {
-      label: 'Active Projects',
+      label: 'ACTIVE PROGRAMS',
       value: stats?.totalProjects || 0,
-      icon: Beaker,
-    },
-    {
-      label: 'Published Papers',
-      value: stats?.totalPublications || 0,
+      suffix: '+',
       icon: BookOpen,
     },
     {
-      label: 'Research Staff',
+      label: 'PUBLICATIONS',
+      value: stats?.totalPublications || 0,
+      suffix: '+',
+      icon: FileText,
+    },
+    {
+      label: 'SPECIALIZED STAFF',
       value: stats?.totalStaff || 0,
-      icon: Sprout,
+      suffix: '+',
+      icon: Users,
     },
   ];
 
   return (
-    <section className="py-16 border-t border-border">
-      <div className="container mx-auto px-4">
-        <h2 className="text-2xl font-bold text-center mb-8">Our Impact</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <section className="py-10 px-6 border-t border-[#e2e3e0]">
+      <div className="max-w-[1440px] mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-0 divide-x divide-[#e2e3e0]">
           {isLoading
             ? Array.from({ length: 3 }).map(() => (
-                <Card key={crypto.randomUUID()}>
-                  <CardContent className="p-6">
-                    <Skeleton className="h-8 w-24 mb-2" />
-                    <Skeleton className="h-4 w-32" />
-                  </CardContent>
-                </Card>
+                <div key={crypto.randomUUID()} className="flex items-center gap-4 px-8 py-4">
+                  <Skeleton className="h-9 w-9 rounded" />
+                  <div>
+                    <Skeleton className="h-7 w-14 mb-1" />
+                    <Skeleton className="h-3 w-28" />
+                  </div>
+                </div>
               ))
             : statItems.map((item) => (
-                <Card key={item.label}>
-                  <CardContent className="p-6 text-center">
-                    <item.icon className="h-8 w-8 mx-auto mb-4 text-primary" />
-                    <div className="text-3xl font-bold">{item.value}</div>
-                    <div className="text-sm text-muted-foreground">{item.label}</div>
-                  </CardContent>
-                </Card>
+                <div key={item.label} className="flex items-center gap-4 px-8 py-4">
+                  <div className="h-9 w-9 rounded border border-[#e2e3e0] flex items-center justify-center">
+                    <item.icon className="h-4.5 w-4.5 text-[#414844]" />
+                  </div>
+                  <div>
+                    <div className="text-2xl font-bold text-[#1a1c1a]">
+                      {item.value}
+                      <span className="text-[#1B4332]">{item.suffix}</span>
+                    </div>
+                    <div className="text-[10px] font-semibold text-[#717973] tracking-widest uppercase">
+                      {item.label}
+                    </div>
+                  </div>
+                </div>
               ))}
         </div>
       </div>

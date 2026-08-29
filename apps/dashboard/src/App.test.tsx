@@ -4,14 +4,23 @@
  * Verifies login page, admin sidebar navigation, and KPI metric cards.
  */
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { App } from './App';
 
+const queryClient = new QueryClient({
+  defaultOptions: { queries: { retry: false } },
+});
+
 function renderWithRouter(ui: React.ReactElement) {
-  return render(<BrowserRouter>{ui}</BrowserRouter>);
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <BrowserRouter>{ui}</BrowserRouter>
+    </QueryClientProvider>
+  );
 }
 
 describe('TARCMS Dashboard — App Component', () => {
@@ -34,26 +43,25 @@ describe('TARCMS Dashboard — App Component', () => {
   });
 
   it('renders dashboard after successful login', async () => {
-    // Mock the fetch call
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockResolvedValue({
-        ok: true,
-        json: async () => ({
-          success: true,
-          data: {
-            token: 'mock-token-123',
-            user: {
-              id: '1',
-              name: 'Dr. Girma Bekele',
-              email: 'admin@tarc.gov.et',
-              role: 'SUPER_ADMIN',
-              avatarUrl: null,
-            },
+    // Mock the login API endpoint
+    const mockFetch = vi.fn().mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        success: true,
+        data: {
+          token: 'mock-token-123',
+          user: {
+            id: '1',
+            name: 'Dr. Girma Bekele',
+            email: 'admin@tarc.gov.et',
+            role: 'SUPER_ADMIN',
+            avatarUrl: null,
           },
-        }),
-      })
-    );
+        },
+      }),
+    });
+
+    vi.stubGlobal('fetch', mockFetch);
 
     renderWithRouter(<App />);
 
@@ -68,10 +76,10 @@ describe('TARCMS Dashboard — App Component', () => {
     // Submit login
     fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
-    // Wait for dashboard to appear
+    // Wait for dashboard to appear - look for "Dashboard" title
     await waitFor(
       () => {
-        expect(screen.getByText('Overview')).toBeInTheDocument();
+        expect(screen.getAllByText('Dashboard').length).toBeGreaterThan(0);
       },
       { timeout: 3000 }
     );

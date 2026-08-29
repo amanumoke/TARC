@@ -1,0 +1,382 @@
+<!DOCTYPE html><html class="light" lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Tepi Agricultural Research Center</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config -->
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f5f1d8",
+                        "inverse-primary": "#a5d0b9",
+                        "on-secondary-container": "#7a532a",
+                        "primary-container": "#1b4332",
+                        "on-surface-variant": "#414844",
+                        "error-container": "#ffdad6",
+                        "cream": "#FEFAE0",
+                        "surface-container-highest": "#e7e3ca",
+                        "on-tertiary": "#ffffff",
+                        "secondary-container": "#ffca98",
+                        "earth": "#D4A373",
+                        "on-error": "#ffffff",
+                        "outline": "#717973",
+                        "surface-bright": "#fefae0",
+                        "deep-forest": "#1B4332",
+                        "on-tertiary-fixed": "#002114",
+                        "error": "#ba1a1a",
+                        "secondary-fixed": "#ffdcbd",
+                        "outline-variant": "#c1c8c2",
+                        "inverse-surface": "#323120",
+                        "secondary": "#7d562d",
+                        "tertiary-fixed": "#b1f0ce",
+                        "tertiary-container": "#00452e",
+                        "tertiary-fixed-dim": "#95d4b3",
+                        "surface-container-lowest": "#ffffff",
+                        "primary": "#012d1d",
+                        "on-primary-container": "#86af99",
+                        "secondary-fixed-dim": "#f0bd8b",
+                        "background": "#fefae0",
+                        "tertiary": "#002d1c",
+                        "surface-dim": "#dedbc2",
+                        "on-surface": "#1d1c0d",
+                        "on-primary-fixed-variant": "#274e3d",
+                        "surface-container-low": "#f8f4db",
+                        "surface-muted": "#F2EED7",
+                        "surface-variant": "#e7e3ca",
+                        "on-tertiary-fixed-variant": "#0e5138",
+                        "canopy": "#2D6A4F",
+                        "fern": "#52B788",
+                        "primary-fixed-dim": "#a5d0b9",
+                        "surface-container": "#f2efd5",
+                        "primary-fixed": "#c1ecd4",
+                        "on-secondary-fixed": "#2c1600",
+                        "on-primary-fixed": "#002114",
+                        "on-secondary-fixed-variant": "#623f18",
+                        "surface": "#fefae0",
+                        "surface-tint": "#3f6653",
+                        "on-tertiary-container": "#75b393",
+                        "on-error-container": "#93000a",
+                        "on-background": "#1d1c0d",
+                        "on-secondary": "#ffffff",
+                        "surface-container-high": "#ede9cf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "24px",
+                        "margin-desktop": "48px",
+                        "margin-mobile": "16px",
+                        "unit": "8px",
+                        "container-max": "1280px"
+                    },
+                    "fontFamily": {
+                        "label-md": ["Inter"],
+                        "caption": ["Inter"],
+                        "headline-lg-mobile": ["DM Serif Display"],
+                        "title-md": ["Inter"],
+                        "headline-lg": ["DM Serif Display"],
+                        "body-lg": ["Inter"],
+                        "display-lg": ["DM Serif Display"],
+                        "body-md": ["Inter"]
+                    },
+                    "fontSize": {
+                        "label-md": ["14px", { "lineHeight": "20px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+                        "caption": ["12px", { "lineHeight": "16px", "fontWeight": "400" }],
+                        "headline-lg-mobile": ["28px", { "lineHeight": "36px", "fontWeight": "400" }],
+                        "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "headline-lg": ["32px", { "lineHeight": "40px", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "28px", "fontWeight": "400" }],
+                        "display-lg": ["48px", { "lineHeight": "56px", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "24px", "fontWeight": "400" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .topo-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23D4A373' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        /* Subtle shadow for realistic but clean aesthetic */
+        .shadow-soft {
+            box-shadow: 0 4px 20px -5px rgba(27,67,50,0.08);
+        }
+        
+        .shadow-soft-hover:hover {
+            box-shadow: 0 8px 30px -5px rgba(27,67,50,0.12);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-cream text-on-surface font-body-md text-body-md min-h-screen flex flex-col relative overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed w-full z-50 bg-background/80 dark:bg-primary/80 backdrop-blur-md shadow-sm shadow-[0_4px_20px_-5px_rgba(27,67,50,0.08)]">
+<div class="flex justify-between items-center w-full px-margin-mobile md:px-margin-desktop max-w-container-max mx-auto h-20">
+<!-- Brand -->
+<a class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-deep-forest dark:text-on-primary-fixed flex items-center gap-2" href="#">
+<span class="material-symbols-outlined text-canopy" data-icon="energy_savings_leaf" style="font-variation-settings: 'FILL' 1;">energy_savings_leaf</span>
+                TARCMS
+            </a>
+<!-- Desktop Nav -->
+<nav class="hidden md:flex gap-6 lg:gap-8 items-center font-label-md text-label-md">
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">About</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">Research</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">Publications</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">News</a>
+<a class="text-on-surface-variant dark:text-surface-variant hover:text-canopy dark:hover:text-fern transition-colors duration-200" href="#">Contact</a>
+<a class="bg-deep-forest text-cream px-6 py-2.5 rounded-lg hover:bg-canopy transition-colors duration-200 font-bold ml-4 shadow-soft" href="#">
+                    Portal Login
+                </a>
+</nav>
+<!-- Mobile Menu Toggle (Decorative for prompt scope) -->
+<button class="md:hidden text-deep-forest">
+<span class="material-symbols-outlined text-3xl" data-icon="menu">menu</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-20">
+<!-- Hero Section -->
+<section class="relative min-h-[819px] flex items-center justify-center overflow-hidden topo-bg py-24 px-margin-mobile md:px-margin-desktop">
+<!-- Decorative Overlay -->
+<div class="absolute inset-0 bg-gradient-to-b from-cream/80 to-cream/30 z-0"></div>
+<div class="max-w-container-max mx-auto relative z-10 w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-7 flex flex-col items-start gap-8">
+<div class="inline-flex items-center gap-2 px-4 py-2 bg-surface-muted rounded-full border border-surface-variant text-deep-forest font-label-md text-label-md">
+<span class="material-symbols-outlined text-sm" data-icon="science">science</span>
+<span class="">Tepi Agricultural Research Center</span>
+</div>
+<h1 class="font-display-lg text-display-lg text-deep-forest leading-tight">
+                        Innovating Agriculture for Sustainable Growth
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl">
+                        Advancing ecological stewardship and scientific precision in the Sheka highlands. We combine traditional wisdom with modern agricultural science to secure a resilient future.
+                    </p>
+<div class="flex flex-wrap gap-4 mt-4">
+<a class="bg-deep-forest text-cream px-8 py-3.5 rounded-lg hover:bg-canopy transition-all shadow-soft-hover font-bold text-label-md" href="#">
+                            Explore Our Research
+                        </a>
+<a class="border-2 border-earth text-deep-forest px-8 py-3.5 rounded-lg hover:bg-earth/10 transition-all font-bold text-label-md flex items-center gap-2" href="#">
+                            Latest Publications
+                            <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Hero Image Bneto Block -->
+<div class="lg:col-span-5 relative">
+<div class="relative w-full aspect-[4/5] rounded-2xl overflow-hidden shadow-soft-hover border-4 border-white transition-all duration-300 z-10">
+<img class="w-full h-full object-cover" data-alt="A high-quality, bright photograph taken in a lush, green high-altitude agricultural field in Ethiopia. A modern, diverse team of agricultural scientists in clean, professional field gear are carefully examining vibrant green coffee plants and highland crops. The lighting is sunny and optimistic, reflecting a modern, sustainable light-mode UI aesthetic. The color palette emphasizes vibrant greens, earthy browns, and crisp whites to match a scientific and ecological theme." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCn-_i3J89NZE5mFYo3SHHrVRy0IuBi25bLxrdKmTI4QdAFqKiQDLo1QK5RktvGvLQ4-LmZKj9lNYJTmPCKV9bFch03DCo43D-5gY4ziwsZkBF8lzktdGOJPSfSRRK9QMxw3B6pkh3EgFQsSWdfS48w4dFys7GPRTBVkhjrbgG2csTmYEAtMLULapVijknbOBSp_PPyAamjr8ZGllOjTdu0PIv75b1QrF9C1i0PdVDFTB4MG8PkSYy39w">
+<div class="absolute inset-0 bg-gradient-to-t from-deep-forest/60 to-transparent flex items-end p-6">
+<span class="text-cream font-label-md bg-canopy/80 backdrop-blur-sm px-3 py-1 rounded-full text-sm">Sheka Highlands Field Trial</span>
+</div>
+</div>
+<!-- Decorative Element -->
+<div class="absolute -bottom-8 -left-8 w-48 h-48 bg-surface-muted rounded-full -z-10 blur-2xl opacity-60"></div>
+</div>
+</div>
+</section>
+<!-- Stats Section -->
+<section class="py-16 bg-white relative z-20 border-y border-surface-variant shadow-sm">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12 divide-y md:divide-y-0 md:divide-x divide-surface-variant">
+<div class="flex flex-col items-center text-center py-4 md:py-0">
+<div class="text-4xl text-canopy mb-2">
+<span class="material-symbols-outlined text-5xl" data-icon="forest" style="font-variation-settings: 'FILL' 1;">forest</span>
+</div>
+<h3 class="font-display-lg text-headline-lg text-deep-forest mb-1">50+</h3>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Research Projects</p>
+</div>
+<div class="flex flex-col items-center text-center py-4 md:py-0">
+<div class="text-4xl text-canopy mb-2">
+<span class="material-symbols-outlined text-5xl" data-icon="menu_book" style="font-variation-settings: 'FILL' 1;">menu_book</span>
+</div>
+<h3 class="font-display-lg text-headline-lg text-deep-forest mb-1">120+</h3>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Publications</p>
+</div>
+<div class="flex flex-col items-center text-center py-4 md:py-0">
+<div class="text-4xl text-canopy mb-2">
+<span class="material-symbols-outlined text-5xl" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<h3 class="font-display-lg text-headline-lg text-deep-forest mb-1">40</h3>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Years of Excellence</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Featured Research Section -->
+<section class="py-24 bg-cream relative overflow-hidden topo-bg">
+<div class="absolute inset-0 bg-cream/70 z-0"></div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-6">
+<div class="max-w-2xl">
+<h2 class="font-display-lg text-headline-lg text-deep-forest mb-4">Featured Research Domains</h2>
+<p class="font-body-md text-on-surface-variant">Explore our foundational research programs dedicated to advancing the agricultural potential of Southwest Ethiopia through specialized crop sciences.</p>
+</div>
+<a class="inline-flex items-center gap-2 text-canopy hover:text-deep-forest font-label-md text-label-md transition-colors" href="#">
+                View Research Directory <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Coffee Card -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-soft-hover transition-all duration-300 border border-surface-variant flex flex-col">
+<div class="h-48 overflow-hidden relative">
+<img alt="Highland Coffee Research" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQfP3B_D2a222bjz3g8Mlzz4HpbRiISDvssWKmUocBNRR7in6m4oV6W2h4qLXDek5NK1gPyTlan2DsMJzI6LtXFmtrTQ2zA-4Gg-Kbl_ECnXwqVzJ2cEyYCczUz8CKcxbBQkqrhyy5iQGEObPvsMnwmC0kEQgr4l72cTrvupt25jYet9HWzw79G6zWZwolpGF5NfpkEd_8ooqg63vCFeZ3qmEbxhf0d-7KTphXr0SZQ21gU9xeP17iGg">
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-label-md text-deep-forest flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="local_cafe">local_cafe</span> Coffee
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-title-md text-title-md text-deep-forest mb-3">Highland Arabica Adaptation</h3>
+<p class="text-on-surface-variant font-body-md mb-6 flex-grow text-sm">Developing climate-resilient and disease-resistant coffee varieties optimized for the unique agro-ecological zones of the Sheka region.</p>
+<a class="text-canopy font-label-md text-sm flex items-center gap-1 hover:text-deep-forest transition-colors mt-auto" href="#">
+                        Explore Projects <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- Spices Card -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-soft-hover transition-all duration-300 border border-surface-variant flex flex-col">
+<div class="h-48 overflow-hidden relative">
+<img alt="Spice Cultivation Research" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhiAfoqBbFI4BM1z6mpGdIv1-TGhBCmPpxXoNc70ZevXEd7Y6Za3pZEBlAJAgszFk9DB-RhymezuJ2Tw7LlXCx2LaCbqzRS1tEtTVWG764GvXuyVC8ZjRLSe6XGKdhhP5Rn_wx9RGFuWrUIP_BBZX_9v-uhDBxQxHq7IFnY5ifaadJsHHNfuiq7KzU4HX1qfpJmo5MMwf3qua5JasLfnosT7EhNcYFQwcj0r0qTAql6bI8NFROu27vkA">
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-label-md text-deep-forest flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="eco">eco</span> Spices
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-title-md text-title-md text-deep-forest mb-3">Indigenous Spice Cultivation</h3>
+<p class="text-on-surface-variant font-body-md mb-6 flex-grow text-sm">Enhancing the yield and quality of traditional spices like cardamom, black pepper, and turmeric through sustainable agronomic practices.</p>
+<a class="text-canopy font-label-md text-sm flex items-center gap-1 hover:text-deep-forest transition-colors mt-auto" href="#">
+                        Explore Projects <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- Highland Crops Card -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-soft-hover transition-all duration-300 border border-surface-variant flex flex-col">
+<div class="h-48 overflow-hidden relative">
+<img alt="Highland Cereals Research" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7ad1TBQiapxXZQ4yIXBxmomqIIFtYgbmRjG2P4GITwIJ-VPvtqKiw6afRd30DzEr3kVN5PpyGZwp-oit7EG5oDqSQbg19aMPiqtCPYigLZIQCqYMHNEopVIJYvSUIiOlKh-E_QID04aytjtBm0S9t0qG4sJ2BW5bAVJUHBtU2zmrwx9PBj_ZAHpw5kVZRO6LHRjQy-rx2O2ORgIaNLL4tnlUJBGLfpkaclIzwUe0VU2Z8cZwqWCuhKw">
+<div class="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-label-md text-deep-forest flex items-center gap-1">
+<span class="material-symbols-outlined text-sm" data-icon="grass">grass</span> Highland Crops
+                    </div>
+</div>
+<div class="p-6 flex flex-col flex-grow">
+<h3 class="font-title-md text-title-md text-deep-forest mb-3">Cereal &amp; Pulse Improvement</h3>
+<p class="text-on-surface-variant font-body-md mb-6 flex-grow text-sm">Researching high-yielding, nutrient-dense varieties of teff, wheat, and highland pulses to bolster regional food security.</p>
+<a class="text-canopy font-label-md text-sm flex items-center gap-1 hover:text-deep-forest transition-colors mt-auto" href="#">
+                        Explore Projects <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Latest News & Events -->
+<section class="py-24 bg-surface-container-lowest border-y border-surface-variant">
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop">
+<div class="text-center mb-16">
+<h2 class="font-display-lg text-headline-lg text-deep-forest mb-4">Latest News &amp; Events</h2>
+<p class="font-body-md text-on-surface-variant max-w-2xl mx-auto">Stay updated with our latest institutional announcements, field day events, and breakthrough research findings.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- News Item 1 -->
+<article class="flex flex-col gap-4 group cursor-pointer">
+<div class="aspect-video rounded-xl overflow-hidden relative">
+<img alt="Field Day Event" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8_sm94qC8l1jHxJRLnBX2ylb3p48Ym3UhjUk7OeGndvAe_rXEkRGBlUG8_a9idXZ1uVaoeBXV0_pjY3imYbxuYbOSbCBMH-UqAnOz5i5dOZKNCawZXaWG5roLjvWAzn_m8jRX2EJ6NBUhBATKwb7PSrM_gozIQV4fD3hyFObSzNs51yW18A50XY2feIB2WF4SppoE374qjv6TEOG7LMeZHn-6QgVCr3kpYXtgxaUn29ldgGecH5xGBw">
+<div class="absolute top-3 left-3 bg-earth text-white px-3 py-1 rounded-md text-xs font-label-md">Event</div>
+</div>
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mb-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_month">calendar_month</span>
+<time datetime="2024-05-15">May 15, 2024</time>
+</div>
+<h3 class="font-title-md text-title-md text-deep-forest group-hover:text-canopy transition-colors mb-2">Annual Farmers' Field Day at Yeki Sub-center</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2">Showcasing new rust-resistant wheat varieties to local farmers and extension workers in the Sheka zone.</p>
+</div>
+</article>
+<!-- News Item 2 -->
+<article class="flex flex-col gap-4 group cursor-pointer">
+<div class="aspect-video rounded-xl overflow-hidden relative">
+<img alt="Laboratory Research" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAXhWkyZyMvgMLt7TenfHbvKSujyN56U-w5W2QfI2PcMA6F4jsYGtZDL6KUPzirmF5t0HmFXZHa9HyKDfUyry8r9g2bLGBba2r5bSOJuPbX819ytvatH5V9QfrejCl5AFksLGhsrK2fZpsngVNU-tmY7E7LuevyJpJmixtLImhl3IyWielcebg0D3RK8eqi4xaCydZfG81gLTKWBkAOQo-2FpYXu7H2vmfLtklHcMW0i7-8RJEE5T3_g">
+<div class="absolute top-3 left-3 bg-canopy text-white px-3 py-1 rounded-md text-xs font-label-md">Announcement</div>
+</div>
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mb-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_month">calendar_month</span>
+<time datetime="2024-05-02">May 2, 2024</time>
+</div>
+<h3 class="font-title-md text-title-md text-deep-forest group-hover:text-canopy transition-colors mb-2">New Soil Testing Facility Inaugurated</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2">The center has officially opened its upgraded soil and water analysis laboratory to support precision agriculture.</p>
+</div>
+</article>
+<!-- News Item 3 -->
+<article class="flex flex-col gap-4 group cursor-pointer hidden lg:flex">
+<div class="aspect-video rounded-xl overflow-hidden relative">
+<img alt="Researchers in Field" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPAgCLniU8TdZijuqNrA2WnTJiJ_M61F_iCEQQ_EcJlRPq4a9FBS-IBk84x_Nytr_uExIM2hVFtmceYHjNznm43gP8y_27kbVQXTCAO9Qf87yr6g9zE6slRcCG1a_X05M5WODgSGM2hjBcUq2vcxhZEFxc0LW74X1wSspZvZyvyx16BOZM15kV-ogLE9cBEAsR1f5PKH8qr85RIoYuoSXtzU0fzGiEZKAnpeoi0RwMhs0FFmuUfiBeFw">
+<div class="absolute top-3 left-3 bg-secondary text-white px-3 py-1 rounded-md text-xs font-label-md">Publication</div>
+</div>
+<div>
+<div class="flex items-center gap-2 text-on-surface-variant text-sm mb-2">
+<span class="material-symbols-outlined text-[16px]" data-icon="calendar_month">calendar_month</span>
+<time datetime="2024-04-28">April 28, 2024</time>
+</div>
+<h3 class="font-title-md text-title-md text-deep-forest group-hover:text-canopy transition-colors mb-2">Paper Published on Coffee Berry Disease</h3>
+<p class="text-on-surface-variant text-sm line-clamp-2">Our agronomy team has published new findings in the Journal of Agricultural Science regarding integrated pest management.</p>
+</div>
+</article>
+</div>
+<div class="mt-12 text-center">
+<a class="inline-flex items-center gap-2 border-2 border-deep-forest text-deep-forest px-6 py-2.5 rounded-lg hover:bg-deep-forest hover:text-white transition-colors font-bold text-label-md" href="#">
+                View All News &amp; Events
+            </a>
+</div>
+</div>
+</section>
+<!-- Research Gallery -->
+<section class="py-24 bg-deep-forest text-cream relative">
+<div class="absolute inset-0 opacity-5 pointer-events-none" style="background-image: url('data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E');"></div>
+<div class="max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop relative z-10">
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div>
+<h2 class="font-display-lg text-headline-lg text-cream mb-2">Research Gallery</h2>
+<p class="font-body-md text-surface-container-highest/80 max-w-xl">A visual journey through our experimental fields, laboratories, and community engagement in the Sheka highlands.</p>
+</div>
+<a class="inline-flex items-center gap-2 text-tertiary-fixed hover:text-white font-label-md transition-colors" href="#">
+                Follow our Journey <span class="material-symbols-outlined text-sm" data-icon="photo_camera">photo_camera</span>
+</a>
+</div>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px]">
+<div class="col-span-2 row-span-2 rounded-xl overflow-hidden group">
+<img alt="Researchers inspecting crops" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVpeb7GXjqef7zG3_EgeRv8NAL00_n1mTHBxSHsoobYXsoMtrZEl1dD934AeQjPGqqbWpI6_IBZhdIZxVuQRWCyO5Dx4vYGGr93NTL4nr56jfTWxz-M0CL7m8JT8USqLBSDUUSOxS55MdlyugFoklQeQXLArcfeYzZw_eJQQzi2NE4COlxQ1uFLCl3pFbQquT0pS-kl4BmOlbvjCQvjox0_zKgoC4v9vGOBoIoM5BU1O4yu-tOF4VseQ">
+</div>
+<div class="rounded-xl overflow-hidden group">
+<img alt="Coffee beans close up" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDMVu4uoyq2rtN5OiWA_xKoEV64B8iElrxQ9aXRseADrASfO1sKaSXoVzAS1IiPWdS_vdLPZXxQRwm2hLjutarzU95jbw5rWG9CppG6LDY0FjX0f0Up0vv8NQyb8vu_clC9z4HxWafsg0QbMc58LrUeIuoba8m6hhnsmixV-TOFo-v2kaKV0R-3TLFie7C9H7JzyvV8K-4qTkBYWPTgXzh8pwJNTY8-a9ESNq6E-gg6sjd9RxsCLEOZhA">
+</div>
+<div class="rounded-xl overflow-hidden group">
+<img alt="Lab equipment" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByufCC2jtc8zVkZOvM-hj0wt4PpcHkTj1xSpjXRlezRWjwqJfxe3Xk22ng_0kMcChQPdyErvwh-hJH-XH0XfTBSwFkVdBWobyElflm4Huo2JXQrLGGTOVtIZF5qR7pRY3bEuG2ZlB0uW3XORYKUqXXZZ9K3vx1efLuw_hncUwqWWcOlNT3JGDrVwbAo3BooYRmz9XFNF1E-2fP14YqRSfLviHzSCAxg5gBlt9XnLitZBk0NYKqDJXQ1Q">
+</div>
+<div class="col-span-2 rounded-xl overflow-hidden group">
+<img alt="Landscape of terraced fields" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAix8dJKrZpoO9Z1W0J3KuovgZG8XZ6YQa4huHDCMTE67SAE8kwMqv3-sDoiwa51jQzjCJngsF0hzfKsX3Gdf3JgoLRzXbg7yzW3ov9YO6DOZQ0fNWIZ5H1Q7ecPOzZ1sQUBNVEQ7kKqtKgFeC45g2EcwovXjB2QnRZAkqaFUOAn4tswkVSfVweV4ju6LzqDB-Rb-DWP0qKjTn43zBjIeqXT87dE43k7O2bounchv8iyTvQQ1hwL8IPWg">
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-deep-forest dark:bg-primary border-t border-canopy/20 mt-auto relative z-20"><div class="absolute inset-0 opacity-5 pointer-events-none topo-bg"></div><div class="relative z-10 max-w-container-max mx-auto px-margin-mobile md:px-margin-desktop py-16"><div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-12"><div class="lg:col-span-4 flex flex-col gap-6"><a class="font-headline-lg text-headline-lg text-cream flex items-center gap-2" href="#"><span class="material-symbols-outlined text-fern" style="font-variation-settings: 'FILL' 1;">energy_savings_leaf</span>TARCMS</a><p class="text-surface-container-highest/80 font-body-md text-sm leading-relaxed">The Tepi Agricultural Research Center is dedicated to the advancement of agricultural science and ecological sustainability in Southwest Ethiopia. We bridge traditional wisdom with modern innovation to secure a resilient future for the Sheka highlands.</p><div class="flex gap-4"><a href="#" class="w-10 h-10 rounded-full bg-canopy/20 flex items-center justify-center text-cream hover:bg-fern transition-colors"><span class="material-symbols-outlined text-xl">public</span></a><a href="#" class="w-10 h-10 rounded-full bg-canopy/20 flex items-center justify-center text-cream hover:bg-fern transition-colors"><span class="material-symbols-outlined text-xl">groups</span></a><a href="#" class="w-10 h-10 rounded-full bg-canopy/20 flex items-center justify-center text-cream hover:bg-fern transition-colors"><span class="material-symbols-outlined text-xl">share</span></a></div></div><div class="lg:col-span-2 flex flex-col gap-4"><h4 class="font-title-md text-cream uppercase tracking-wider text-sm">Quick Links</h4><nav class="flex flex-col gap-2 text-surface-container-highest/70 text-sm"><a href="#" class="hover:text-fern transition-colors">Home</a><a href="#" class="hover:text-fern transition-colors">About</a><a href="#" class="hover:text-fern transition-colors">Research</a><a href="#" class="hover:text-fern transition-colors">Publications</a><a href="#" class="hover:text-fern transition-colors">News</a></nav></div><div class="lg:col-span-2 flex flex-col gap-4"><h4 class="font-title-md text-cream uppercase tracking-wider text-sm">Resources</h4><nav class="flex flex-col gap-2 text-surface-container-highest/70 text-sm"><a href="#" class="hover:text-fern transition-colors">Staff Directory</a><a href="#" class="hover:text-fern transition-colors">Projects</a><a href="#" class="hover:text-fern transition-colors">Events</a><a href="#" class="hover:text-fern transition-colors">Gallery</a></nav></div><div class="lg:col-span-2 flex flex-col gap-4"><h4 class="font-title-md text-cream uppercase tracking-wider text-sm">Support</h4><nav class="flex flex-col gap-2 text-surface-container-highest/70 text-sm"><a href="#" class="hover:text-fern transition-colors">Contact Us</a><a href="#" class="hover:text-fern transition-colors">Privacy Policy</a><a href="#" class="hover:text-fern transition-colors">Terms of Service</a><a href="#" class="hover:text-fern transition-colors">Sitemap</a></nav></div><div class="lg:col-span-2 flex flex-col gap-4"><h4 class="font-title-md text-cream uppercase tracking-wider text-sm">Contact Info</h4><div class="flex flex-col gap-3 text-surface-container-highest/70 text-sm"><div class="flex gap-2"><span class="material-symbols-outlined text-fern text-lg">location_on</span><span class="">Tepi, Sheka Zone,<br>Southwest Ethiopia</span></div><div class="flex gap-2"><span class="material-symbols-outlined text-fern text-lg">call</span><span class="">+251 47 111 2233</span></div><div class="flex gap-2"><span class="material-symbols-outlined text-fern text-lg">mail</span><span class="">info@tarcms.gov.et</span></div></div></div></div><div class="pt-8 border-t border-canopy/20 flex flex-col md:flex-row justify-between items-center gap-4"><p class="text-surface-container-highest/60 text-xs">© 2024 Tepi Agricultural Research Center. All Rights Reserved.</p><button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="flex items-center gap-2 text-cream hover:text-fern transition-colors text-xs font-bold uppercase tracking-widest"><span class="material-symbols-outlined text-lg">arrow_upward</span> Back to Top</button></div></div></footer>
+
+
+</body></html>

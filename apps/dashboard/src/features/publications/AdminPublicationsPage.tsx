@@ -38,32 +38,32 @@ export function AdminPublicationsPage() {
 
   const { data: pubData, isLoading } = useApiQuery<PublicationResponse>({
     queryKey: ['admin-publications', page, search],
-    endpoint: `/api/v1/admin/publications?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    endpoint: `/api/v1/publications/admin?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
   const { data: projectData } = useApiQuery<{ data: { id: string; title: string }[] }>({
     queryKey: ['projects-list'],
-    endpoint: '/api/v1/admin/research/projects?limit=100',
+    endpoint: '/api/v1/research/admin/projects?limit=100',
   });
 
   const projects = projectData?.data || [];
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/admin/publications/${deletingId}`,
+    endpoint: `/api/v1/publications/admin/${deletingId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-publications'],
     onSuccess: () => setDeletingId(null),
   });
 
   const createMutation = useApiMutation<Publication, Partial<Publication>>({
-    endpoint: '/api/v1/admin/publications',
+    endpoint: '/api/v1/publications/admin',
     method: 'POST',
     queryKeyToInvalidate: ['admin-publications'],
     onSuccess: () => setShowForm(false),
   });
 
   const updateMutation = useApiMutation<Publication, Partial<Publication> & { id: string }>({
-    endpoint: `/api/v1/admin/publications/${editingPub?.id}`,
+    endpoint: `/api/v1/publications/admin/${editingPub?.id}`,
     method: 'PATCH',
     queryKeyToInvalidate: ['admin-publications'],
     onSuccess: () => {

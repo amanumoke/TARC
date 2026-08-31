@@ -1,3 +1,6 @@
+import { getMetrics } from '@/api/domains/dashboard';
+import { getUnreadMessages } from '@/api/domains/messages';
+import { listProjects } from '@/api/domains/projects';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useQuery } from '@tanstack/react-query';
 import { BookOpen, Car, FolderOpen, MessageSquare, Users } from 'lucide-react';
@@ -6,24 +9,6 @@ import { KPICard } from './KPICard';
 import { LatestProjectsTable } from './LatestProjectsTable';
 import { RecentActivityList } from './RecentActivityList';
 import { UnreadMessagesList } from './UnreadMessagesList';
-
-interface DashboardMetrics {
-  totalProjects: number;
-  activeProjects: number;
-  totalPublications: number;
-  totalStaff: number;
-  availableVehicles: number;
-  totalVehicles: number;
-  unreadMessages: number;
-}
-
-async function fetchMetrics(): Promise<DashboardMetrics> {
-  const response = await fetch('/api/v1/admin/dashboard/metrics', {
-    headers: { Authorization: `Bearer ${localStorage.getItem('tarcms_token')}` },
-  });
-  const data = await response.json();
-  return data.data;
-}
 
 function KPICardSkeleton() {
   return (
@@ -42,7 +27,17 @@ function KPICardSkeleton() {
 export function DashboardOverviewPage() {
   const { data: metrics, isLoading } = useQuery({
     queryKey: ['dashboard-metrics'],
-    queryFn: fetchMetrics,
+    queryFn: getMetrics,
+  });
+
+  const { data: projectsData } = useQuery({
+    queryKey: ['admin-projects-overview'],
+    queryFn: () => listProjects({ limit: 5 }),
+  });
+
+  const { data: unreadMessages } = useQuery({
+    queryKey: ['unread-messages'],
+    queryFn: getUnreadMessages,
   });
 
   const kpiCards = metrics
@@ -94,10 +89,7 @@ export function DashboardOverviewPage() {
 
       <div className="grid grid-cols-2 gap-4 lg:grid-cols-5">
         {isLoading
-          ? Array.from({ length: 5 }, (_, i) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: Fixed-count skeleton placeholders
-              <KPICardSkeleton key={`skeleton-${i}`} />
-            ))
+          ? Array.from({ length: 5 }, (_, i) => <KPICardSkeleton key={`skeleton-${i}`} />)
           : kpiCards.map((card) => <KPICard key={card.label} {...card} />)}
       </div>
 
@@ -107,8 +99,8 @@ export function DashboardOverviewPage() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <LatestProjectsTable projects={[]} />
-        <UnreadMessagesList messages={[]} />
+        <LatestProjectsTable projects={projectsData?.data ?? []} />
+        <UnreadMessagesList messages={unreadMessages ?? []} />
       </div>
     </div>
   );

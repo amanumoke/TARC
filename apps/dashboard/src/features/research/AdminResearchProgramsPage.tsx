@@ -40,25 +40,25 @@ export function AdminResearchProgramsPage() {
 
   const { data: programData, isLoading } = useApiQuery<ProgramResponse>({
     queryKey: ['admin-research-programs', page, search],
-    endpoint: `/api/v1/admin/research/programs?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    endpoint: `/api/v1/research/admin/programs?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
   const { data: deptData } = useApiQuery<{ data: { id: string; name: string }[] }>({
     queryKey: ['departments-list'],
-    endpoint: '/api/v1/admin/departments?limit=100',
+    endpoint: '/api/v1/departments/admin?limit=100',
   });
 
   const departments = deptData?.data || [];
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/admin/research/programs/${deletingId}`,
+    endpoint: `/api/v1/research/admin/programs/${deletingId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-research-programs'],
     onSuccess: () => setDeletingId(null),
   });
 
   const createMutation = useApiMutation<ResearchProgram, Partial<ResearchProgram>>({
-    endpoint: '/api/v1/admin/research/programs',
+    endpoint: '/api/v1/research/admin/programs',
     method: 'POST',
     queryKeyToInvalidate: ['admin-research-programs'],
     onSuccess: () => setShowForm(false),
@@ -66,7 +66,7 @@ export function AdminResearchProgramsPage() {
 
   const updateMutation = useApiMutation<ResearchProgram, Partial<ResearchProgram> & { id: string }>(
     {
-      endpoint: `/api/v1/admin/research/programs/${editingProgram?.id}`,
+      endpoint: `/api/v1/research/admin/programs/${editingProgram?.id}`,
       method: 'PATCH',
       queryKeyToInvalidate: ['admin-research-programs'],
       onSuccess: () => {

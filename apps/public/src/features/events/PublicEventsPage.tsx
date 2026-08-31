@@ -1,4 +1,4 @@
-import { useEvents } from '@/hooks/useEvents';
+import { useEvents } from '@/api/hooks/useEvents';
 import { Clock, Filter, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -16,7 +16,7 @@ export function PublicEventsPage() {
 
   const filtered =
     events?.filter((e) => {
-      if (timeFilter === 'past') return new Date(e.startTime || e.startDate || '') < new Date();
+      if (timeFilter === 'past') return new Date(e.startTime || '') < new Date();
       return true;
     }) || [];
 
@@ -61,7 +61,7 @@ export function PublicEventsPage() {
       ) : (
         <div className="mt-10 space-y-4">
           {filtered.map((event) => {
-            const date = new Date(event.startTime || event.startDate || '');
+            const date = new Date(event.startTime || '');
             return (
               <div
                 key={event.id}

@@ -1,16 +1,28 @@
+import { ApiError, del, post, put } from '@/api/client';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-function getAuthHeaders(): HeadersInit {
-  const token = localStorage.getItem('tarcms_token');
-  return {
-    'Content-Type': 'application/json',
-    ...(token ? { Authorization: `Bearer ${token}` } : {}),
-  };
+function stripBasePrefix(endpoint: string): string {
+  return endpoint.replace(/^\/api\/v1/, '') || '/';
 }
+
+type HttpMethod = 'POST' | 'PUT' | 'PATCH' | 'DELETE';
+
+type MutateFn = <T>(
+  endpoint: string,
+  body?: unknown,
+  options?: Parameters<typeof post>[2]
+) => Promise<T>;
+
+const methodFns: Record<HttpMethod, MutateFn> = {
+  POST: post as MutateFn,
+  PUT: put as MutateFn,
+  PATCH: put as MutateFn,
+  DELETE: ((endpoint: string) => del(endpoint)) as unknown as MutateFn,
+};
 
 interface UseApiMutationOptions<TData, TVariables> {
   endpoint: string;
-  method?: string;
+  method?: HttpMethod;
   queryKeyToInvalidate?: string[];
   onSuccess?: (data: TData) => void;
   onError?: (error: Error) => void;
@@ -27,16 +39,19 @@ export function useApiMutation<TData, TVariables = unknown>({
 
   return useMutation({
     mutationFn: async (variables: TVariables): Promise<TData> => {
-      const response = await fetch(endpoint, {
-        method,
-        headers: getAuthHeaders(),
-        body: JSON.stringify(variables),
-      });
-      const json = await response.json();
-      if (!json.success) {
-        throw new Error(json.error?.message || 'Request failed');
+      try {
+        const fn = methodFns[method];
+        const path = stripBasePrefix(endpoint);
+        if (method === 'DELETE') {
+          return await fn<TData>(path);
+        }
+        return await fn<TData>(path, variables);
+      } catch (error) {
+        if (error instanceof ApiError) {
+          throw new Error(error.message);
+        }
+        throw error;
       }
-      return json.data as TData;
     },
     onSuccess: (data) => {
       if (queryKeyToInvalidate) {

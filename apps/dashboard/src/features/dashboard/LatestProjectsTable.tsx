@@ -6,9 +6,9 @@ import { Link } from 'react-router-dom';
 interface Project {
   id: string;
   title: string;
-  programTitle: string;
+  programTitle?: string;
   status: string;
-  startDate: string | null;
+  startDate?: string | null;
 }
 
 const statusStyles: Record<string, string> = {
@@ -43,7 +43,7 @@ export function LatestProjectsTable({ projects }: LatestProjectsTableProps) {
             >
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-medium">{project.title}</p>
-                <p className="mt-0.5 text-xs text-muted-foreground">{project.programTitle}</p>
+                <p className="mt-0.5 text-xs text-muted-foreground">{project.programTitle ?? ''}</p>
               </div>
               <div className="ml-4 flex items-center gap-3">
                 <Badge

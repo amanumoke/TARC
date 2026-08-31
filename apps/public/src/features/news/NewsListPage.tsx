@@ -1,5 +1,5 @@
+import { useNews } from '@/api/hooks/useNews';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
-import { useNews } from '@/hooks/useNews';
 import { Calendar } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -74,7 +74,7 @@ export function NewsListPage() {
                 <h2 className="mt-2 font-heading text-2xl font-bold text-foreground">
                   {featured.title}
                 </h2>
-                <p className="mt-2 text-muted-foreground">{featured.summary || featured.excerpt}</p>
+                <p className="mt-2 text-muted-foreground">{featured.summary}</p>
                 <div className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
                   <Calendar className="h-4 w-4" />
                   {new Date(featured.publishedAt || featured.createdAt).toLocaleDateString(
@@ -103,7 +103,7 @@ export function NewsListPage() {
                     {article.title}
                   </h3>
                   <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-                    {article.summary || article.excerpt}
+                    {article.summary}
                   </p>
                   <div className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
                     <Calendar className="h-3.5 w-3.5" />

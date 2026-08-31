@@ -4,6 +4,7 @@
  * Features animated topographic contour lines referencing the Sheka highlands.
  */
 
+import { login } from '@/api/domains/auth';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -150,33 +151,21 @@ export function LoginPage({ onLogin }: LoginPageProps) {
     setError('');
 
     try {
-      const response = await fetch('/api/v1/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      });
+      const data = await login({ email, password });
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error?.message || 'Login failed');
-        setIsLoading(false);
-        return;
-      }
-
-      // Store user info in localStorage
-      localStorage.setItem('tarcms_token', data.data.token);
-      localStorage.setItem('tarcms_user', JSON.stringify(data.data.user));
+      localStorage.setItem('tarcms_token', data.token);
+      localStorage.setItem('tarcms_user', JSON.stringify(data.user));
 
       onLogin?.({
-        id: data.data.user.id,
-        name: data.data.user.name,
-        email: data.data.user.email,
-        role: data.data.user.role,
-        token: data.data.token,
+        id: data.user.id,
+        name: data.user.name,
+        email: data.user.email,
+        role: data.user.role,
+        token: data.token,
       });
-    } catch {
-      setError('Network error. Please try again.');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Network error. Please try again.';
+      setError(message);
     } finally {
       setIsLoading(false);
     }

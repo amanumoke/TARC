@@ -144,6 +144,18 @@ router.delete(
 // ==================== EVENTS ====================
 
 /**
+ * Public route - get all published events
+ */
+router.get('/events', async (_req: Request, res: Response) => {
+  try {
+    const events = await getAllEvents();
+    res.json({ success: true, data: events });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Failed to fetch events' });
+  }
+});
+
+/**
  * Public route - get upcoming events
  */
 router.get('/events/upcoming', async (_req: Request, res: Response) => {
@@ -261,6 +273,18 @@ router.delete(
 );
 
 // ==================== GALLERY ====================
+
+/**
+ * Public route - get all gallery media
+ */
+router.get('/gallery', async (_req: Request, res: Response) => {
+  try {
+    const media = await getAllGalleryMedia();
+    res.json({ success: true, data: media });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Failed to fetch gallery' });
+  }
+});
 
 /**
  * Public route - get gallery media by category

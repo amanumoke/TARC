@@ -38,25 +38,25 @@ export function AdminEventsPage() {
 
   const { data: eventData, isLoading } = useApiQuery<EventResponse>({
     queryKey: ['admin-events', page, search],
-    endpoint: `/api/v1/admin/communication/events?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    endpoint: `/api/v1/communication/admin/events?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/admin/communication/events/${deletingId}`,
+    endpoint: `/api/v1/communication/admin/events/${deletingId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-events'],
     onSuccess: () => setDeletingId(null),
   });
 
   const createMutation = useApiMutation<EventItem, Partial<EventItem>>({
-    endpoint: '/api/v1/admin/communication/events',
+    endpoint: '/api/v1/communication/admin/events',
     method: 'POST',
     queryKeyToInvalidate: ['admin-events'],
     onSuccess: () => setShowForm(false),
   });
 
   const updateMutation = useApiMutation<EventItem, Partial<EventItem> & { id: string }>({
-    endpoint: `/api/v1/admin/communication/events/${editingEvent?.id}`,
+    endpoint: `/api/v1/communication/admin/events/${editingEvent?.id}`,
     method: 'PATCH',
     queryKeyToInvalidate: ['admin-events'],
     onSuccess: () => {

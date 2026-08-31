@@ -1,7 +1,7 @@
+import { useGallery } from '@/api/hooks/useGallery';
+import type { GalleryMediaDTO } from '@/api/types';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useGallery } from '@/hooks/useGallery';
-import type { GalleryItem } from '@/hooks/useGallery';
 import { ChevronRight, ImageIcon, X } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -18,13 +18,13 @@ const CATEGORIES = [
 
 export function PublicGalleryPage() {
   const [activeCategory, setActiveCategory] = useState('');
-  const [lightboxItem, setLightboxItem] = useState<GalleryItem | null>(null);
+  const [lightboxItem, setLightboxItem] = useState<GalleryMediaDTO | null>(null);
 
   const { data: galleryData, isLoading } = useGallery({
     category: activeCategory || undefined,
   });
 
-  const items: GalleryItem[] = useMemo(
+  const items: GalleryMediaDTO[] = useMemo(
     () => (Array.isArray(galleryData) ? galleryData : []),
     [galleryData]
   );

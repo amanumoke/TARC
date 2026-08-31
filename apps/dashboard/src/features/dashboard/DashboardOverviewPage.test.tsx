@@ -24,17 +24,25 @@ vi.mock('@tanstack/react-query', async (importOriginal) => {
   const actual = await importOriginal<typeof import('@tanstack/react-query')>();
   return {
     ...actual,
-    useQuery: vi.fn().mockReturnValue({
-      data: {
-        totalProjects: 18,
-        activeProjects: 12,
-        totalPublications: 45,
-        totalStaff: 32,
-        availableVehicles: 6,
-        totalVehicles: 8,
-        unreadMessages: 5,
-      },
-      isLoading: false,
+    useQuery: vi.fn().mockImplementation(({ queryKey }: { queryKey: string[] }) => {
+      if (queryKey[0] === 'admin-projects-overview') {
+        return { data: { data: [] }, isLoading: false };
+      }
+      if (queryKey[0] === 'unread-messages') {
+        return { data: [], isLoading: false };
+      }
+      return {
+        data: {
+          totalProjects: 18,
+          activeProjects: 12,
+          totalPublications: 45,
+          totalStaff: 32,
+          availableVehicles: 6,
+          totalVehicles: 8,
+          unreadMessages: 5,
+        },
+        isLoading: false,
+      };
     }),
   };
 });

@@ -37,6 +37,12 @@ Thumbs.db
 # OpenCode
 .opencode/
 
+# AI tool configs
+.codex/
+.cursor/
+.grok/
+.github/hooks/
+
 # Uploads in development
 apps/server/uploads/*
 !apps/server/uploads/.gitkeep

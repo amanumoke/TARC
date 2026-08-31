@@ -1,6 +1,6 @@
+import { useDepartments } from '@/api/hooks/useDepartments';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useDepartments } from '@/hooks/useDepartments';
 import { ArrowRight, ChevronRight, Search } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -71,7 +71,7 @@ export function ResearchListPage() {
             filtered.map((dept) => (
               <Link
                 key={dept.id}
-                to={`/research/${dept.slug || dept.id}`}
+                to={`/research/${dept.code || dept.id}`}
                 className="group border border-border rounded-lg p-6 bg-card hover:shadow-md transition-all hover:border-primary/30"
               >
                 <h2 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors mb-2">

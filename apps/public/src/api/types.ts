@@ -1,0 +1,15 @@
+export type {
+  ApiResponse,
+  DepartmentDTO,
+  StaffDTO,
+  NewsDTO,
+  EventDTO,
+  PublicationDTO,
+  PublicationAuthorDTO,
+  ResearchProgramDTO,
+  ResearchProjectDTO,
+  GalleryMediaDTO,
+  SystemSettingsDTO,
+  DashboardMetricsDTO,
+  ContactFormInput,
+} from '@tarcms/shared';

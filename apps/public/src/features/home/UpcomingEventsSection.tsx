@@ -1,6 +1,6 @@
+import { useEvents } from '@/api/hooks/useEvents';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useEvents } from '@/hooks/useEvents';
 import { ArrowRight, Calendar, Clock, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -74,7 +74,7 @@ export function UpcomingEventsSection() {
             </div>
           ) : (
             items.map((event) => {
-              const { day, month } = formatDateParts(event.date || event.startDate || '');
+              const { day, month } = formatDateParts(event.startTime || '');
               return (
                 <div key={event.id} className="flex gap-5 py-5 group">
                   <div className="flex-shrink-0 w-16 h-16 bg-primary text-primary-foreground flex flex-col items-center justify-center rounded">
@@ -88,10 +88,10 @@ export function UpcomingEventsSection() {
                       {event.title}
                     </h3>
                     <div className="flex flex-wrap items-center gap-4 mt-1.5 text-xs text-muted-foreground">
-                      {(event.time || event.startDate) && (
+                      {event.startTime && (
                         <span className="flex items-center gap-1">
                           <Clock className="h-3 w-3" />
-                          {event.time || formatTime(event.startDate || '')}
+                          {formatTime(event.startTime)}
                         </span>
                       )}
                       {event.location && (
@@ -102,8 +102,8 @@ export function UpcomingEventsSection() {
                       )}
                       <span className="flex items-center gap-1">
                         <Calendar className="h-3 w-3" />
-                        {formatDateParts(event.date || event.startDate || '').month}{' '}
-                        {formatDateParts(event.date || event.startDate || '').day}
+                        {formatDateParts(event.startTime || '').month}{' '}
+                        {formatDateParts(event.startTime || '').day}
                       </span>
                     </div>
                     {event.description && (

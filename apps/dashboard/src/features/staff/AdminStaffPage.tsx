@@ -42,11 +42,11 @@ export function AdminStaffPage() {
 
   const { data: staffData, isLoading } = useApiQuery<StaffResponse>({
     queryKey: ['admin-staff', page, search],
-    endpoint: `/api/v1/admin/staff?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    endpoint: `/api/v1/staff/admin?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/admin/staff/${deletingId}`,
+    endpoint: `/api/v1/staff/admin/${deletingId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-staff'],
     onSuccess: () => setDeletingId(null),

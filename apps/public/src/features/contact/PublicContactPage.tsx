@@ -1,10 +1,10 @@
+import { useSettings } from '@/api/hooks/useSettings';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Textarea } from '@/components/ui/textarea';
-import { useSettings } from '@/hooks/useSettings';
 import { CheckCircle, ChevronRight, Clock, Mail, MapPin, Phone } from 'lucide-react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -170,30 +170,30 @@ export function PublicContactPage() {
               <CardTitle>Contact Information</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {settings?.phone && (
+              {settings?.officialPhone && (
                 <div className="flex items-center gap-3">
                   <Phone className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm font-medium">Phone</p>
-                    <p className="text-sm text-muted-foreground">{settings.phone}</p>
+                    <p className="text-sm text-muted-foreground">{settings.officialPhone}</p>
                   </div>
                 </div>
               )}
-              {settings?.email && (
+              {settings?.officialEmail && (
                 <div className="flex items-center gap-3">
                   <Mail className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm font-medium">Email</p>
-                    <p className="text-sm text-muted-foreground">{settings.email}</p>
+                    <p className="text-sm text-muted-foreground">{settings.officialEmail}</p>
                   </div>
                 </div>
               )}
-              {settings?.address && (
+              {settings?.physicalAddress && (
                 <div className="flex items-center gap-3">
                   <MapPin className="h-5 w-5 text-primary" />
                   <div>
                     <p className="text-sm font-medium">Address</p>
-                    <p className="text-sm text-muted-foreground">{settings.address}</p>
+                    <p className="text-sm text-muted-foreground">{settings.physicalAddress}</p>
                   </div>
                 </div>
               )}
@@ -202,7 +202,7 @@ export function PublicContactPage() {
                 <div>
                   <p className="text-sm font-medium">Office Hours</p>
                   <p className="text-sm text-muted-foreground">
-                    {settings?.officeHours || 'Monday – Friday, 8:00 AM – 5:00 PM'}
+                    Monday – Friday, 8:00 AM – 5:00 PM
                   </p>
                 </div>
               </div>

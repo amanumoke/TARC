@@ -1,7 +1,7 @@
+import { usePublications } from '@/api/hooks/usePublications';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { usePublications } from '@/hooks/usePublications';
 import { ArrowRight, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -57,9 +57,9 @@ export function FeaturedPublicationSection() {
                 key={pub.id}
                 className="border border-border rounded-lg p-5 bg-card hover:shadow-md transition-shadow space-y-3"
               >
-                {pub.type && (
+                {pub.publicationType && (
                   <Badge variant="secondary" className="text-[10px] uppercase tracking-wider">
-                    {pub.type}
+                    {pub.publicationType}
                   </Badge>
                 )}
                 <h3 className="text-lg font-semibold text-foreground line-clamp-2 leading-snug">
@@ -76,11 +76,11 @@ export function FeaturedPublicationSection() {
                 <div className="flex items-center justify-between pt-3 border-t border-border">
                   <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                     <FileText className="h-3 w-3" />
-                    {pub.year || 'N/A'}
+                    {pub.publicationYear || 'N/A'}
                   </span>
-                  {pub.doi && (
+                  {pub.doiUrl && (
                     <a
-                      href={`https://doi.org/${pub.doi}`}
+                      href={`https://doi.org/${pub.doiUrl}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="text-xs font-semibold text-primary hover:underline uppercase tracking-wide"

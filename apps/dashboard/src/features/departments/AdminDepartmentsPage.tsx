@@ -36,25 +36,25 @@ export function AdminDepartmentsPage() {
 
   const { data: deptData, isLoading } = useApiQuery<DepartmentResponse>({
     queryKey: ['admin-departments', page, search],
-    endpoint: `/api/v1/admin/departments?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    endpoint: `/api/v1/departments/admin?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/admin/departments/${deletingId}`,
+    endpoint: `/api/v1/departments/admin/${deletingId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-departments'],
     onSuccess: () => setDeletingId(null),
   });
 
   const createMutation = useApiMutation<Department, Partial<Department>>({
-    endpoint: '/api/v1/admin/departments',
+    endpoint: '/api/v1/departments/admin',
     method: 'POST',
     queryKeyToInvalidate: ['admin-departments'],
     onSuccess: () => setShowForm(false),
   });
 
   const updateMutation = useApiMutation<Department, Partial<Department> & { id: string }>({
-    endpoint: `/api/v1/admin/departments/${editingDept?.id}`,
+    endpoint: `/api/v1/departments/admin/${editingDept?.id}`,
     method: 'PATCH',
     queryKeyToInvalidate: ['admin-departments'],
     onSuccess: () => {

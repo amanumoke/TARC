@@ -1,0 +1,31 @@
+export type {
+  ApiResponse,
+  UserDTO,
+  DepartmentDTO,
+  StaffDTO,
+  ResearchProgramDTO,
+  ResearchProjectDTO,
+  PublicationDTO,
+  NewsDTO,
+  EventDTO,
+  GalleryMediaDTO,
+  VehicleDTO,
+  VehicleAssignmentDTO,
+  ContactMessageDTO,
+  SystemSettingsDTO,
+  DashboardMetricsDTO,
+} from '@tarcms/shared';
+
+export type {
+  LoginInput,
+  DepartmentInput,
+  StaffInput,
+  ResearchProgramInput,
+  ResearchProjectInput,
+  PublicationInput,
+  NewsInput,
+  EventInput,
+  VehicleInput,
+  VehicleRequisitionInput,
+  SystemSettingsInput,
+} from '@tarcms/shared';

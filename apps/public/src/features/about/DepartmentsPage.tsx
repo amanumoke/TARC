@@ -1,7 +1,6 @@
+import { useDepartments } from '@/api/hooks/useDepartments';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useDepartments } from '@/hooks/useDepartments';
-import type { Department } from '@/hooks/useDepartments';
 import { ArrowRight, Building2, Calendar, ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -73,7 +72,7 @@ export function DepartmentsPage() {
                     </div>
                   )}
                   <Link
-                    to={`/research/${dept.slug}`}
+                    to={`/research/${dept.code}`}
                     className="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
                   >
                     View Research <ArrowRight className="h-3 w-3" />

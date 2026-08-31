@@ -1,10 +1,10 @@
+import { useEvents } from '@/api/hooks/useEvents';
+import { useNews } from '@/api/hooks/useNews';
+import { usePublications } from '@/api/hooks/usePublications';
+import { useStaff } from '@/api/hooks/useStaff';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useEvents } from '@/hooks/useEvents';
-import { useNews } from '@/hooks/useNews';
-import { usePublications } from '@/hooks/usePublications';
-import { useStaff } from '@/hooks/useStaff';
 import { BookOpen, Calendar, FileSearch, Newspaper, Search, Users } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -54,8 +54,8 @@ export function SearchPage() {
 
     const newsList = Array.isArray(news) ? news : [];
     newsList.forEach((item) => {
-      const title = String(item.title || item.name || '');
-      const desc = String(item.summary || item.excerpt || item.content || '');
+      const title = String(item.title || '');
+      const desc = String(item.summary || item.content || '');
       if (title.toLowerCase().includes(q) || desc.toLowerCase().includes(q)) {
         items.push({
           id: String(item.id),
@@ -70,7 +70,7 @@ export function SearchPage() {
     const pubList = Array.isArray(publications) ? publications : [];
     pubList.forEach((item) => {
       const title = String(item.title || '');
-      const desc = String(item.abstract || item.description || item.title || '');
+      const desc = String(item.abstract || item.title || '');
       if (title.toLowerCase().includes(q) || desc.toLowerCase().includes(q)) {
         items.push({
           id: String(item.id),
@@ -84,8 +84,8 @@ export function SearchPage() {
 
     const eventList = Array.isArray(events) ? events : [];
     eventList.forEach((item) => {
-      const title = String(item.title || item.name || '');
-      const desc = String(item.description || item.summary || '');
+      const title = String(item.title || '');
+      const desc = String(item.description || '');
       if (title.toLowerCase().includes(q) || desc.toLowerCase().includes(q)) {
         items.push({
           id: String(item.id),
@@ -99,7 +99,7 @@ export function SearchPage() {
 
     const staffList = Array.isArray(staff) ? staff : [];
     staffList.forEach((item) => {
-      const name = String(item.name || '');
+      const name = String(`${item.firstName} ${item.lastName}` || '');
       const pos = String(item.position || '');
       const bio = String(item.bio || '');
       if (

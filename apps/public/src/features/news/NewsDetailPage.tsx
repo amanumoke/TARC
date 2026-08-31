@@ -1,6 +1,6 @@
+import { useNews } from '@/api/hooks/useNews';
+import { useNewsBySlug } from '@/api/hooks/useNewsBySlug';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
-import { useNews } from '@/hooks/useNews';
-import { useNewsBySlug } from '@/hooks/useNewsBySlug';
 import { ArrowLeft, Calendar, Share2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';

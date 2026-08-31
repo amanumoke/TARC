@@ -1,17 +1,17 @@
+import { useSettings } from '@/api/hooks/useSettings';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Button } from '@/components/ui/button';
-import { useSettings } from '@/hooks/useSettings';
 import { ArrowRight, FlaskConical } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export function HeroBanner() {
   const { data: settings } = useSettings();
 
-  const siteName = settings?.siteName || 'Tepi Agricultural Research Center';
+  const siteName = settings?.institutionName || 'Tepi Agricultural Research Center';
   const tagline =
     settings?.tagline || 'Pioneering Agricultural Excellence in the Southwest Highlands';
   const description =
-    settings?.description ||
+    settings?.aboutText ||
     'Advancing sustainable farming practices, discovering high-yield cultivars, and empowering local communities through data-driven research.';
 
   return (

@@ -1,6 +1,6 @@
+import { useSettings } from '@/api/hooks/useSettings';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useSettings } from '@/hooks/useSettings';
 import { Building2, ChevronRight, Eye, Shield, Target, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -47,7 +47,7 @@ export function AboutOverviewPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              {settings?.vision ||
+              {settings?.visionText ||
                 'To be a center of excellence in agricultural research, contributing to the transformation of Ethiopian agriculture through innovative technologies, skilled human resources, and strategic partnerships.'}
             </p>
           </CardContent>
@@ -60,7 +60,7 @@ export function AboutOverviewPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              {settings?.mission ||
+              {settings?.missionText ||
                 'To conduct innovative agricultural research and development in spices, coffee, and horticulture, providing improved technologies and knowledge for food security and economic growth in Southwest Ethiopia.'}
             </p>
           </CardContent>
@@ -73,7 +73,7 @@ export function AboutOverviewPage() {
           </CardHeader>
           <CardContent>
             <p className="text-muted-foreground">
-              {settings?.mandate ||
+              {settings?.aboutText ||
                 'TARC is mandated to conduct research in spice crops, coffee, horticultural crops, plant genetic resource conservation, and farmer extension and technology dissemination.'}
             </p>
           </CardContent>

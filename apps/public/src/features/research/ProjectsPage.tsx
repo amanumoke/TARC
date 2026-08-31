@@ -1,15 +1,16 @@
+import { useDepartments } from '@/api/hooks/useDepartments';
+import { useProjects } from '@/api/hooks/useProjects';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useDepartments } from '@/hooks/useDepartments';
-import { useProjects } from '@/hooks/useProjects';
 import { ChevronRight, Search } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 const STATUS_OPTIONS = [
   { value: '', label: 'All Statuses' },
-  { value: 'ACTIVE', label: 'Active' },
+  { value: 'ONGOING', label: 'Active' },
   { value: 'COMPLETED', label: 'Completed' },
-  { value: 'PENDING', label: 'Pending' },
+  { value: 'PROPOSED', label: 'Proposed' },
+  { value: 'ON_HOLD', label: 'On Hold' },
 ];
 
 function CardSkeleton() {
@@ -115,7 +116,7 @@ export function ProjectsPage() {
                   {project.status && (
                     <span
                       className={`text-[10px] font-semibold tracking-widest uppercase px-2 py-0.5 border rounded ${
-                        project.status === 'ACTIVE'
+                        project.status === 'ONGOING'
                           ? 'bg-primary/10 text-primary border-primary/20'
                           : project.status === 'COMPLETED'
                             ? 'bg-secondary/10 text-secondary border-secondary/20'

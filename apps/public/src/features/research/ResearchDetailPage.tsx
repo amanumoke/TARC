@@ -1,7 +1,7 @@
+import { useDepartments } from '@/api/hooks/useDepartments';
+import { useProjects } from '@/api/hooks/useProjects';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useDepartments } from '@/hooks/useDepartments';
-import { useProjects } from '@/hooks/useProjects';
 import { ArrowLeft, ChevronRight } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 
@@ -29,7 +29,7 @@ export function ResearchDetailPage() {
   const { data: departments, isLoading: deptsLoading } = useDepartments();
   const { data: projects, isLoading: projectsLoading } = useProjects();
 
-  const department = (departments || []).find((d) => (d.slug || d.id) === slug);
+  const department = (departments || []).find((d) => (d.code || d.id) === slug);
 
   const relatedProjects = (projects || []).filter((p) => p.departmentId === department?.id);
 
@@ -76,23 +76,6 @@ export function ResearchDetailPage() {
             <div className="prose prose-sm max-w-none text-muted-foreground">
               <p className="text-base leading-relaxed">{department.description}</p>
             </div>
-
-            {department.objectives && (
-              <div>
-                <h2 className="text-xl font-semibold text-foreground mb-3">Research Objectives</h2>
-                <ul className="space-y-2">
-                  {(Array.isArray(department.objectives)
-                    ? department.objectives
-                    : (department.objectives as string).split('\n')
-                  ).map((obj: string, i: number) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
-                      <span className="mt-1.5 h-1.5 w-1.5 rounded-full bg-primary flex-shrink-0" />
-                      {obj}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
           </div>
 
           <div className="lg:col-span-1">

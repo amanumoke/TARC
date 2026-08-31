@@ -1,7 +1,7 @@
+import { useNews } from '@/api/hooks/useNews';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useNews } from '@/hooks/useNews';
 import { ArrowRight, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -85,9 +85,7 @@ export function LatestNewsSection() {
                     <h3 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors line-clamp-2">
                       {item.title}
                     </h3>
-                    <p className="text-sm text-muted-foreground line-clamp-2">
-                      {item.summary || item.excerpt}
-                    </p>
+                    <p className="text-sm text-muted-foreground line-clamp-2">{item.summary}</p>
                     <div className="flex items-center justify-between pt-2 border-t border-border">
                       <span className="flex items-center gap-1.5 text-xs text-muted-foreground">
                         <Calendar className="h-3 w-3" />

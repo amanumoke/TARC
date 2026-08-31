@@ -1,8 +1,8 @@
+import { ApiError, get } from '@/api/client';
 import { useQuery } from '@tanstack/react-query';
 
-function getAuthHeaders(): HeadersInit {
-  const token = localStorage.getItem('tarcms_token');
-  return token ? { Authorization: `Bearer ${token}` } : {};
+function stripBasePrefix(endpoint: string): string {
+  return endpoint.replace(/^\/api\/v1/, '') || '/';
 }
 
 interface UseApiQueryOptions<T> {
@@ -22,12 +22,16 @@ export function useApiQuery<T>({
     queryKey,
     enabled,
     queryFn: async (): Promise<T> => {
-      const response = await fetch(endpoint, { headers: getAuthHeaders() });
-      const json = await response.json();
-      if (!json.success) {
-        throw new Error(json.error?.message || 'Request failed');
+      try {
+        const raw = await get<unknown>(stripBasePrefix(endpoint));
+        const normalized = Array.isArray(raw) ? { data: raw } : raw;
+        return select ? select(normalized) : (normalized as T);
+      } catch (error) {
+        if (error instanceof ApiError) {
+          throw new Error(error.message);
+        }
+        throw error;
       }
-      return select ? select(json.data) : (json.data as T);
     },
   });
 }

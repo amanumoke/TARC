@@ -1,0 +1,16 @@
+export const endpoints = {
+  settings: '/settings',
+  departments: '/departments',
+  staff: '/staff',
+  news: '/communication/news',
+  newsBySlug: (slug: string) => `/communication/news/${slug}`,
+  events: '/communication/events',
+  eventsUpcoming: '/communication/events/upcoming',
+  gallery: '/communication/gallery',
+  galleryByCategory: (cat: string) => `/communication/gallery/${cat}`,
+  researchPrograms: '/research/programs',
+  researchProjects: '/research/projects',
+  publications: '/publications',
+  contact: '/operations/messages',
+  metrics: '/admin/dashboard/metrics',
+} as const;

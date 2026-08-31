@@ -38,25 +38,25 @@ export function AdminNewsPage() {
 
   const { data: newsData, isLoading } = useApiQuery<NewsResponse>({
     queryKey: ['admin-news', page, search],
-    endpoint: `/api/v1/admin/communication/news?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    endpoint: `/api/v1/communication/admin/news?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/admin/communication/news/${deletingId}`,
+    endpoint: `/api/v1/communication/admin/news/${deletingId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-news'],
     onSuccess: () => setDeletingId(null),
   });
 
   const createMutation = useApiMutation<NewsItem, Partial<NewsItem>>({
-    endpoint: '/api/v1/admin/communication/news',
+    endpoint: '/api/v1/communication/admin/news',
     method: 'POST',
     queryKeyToInvalidate: ['admin-news'],
     onSuccess: () => setShowForm(false),
   });
 
   const updateMutation = useApiMutation<NewsItem, Partial<NewsItem> & { id: string }>({
-    endpoint: `/api/v1/admin/communication/news/${editingNews?.id}`,
+    endpoint: `/api/v1/communication/admin/news/${editingNews?.id}`,
     method: 'PATCH',
     queryKeyToInvalidate: ['admin-news'],
     onSuccess: () => {

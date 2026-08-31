@@ -1,7 +1,7 @@
+import { useSettings } from '@/api/hooks/useSettings';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useSettings } from '@/hooks/useSettings';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 

@@ -1,11 +1,10 @@
+import { useDepartments } from '@/api/hooks/useDepartments';
+import { useStaff } from '@/api/hooks/useStaff';
+import type { DepartmentDTO, StaffDTO } from '@/api/types';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Card, CardContent } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
-import { useDepartments } from '@/hooks/useDepartments';
-import type { Department } from '@/hooks/useDepartments';
-import { useStaff } from '@/hooks/useStaff';
-import type { StaffMember } from '@/hooks/useStaff';
 import { ChevronRight, Search, Users } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -16,18 +15,18 @@ export function PeoplePage() {
   const [search, setSearch] = useState('');
   const [departmentFilter, setDepartmentFilter] = useState('all');
 
-  const deptList: Department[] = useMemo(
+  const deptList: DepartmentDTO[] = useMemo(
     () => (Array.isArray(departments) ? departments : []),
     [departments]
   );
 
-  const staffList: StaffMember[] = useMemo(() => (Array.isArray(staff) ? staff : []), [staff]);
+  const staffList: StaffDTO[] = useMemo(() => (Array.isArray(staff) ? staff : []), [staff]);
 
   const filteredStaff = useMemo(() => {
     return staffList.filter((member) => {
       const matchesSearch =
         !search ||
-        member.name.toLowerCase().includes(search.toLowerCase()) ||
+        `${member.firstName} ${member.lastName}`.toLowerCase().includes(search.toLowerCase()) ||
         member.position?.toLowerCase().includes(search.toLowerCase()) ||
         member.bio?.toLowerCase().includes(search.toLowerCase());
 
@@ -117,17 +116,21 @@ export function PeoplePage() {
               <div className="p-4">
                 <div className="flex items-start gap-4">
                   <PlaceholderImage
-                    label={member.name}
+                    label={`${member.firstName} ${member.lastName}`}
                     aspectRatio="square"
                     className="w-20 h-20 flex-shrink-0"
                   />
                   <div className="space-y-1 min-w-0">
-                    <h3 className="font-semibold truncate">{member.name}</h3>
+                    <h3 className="font-semibold truncate">
+                      {member.firstName} {member.lastName}
+                    </h3>
                     {member.position && (
                       <p className="text-sm text-primary truncate">{member.position}</p>
                     )}
-                    {member.department && (
-                      <p className="text-xs text-muted-foreground truncate">{member.department}</p>
+                    {member.departmentName && (
+                      <p className="text-xs text-muted-foreground truncate">
+                        {member.departmentName}
+                      </p>
                     )}
                   </div>
                 </div>

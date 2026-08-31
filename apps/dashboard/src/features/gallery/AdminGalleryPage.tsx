@@ -38,25 +38,25 @@ export function AdminGalleryPage() {
 
   const { data: galleryData, isLoading } = useApiQuery<GalleryResponse>({
     queryKey: ['admin-gallery', search],
-    endpoint: `/api/v1/admin/communication/gallery?search=${encodeURIComponent(search)}`,
+    endpoint: `/api/v1/communication/admin/gallery?search=${encodeURIComponent(search)}`,
   });
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/admin/communication/gallery/${deletingId}`,
+    endpoint: `/api/v1/communication/admin/gallery/${deletingId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-gallery'],
     onSuccess: () => setDeletingId(null),
   });
 
   const createMutation = useApiMutation<GalleryItem, Partial<GalleryItem>>({
-    endpoint: '/api/v1/admin/communication/gallery',
+    endpoint: '/api/v1/communication/admin/gallery',
     method: 'POST',
     queryKeyToInvalidate: ['admin-gallery'],
     onSuccess: () => setShowForm(false),
   });
 
   const updateMutation = useApiMutation<GalleryItem, Partial<GalleryItem> & { id: string }>({
-    endpoint: `/api/v1/admin/communication/gallery/${editingItem?.id}`,
+    endpoint: `/api/v1/communication/admin/gallery/${editingItem?.id}`,
     method: 'PATCH',
     queryKeyToInvalidate: ['admin-gallery'],
     onSuccess: () => {

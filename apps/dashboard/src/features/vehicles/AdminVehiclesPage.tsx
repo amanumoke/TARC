@@ -44,19 +44,19 @@ export function AdminVehiclesPage() {
 
   const { data: vehicleData, isLoading } = useApiQuery<VehicleResponse>({
     queryKey: ['admin-vehicles', page, search],
-    endpoint: `/api/v1/admin/operations/vehicles?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    endpoint: `/api/v1/operations/admin/vehicles?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
   });
 
   const { data: deptData } = useApiQuery<{ data: { id: string; name: string }[] }>({
     queryKey: ['departments-list'],
-    endpoint: '/api/v1/admin/departments?limit=100',
+    endpoint: '/api/v1/departments/admin?limit=100',
   });
 
   const { data: staffData } = useApiQuery<{
     data: { id: string; firstName: string; lastName: string }[];
   }>({
     queryKey: ['staff-list'],
-    endpoint: '/api/v1/admin/staff?limit=100',
+    endpoint: '/api/v1/staff/admin?limit=100',
   });
 
   const departments = deptData?.data || [];
@@ -67,21 +67,21 @@ export function AdminVehiclesPage() {
     })) || [];
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/admin/operations/vehicles/${deletingId}`,
+    endpoint: `/api/v1/operations/admin/vehicles/${deletingId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-vehicles'],
     onSuccess: () => setDeletingId(null),
   });
 
   const createMutation = useApiMutation<Vehicle, Partial<Vehicle>>({
-    endpoint: '/api/v1/admin/operations/vehicles',
+    endpoint: '/api/v1/operations/admin/vehicles',
     method: 'POST',
     queryKeyToInvalidate: ['admin-vehicles'],
     onSuccess: () => setShowForm(false),
   });
 
   const updateMutation = useApiMutation<Vehicle, Partial<Vehicle> & { id: string }>({
-    endpoint: `/api/v1/admin/operations/vehicles/${editingVehicle?.id}`,
+    endpoint: `/api/v1/operations/admin/vehicles/${editingVehicle?.id}`,
     method: 'PATCH',
     queryKeyToInvalidate: ['admin-vehicles'],
     onSuccess: () => {

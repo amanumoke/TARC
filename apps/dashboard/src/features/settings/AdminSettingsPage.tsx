@@ -65,7 +65,6 @@ export function AdminSettingsPage() {
         <PageHeader title="Settings" description="Manage system and institution settings." />
         <div className="animate-pulse space-y-4">
           {Array.from({ length: 3 }, (_, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: Fixed-count skeleton placeholders
             <div key={`skeleton-${i}`} className="h-10 rounded bg-muted" />
           ))}
         </div>

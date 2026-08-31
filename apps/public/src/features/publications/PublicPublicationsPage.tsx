@@ -1,4 +1,4 @@
-import { usePublications } from '@/hooks/usePublications';
+import { usePublications } from '@/api/hooks/usePublications';
 import { BookOpen, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,9 +17,11 @@ export function PublicPublicationsPage() {
   }, []);
 
   const years = publications
-    ? [...new Set(publications.map((p) => p.year).filter(Boolean))].sort().reverse()
+    ? [...new Set(publications.map((p) => p.publicationYear).filter(Boolean))].sort().reverse()
     : [];
-  const types = publications ? [...new Set(publications.map((p) => p.type).filter(Boolean))] : [];
+  const types = publications
+    ? [...new Set(publications.map((p) => p.publicationType).filter(Boolean))]
+    : [];
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-12">
@@ -91,9 +93,11 @@ export function PublicPublicationsPage() {
                 <div className="flex items-center gap-2">
                   <BookOpen className="h-4 w-4 text-primary" />
                   <span className="text-xs font-medium text-primary">
-                    {pub.type || 'Publication'}
+                    {pub.publicationType || 'Publication'}
                   </span>
-                  {pub.year && <span className="text-xs text-muted-foreground">{pub.year}</span>}
+                  {pub.publicationYear && (
+                    <span className="text-xs text-muted-foreground">{pub.publicationYear}</span>
+                  )}
                 </div>
                 <h2 className="mt-2 font-heading text-lg font-semibold text-foreground">
                   {pub.title}

@@ -41,12 +41,12 @@ export function ProjectDetailPage() {
 
   const { data: project, isLoading } = useApiQuery<{ data: ProjectDetail }>({
     queryKey: ['project-detail', projectId],
-    endpoint: `/api/v1/admin/research/projects/${projectId}`,
+    endpoint: `/api/v1/research/admin/projects/${projectId}`,
     enabled: !!id,
   });
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/admin/research/projects/${projectId}`,
+    endpoint: `/api/v1/research/admin/projects/${projectId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-projects'],
     onSuccess: () => navigate('/dashboard/projects'),
@@ -58,7 +58,6 @@ export function ProjectDetailPage() {
         <PageHeader title="Loading..." description="Please wait" />
         <div className="animate-pulse space-y-4">
           {Array.from({ length: 3 }, (_, i) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: Fixed-count skeleton placeholders
             <div key={`skeleton-${i}`} className="h-10 rounded bg-muted" />
           ))}
         </div>

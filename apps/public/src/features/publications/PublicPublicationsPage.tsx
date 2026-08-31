@@ -1,5 +1,5 @@
 import { usePublications } from '@/api/hooks/usePublications';
-import { BookOpen, Search } from 'lucide-react';
+import { ArrowRight, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -23,113 +23,142 @@ export function PublicPublicationsPage() {
     ? [...new Set(publications.map((p) => p.publicationType).filter(Boolean))]
     : [];
 
+  const filtered = (publications || []).filter(
+    (p) => !search || p.title?.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
-      <nav className="text-sm text-muted-foreground">
-        <Link to="/" className="hover:text-primary">
-          Home
-        </Link>
-        <span className="mx-2">/</span>
-        <span className="text-foreground">Publications</span>
-      </nav>
-      <h1 className="mt-6 font-heading text-4xl font-bold text-foreground">Publications</h1>
-      <p className="mt-3 text-lg text-muted-foreground">
-        Research outputs and publications from TARC.
-      </p>
-      <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-          <input
-            type="text"
-            placeholder="Search publications..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="h-10 w-full rounded-lg border bg-white pl-10 pr-4 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-          />
+    <div>
+      {/* Hero */}
+      <section className="py-20 lg:py-32">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+            <Link to="/" className="hover:text-foreground transition-colors">
+              Home
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="text-foreground">Publications</span>
+          </p>
+          <h1 className="font-heading text-[48px] lg:text-[80px] xl:text-[100px] font-bold text-foreground leading-[0.95]">
+            Publications
+          </h1>
+          <p className="mt-6 text-lg text-muted-foreground max-w-3xl leading-relaxed">
+            Research outputs and publications from TARC.
+          </p>
         </div>
-        <select
-          value={year}
-          onChange={(e) => setYear(e.target.value)}
-          className="h-10 rounded-lg border bg-white px-4 text-sm"
-        >
-          <option value="">All Years</option>
-          {years.map((y) => (
-            <option key={y} value={y}>
-              {y}
-            </option>
-          ))}
-        </select>
-        <select
-          value={type}
-          onChange={(e) => setType(e.target.value)}
-          className="h-10 rounded-lg border bg-white px-4 text-sm"
-        >
-          <option value="">All Types</option>
-          {types.map((t) => (
-            <option key={t} value={t}>
-              {t}
-            </option>
-          ))}
-        </select>
-      </div>
-      {isLoading ? (
-        <div className="mt-10 space-y-4">
-          {[1, 2, 3].map((i) => (
-            <div key={i} className="animate-pulse rounded-lg border bg-card p-5">
-              <div className="h-4 w-1/3 rounded bg-muted" />
-              <div className="mt-2 h-5 w-3/4 rounded bg-muted" />
+      </section>
+
+      {/* Filters */}
+      <section className="pb-12">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+          <div className="flex flex-col sm:flex-row gap-4">
+            <div className="relative flex-1 max-w-md">
+              <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+              <input
+                type="text"
+                placeholder="Search publications..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="h-10 w-full border border-border bg-white pl-10 pr-4 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+              />
             </div>
-          ))}
+            <select
+              value={year}
+              onChange={(e) => setYear(e.target.value)}
+              className="h-10 border border-border bg-white px-4 text-sm"
+            >
+              <option value="">All Years</option>
+              {years.map((y) => (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              ))}
+            </select>
+            <select
+              value={type}
+              onChange={(e) => setType(e.target.value)}
+              className="h-10 border border-border bg-white px-4 text-sm"
+            >
+              <option value="">All Types</option>
+              {types.map((t) => (
+                <option key={t} value={t}>
+                  {t}
+                </option>
+              ))}
+            </select>
+          </div>
         </div>
-      ) : (
-        <div className="mt-10 space-y-4">
-          {publications
-            ?.filter((p) => !search || p.title?.toLowerCase().includes(search.toLowerCase()))
-            .map((pub) => (
-              <div
-                key={pub.id}
-                className="rounded-lg border bg-card p-5 transition-shadow hover:shadow-md"
-              >
-                <div className="flex items-center gap-2">
-                  <BookOpen className="h-4 w-4 text-primary" />
-                  <span className="text-xs font-medium text-primary">
-                    {pub.publicationType || 'Publication'}
-                  </span>
-                  {pub.publicationYear && (
-                    <span className="text-xs text-muted-foreground">{pub.publicationYear}</span>
+      </section>
+
+      {/* Publications List */}
+      <section className="pb-20 lg:pb-28">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+          {isLoading ? (
+            <div className="space-y-0 divide-y divide-border border-t border-border">
+              {Array.from({ length: 4 }).map((_, i) => (
+                <div key={i} className="py-6">
+                  <div className="h-4 w-20 rounded bg-muted mb-3" />
+                  <div className="h-6 w-3/4 rounded bg-muted mb-2" />
+                  <div className="h-4 w-1/2 rounded bg-muted" />
+                </div>
+              ))}
+            </div>
+          ) : filtered.length === 0 ? (
+            <p className="text-muted-foreground py-12">No publications found.</p>
+          ) : (
+            <div>
+              {filtered.map((pub) => (
+                <div
+                  key={pub.id}
+                  className="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8 py-6 border-t border-border"
+                >
+                  <div className="sm:w-32 flex-shrink-0">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-primary">
+                      {pub.publicationYear}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h2 className="text-[18px] lg:text-[22px] font-semibold text-foreground leading-snug">
+                      {pub.title}
+                    </h2>
+                    <div className="mt-2 flex items-center gap-3 text-[12px] text-muted-foreground">
+                      {pub.authors && (
+                        <span>
+                          {Array.isArray(pub.authors)
+                            ? pub.authors.slice(0, 3).join(', ')
+                            : pub.authors}
+                        </span>
+                      )}
+                      {pub.publicationType && (
+                        <>
+                          <span className="text-border">&middot;</span>
+                          <span className="uppercase tracking-widest">{pub.publicationType}</span>
+                        </>
+                      )}
+                    </div>
+                    {pub.abstract && (
+                      <p className="mt-2 text-sm text-muted-foreground line-clamp-2 max-w-2xl">
+                        {pub.abstract}
+                      </p>
+                    )}
+                  </div>
+                  {pub.doiUrl && (
+                    <a
+                      href={`https://doi.org/${pub.doiUrl}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hidden sm:flex items-center gap-1 text-[12px] font-medium uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors flex-shrink-0 self-center"
+                    >
+                      DOI
+                      <ArrowRight className="h-3 w-3" />
+                    </a>
                   )}
                 </div>
-                <h2 className="mt-2 font-heading text-lg font-semibold text-foreground">
-                  {pub.title}
-                </h2>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {pub.authors?.join(', ') || 'Unknown authors'}
-                </p>
-                <p className="mt-2 line-clamp-3 text-sm text-muted-foreground">
-                  {pub.abstract || 'No abstract available.'}
-                </p>
-                {pub.doiUrl && (
-                  <a
-                    href={pub.doiUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-2 inline-block text-xs text-primary hover:underline"
-                  >
-                    View Publication →
-                  </a>
-                )}
-              </div>
-            ))}
+              ))}
+            </div>
+          )}
         </div>
-      )}
-      {!isLoading &&
-        publications?.filter(
-          (p) => !search || p.title?.toLowerCase().includes(search.toLowerCase())
-        ).length === 0 && (
-          <div className="mt-16 text-center">
-            <p className="text-muted-foreground">No publications found.</p>
-          </div>
-        )}
+      </section>
     </div>
   );
 }

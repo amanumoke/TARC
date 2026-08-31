@@ -1,6 +1,5 @@
 import { useSettings } from '@/api/hooks/useSettings';
 import { PlaceholderImage } from '@/components/PlaceholderImage';
-import { Card, CardContent } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -10,8 +9,7 @@ export function DirectorMessagePage() {
 
   if (isLoading) {
     return (
-      <div className="space-y-8">
-        <Skeleton className="h-10 w-64" />
+      <div className="max-w-[1440px] mx-auto px-6 lg:px-16 py-20 space-y-16">
         <Skeleton className="h-64 w-full" />
       </div>
     );
@@ -23,52 +21,64 @@ export function DirectorMessagePage() {
   const directorHtml = settings?.directorMessage || defaultMessage;
 
   return (
-    <div className="space-y-8">
-      <nav className="flex items-center gap-1 text-sm text-muted-foreground">
-        <Link to="/" className="hover:text-foreground transition-colors">
-          Home
-        </Link>
-        <ChevronRight className="h-4 w-4" />
-        <Link to="/about" className="hover:text-foreground transition-colors">
-          About
-        </Link>
-        <ChevronRight className="h-4 w-4" />
-        <span className="text-foreground font-medium">Director's Message</span>
-      </nav>
+    <div>
+      {/* Hero */}
+      <section className="py-20 lg:py-32">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+            <Link to="/" className="hover:text-foreground transition-colors">
+              Home
+            </Link>
+            <span className="mx-2">/</span>
+            <Link to="/about" className="hover:text-foreground transition-colors">
+              About
+            </Link>
+            <span className="mx-2">/</span>
+            <span className="text-foreground">Director's Message</span>
+          </p>
+          <h1 className="font-heading text-[48px] lg:text-[80px] xl:text-[100px] font-bold text-foreground leading-[0.95]">
+            Director's Message
+          </h1>
+        </div>
+      </section>
 
-      <div>
-        <h1 className="text-3xl font-bold">Director's Message</h1>
-        <p className="text-muted-foreground mt-2">A welcome message from the Director of TARC.</p>
-      </div>
-
-      <Card>
-        <CardContent className="p-8">
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="flex-shrink-0">
-              <PlaceholderImage label="Director Photo" aspectRatio="square" className="w-48 h-48" />
+      {/* Message */}
+      <section className="pb-20 lg:pb-28">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+          <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-12 lg:gap-20">
+            <div>
+              <PlaceholderImage
+                label="Director Photo"
+                aspectRatio="square"
+                className="w-full aspect-square"
+              />
+              <div className="mt-6">
+                <p className="font-heading text-xl font-bold">
+                  {settings?.directorName || 'Director of TARC'}
+                </p>
+                <p className="text-sm text-muted-foreground mt-1">
+                  {settings?.directorTitle || 'Director, Tepi Agricultural Research Center'}
+                </p>
+              </div>
             </div>
 
-            <div className="space-y-4">
-              <h2 className="text-2xl font-bold">{settings?.directorName || 'Director of TARC'}</h2>
-              <p className="text-sm text-muted-foreground">
-                {settings?.directorTitle || 'Director, Tepi Agricultural Research Center'}
-              </p>
-
+            <div>
               <div
-                className="text-muted-foreground leading-relaxed space-y-4"
+                className="prose prose-lg max-w-none text-muted-foreground leading-relaxed [&_p]:mb-6"
                 dangerouslySetInnerHTML={{ __html: directorHtml }}
               />
-
-              <div className="pt-4">
-                <p className="font-semibold">{settings?.directorName || 'Dr. [Director Name]'}</p>
+              <div className="mt-8 pt-8 border-t border-border">
+                <p className="font-heading text-lg font-bold">
+                  {settings?.directorName || 'Dr. [Director Name]'}
+                </p>
                 <p className="text-sm text-muted-foreground">
                   {settings?.directorTitle || 'Director, TARC'}
                 </p>
               </div>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </section>
     </div>
   );
 }

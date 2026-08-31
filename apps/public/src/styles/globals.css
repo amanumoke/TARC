@@ -1,5 +1,6 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
+@import "../features/research/research.css";
 
 /**
  * @file apps/public/src/styles/globals.css
@@ -131,17 +132,8 @@
   }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-}
-
-/* Dot grid background pattern matching the TARCMS design */
+/* Dot grid background pattern */
 .dot-grid-bg {
-  background-image: radial-gradient(circle, #c1c8c2 1px, transparent 1px);
+  background-image: radial-gradient(circle, hsl(var(--border)) 1px, transparent 1px);
   background-size: 24px 24px;
 }

@@ -1,8 +1,20 @@
 import { useNews } from '@/api/hooks/useNews';
-import { PlaceholderImage } from '@/components/PlaceholderImage';
-import { Calendar } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
+import { ArrowRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+
+function formatDate(dateStr: string): string {
+  try {
+    return new Date(dateStr).toLocaleDateString('en-US', {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
+  } catch {
+    return '';
+  }
+}
 
 export function NewsListPage() {
   const { data: news, isLoading } = useNews();
@@ -13,111 +25,117 @@ export function NewsListPage() {
 
   const categories = news ? [...new Set(news.map((n) => n.category).filter(Boolean))] : [];
   const filtered = news?.filter((n) => !category || n.category === category) || [];
-  const featured = filtered[0];
-  const rest = filtered.slice(1);
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-12">
-      <nav className="text-sm text-muted-foreground">
-        <Link to="/" className="hover:text-primary">
-          Home
-        </Link>
-        <span className="mx-2">/</span>
-        <span className="text-foreground">News</span>
-      </nav>
-      <h1 className="mt-6 font-heading text-4xl font-bold text-foreground">News</h1>
-      <p className="mt-3 text-lg text-muted-foreground">
-        Latest announcements and updates from TARC.
-      </p>
-      {categories.length > 0 && (
-        <div className="mt-8 flex flex-wrap gap-2">
-          <button
-            type="button"
-            onClick={() => setCategory('')}
-            className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${!category ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
-          >
-            All
-          </button>
-          {categories.map((c) => (
-            <button
-              type="button"
-              key={c}
-              onClick={() => setCategory(c || '')}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${category === c ? 'bg-primary text-white' : 'bg-muted text-muted-foreground hover:bg-muted/80'}`}
-            >
-              {c}
-            </button>
-          ))}
-        </div>
-      )}
-      {isLoading ? (
-        <div className="mt-10 space-y-6">
-          <div className="animate-pulse rounded-xl border bg-card p-6">
-            <div className="aspect-video rounded-lg bg-muted" />
-            <div className="mt-4 h-6 w-3/4 rounded bg-muted" />
-          </div>
-        </div>
-      ) : (
-        <>
-          {featured && (
-            <Link
-              to={`/news/${featured.slug}`}
-              className="mt-10 block rounded-xl border bg-card p-6 transition-shadow hover:shadow-md"
-            >
-              <PlaceholderImage label="Featured News" className="rounded-lg" />
-              <div className="mt-4">
-                {featured.category && (
-                  <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                    {featured.category}
-                  </span>
-                )}
-                <h2 className="mt-2 font-heading text-2xl font-bold text-foreground">
-                  {featured.title}
-                </h2>
-                <p className="mt-2 text-muted-foreground">{featured.summary}</p>
-                <div className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
-                  <Calendar className="h-4 w-4" />
-                  {new Date(featured.publishedAt || featured.createdAt).toLocaleDateString(
-                    'en-US',
-                    { year: 'numeric', month: 'long', day: 'numeric' }
-                  )}
-                </div>
-              </div>
+    <div>
+      {/* Hero */}
+      <section className="py-20 lg:py-32">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+            <Link to="/" className="hover:text-foreground transition-colors">
+              Home
             </Link>
-          )}
-          <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {rest.map((article) => (
-              <Link
-                key={article.id}
-                to={`/news/${article.slug}`}
-                className="group rounded-lg border bg-card p-4 transition-shadow hover:shadow-md"
+            <span className="mx-2">/</span>
+            <span className="text-foreground">News</span>
+          </p>
+          <h1 className="font-heading text-[48px] lg:text-[80px] xl:text-[100px] font-bold text-foreground leading-[0.95]">
+            News
+          </h1>
+          <p className="mt-6 text-lg text-muted-foreground max-w-3xl leading-relaxed">
+            Latest announcements and updates from TARC.
+          </p>
+        </div>
+      </section>
+
+      {/* Filters */}
+      {categories.length > 0 && (
+        <section className="pb-12">
+          <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setCategory('')}
+                className={`px-4 py-2 text-[12px] font-semibold uppercase tracking-widest transition-colors ${
+                  !category
+                    ? 'text-primary border-b-2 border-primary'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
               >
-                <PlaceholderImage label="News Image" className="rounded-md" />
-                <div className="mt-4">
-                  {article.category && (
-                    <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary">
-                      {article.category}
+                All
+              </button>
+              {categories.map((c) => (
+                <button
+                  type="button"
+                  key={c}
+                  onClick={() => setCategory(c || '')}
+                  className={`px-4 py-2 text-[12px] font-semibold uppercase tracking-widest transition-colors ${
+                    category === c
+                      ? 'text-primary border-b-2 border-primary'
+                      : 'text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {c}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* News List */}
+      <section className="pb-20 lg:pb-28">
+        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
+          {isLoading ? (
+            <div className="space-y-0 divide-y divide-border border-t border-border">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={i} className="py-6">
+                  <Skeleton className="h-4 w-20 mb-3" />
+                  <Skeleton className="h-6 w-3/4 mb-2" />
+                  <Skeleton className="h-4 w-1/2" />
+                </div>
+              ))}
+            </div>
+          ) : filtered.length === 0 ? (
+            <p className="text-muted-foreground py-12">No news articles available.</p>
+          ) : (
+            <div>
+              {filtered.map((article) => (
+                <Link
+                  key={article.id}
+                  to={`/news/${article.slug}`}
+                  className="group flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8 py-6 border-t border-border transition-colors hover:bg-muted/30 -mx-6 px-6 lg:-mx-16 lg:px-16"
+                >
+                  <div className="sm:w-32 flex-shrink-0">
+                    <span className="text-[11px] font-semibold uppercase tracking-[0.15em] text-muted-foreground">
+                      {formatDate(article.publishedAt || article.createdAt)}
                     </span>
-                  )}
-                  <h3 className="mt-2 font-heading text-lg font-semibold text-foreground group-hover:text-primary">
-                    {article.title}
-                  </h3>
-                  <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">
-                    {article.summary}
-                  </p>
-                  <div className="mt-3 flex items-center gap-1.5 text-xs text-muted-foreground">
-                    <Calendar className="h-3.5 w-3.5" />
-                    {new Date(article.publishedAt || article.createdAt).toLocaleDateString(
-                      'en-US',
-                      { year: 'numeric', month: 'short', day: 'numeric' }
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-3 mb-2">
+                      {article.category && (
+                        <span className="text-[10px] font-semibold uppercase tracking-widest text-primary">
+                          {article.category}
+                        </span>
+                      )}
+                    </div>
+                    <h2 className="text-[18px] lg:text-[22px] font-semibold text-foreground group-hover:text-primary transition-colors leading-snug">
+                      {article.title}
+                    </h2>
+                    {article.summary && (
+                      <p className="mt-2 text-sm text-muted-foreground line-clamp-2 max-w-2xl">
+                        {article.summary}
+                      </p>
                     )}
                   </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </>
-      )}
+                  <div className="hidden sm:flex items-center self-center">
+                    <ArrowRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

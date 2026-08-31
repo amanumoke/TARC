@@ -1,11 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
 import { ResearchDetailPage } from './ResearchDetailPage';
-import { ResearchListPage } from './ResearchListPage';
+import { ResearchPage } from './ResearchPage';
 
 export function ResearchRoutes() {
   return (
     <Routes>
-      <Route index element={<ResearchListPage />} />
+      <Route index element={<ResearchPage />} />
       <Route path=":slug" element={<ResearchDetailPage />} />
     </Routes>
   );

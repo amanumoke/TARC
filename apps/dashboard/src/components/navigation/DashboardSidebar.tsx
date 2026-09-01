@@ -113,12 +113,21 @@ export function DashboardSidebar({ user, open, onClose, onLogout }: DashboardSid
           open ? 'translate-x-0' : '-translate-x-full'
         )}
       >
-        <div className="flex h-16 items-center border-b px-6">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-8 rounded-lg bg-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-sm">T</span>
+        <div className="flex h-16 items-center border-b px-5">
+          <div className="flex items-center gap-2.5">
+            <div className="h-9 w-9 rounded-md bg-white p-0.5 border border-border flex items-center justify-center shrink-0 overflow-hidden shadow-xs">
+              <img
+                src="/images/eiar-logo.jpg"
+                alt="EIAR Logo"
+                className="h-full w-full object-contain"
+              />
             </div>
-            <span className="font-semibold text-lg">TARC Admin</span>
+            <div className="flex flex-col">
+              <span className="font-bold text-sm tracking-tight text-foreground leading-tight">
+                TARCMS
+              </span>
+              <span className="text-[10px] text-muted-foreground font-medium">EIAR Management</span>
+            </div>
           </div>
         </div>
 

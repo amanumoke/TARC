@@ -65,15 +65,24 @@ export function PublicHeader() {
         <div className="max-w-[1440px] mx-auto px-6 h-16 flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
-            <div className="h-10 w-10 bg-primary rounded-sm flex items-center justify-center text-white font-heading text-lg">
-              T
+            <div className="h-11 w-11 bg-white rounded-md p-1 border border-border/80 flex items-center justify-center shadow-sm shrink-0 overflow-hidden">
+              <img
+                src="/images/eiar-logo.jpg"
+                alt="EIAR / TARC Logo"
+                className="h-full w-full object-contain"
+              />
             </div>
             <div className="flex flex-col">
-              <span className="font-heading text-xl font-bold text-foreground leading-tight">
-                TARC
-              </span>
-              <span className="text-[9px] uppercase tracking-[0.15em] text-muted-foreground leading-tight hidden sm:block">
-                Agricultural Research
+              <div className="flex items-center gap-1.5">
+                <span className="font-heading text-lg font-bold text-foreground leading-tight tracking-tight">
+                  TARC
+                </span>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary/10 text-primary uppercase tracking-wider">
+                  EIAR
+                </span>
+              </div>
+              <span className="text-[10px] font-medium tracking-wide text-muted-foreground leading-tight hidden sm:block">
+                Tepi Agricultural Research Center
               </span>
             </div>
           </Link>

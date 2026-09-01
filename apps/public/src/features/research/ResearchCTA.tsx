@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 
 export function ResearchCTA() {
   return (
-    <section className="py-24 lg:py-40 bg-[var(--r-bg)]">
+    <section className="py-16 lg:py-24 bg-[var(--r-bg)]">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
-        <h2 className="font-editorial text-[40px] lg:text-[72px] xl:text-[96px] font-bold uppercase tracking-tight text-[var(--r-text)] leading-[0.9]">
+        <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight text-[var(--r-text)] leading-tight">
           Want To
           <br />
           Know More?

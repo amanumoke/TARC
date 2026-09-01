@@ -12,7 +12,7 @@ export function ResearchHero() {
 
         <div className="grid grid-cols-1 lg:grid-cols-[42%_1fr] gap-8 lg:gap-12 items-start">
           <div className="flex flex-col">
-            <h1 className="font-editorial text-[48px] leading-[0.95] font-bold uppercase tracking-tight text-[var(--r-text)] sm:text-[64px] lg:text-[80px] xl:text-[100px]">
+            <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold uppercase tracking-tight text-[var(--r-text)] leading-[1.05]">
               We Study
               <br />
               What
@@ -20,7 +20,7 @@ export function ResearchHero() {
               Matters.
             </h1>
 
-            <p className="mt-8 text-base lg:text-lg text-[var(--r-text-secondary)] max-w-md leading-relaxed">
+            <p className="mt-5 text-sm sm:text-base text-[var(--r-text-secondary)] max-w-md leading-relaxed">
               Agricultural research focused on real challenges, knowledge creation, and practical
               impact for Ethiopian farming communities.
             </p>

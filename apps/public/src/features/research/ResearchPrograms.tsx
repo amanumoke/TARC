@@ -37,13 +37,13 @@ export function ResearchPrograms() {
   const programs = departments || [];
 
   return (
-    <section className="py-20 lg:py-32 bg-[var(--r-bg)]">
+    <section className="py-16 lg:py-24 bg-[var(--r-bg)]">
       <div className="mx-auto max-w-[1440px] px-6 lg:px-16">
-        <div className="mb-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--r-text-secondary)] mb-4">
+        <div className="mb-12">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--r-text-secondary)] mb-3">
             Research Programs
           </p>
-          <h2 className="font-editorial text-[32px] lg:text-[48px] font-bold uppercase tracking-tight text-[var(--r-text)] leading-[0.95]">
+          <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight text-[var(--r-text)] leading-tight">
             The Areas
             <br />
             We Explore.

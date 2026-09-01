@@ -59,13 +59,13 @@ function StatCard({
 }: { icon: React.ElementType; value: number; suffix: string; label: string }) {
   const count = useCountUp(value);
   return (
-    <div ref={undefined} className="flex flex-col items-center justify-center p-6 lg:p-8">
-      <Icon className="h-5 w-5 text-primary mb-3" />
-      <div className="font-heading text-[36px] lg:text-[44px] font-bold text-foreground leading-none">
+    <div ref={undefined} className="flex flex-col items-center justify-center p-5 lg:p-6">
+      <Icon className="h-4 w-4 text-primary mb-2" />
+      <div className="font-heading text-2xl lg:text-3xl font-bold text-foreground leading-none">
         {count}
         <span className="text-primary">{suffix}</span>
       </div>
-      <div className="mt-2 text-[10px] font-semibold text-muted-foreground tracking-[0.15em] uppercase">
+      <div className="mt-1.5 text-[10px] font-semibold text-muted-foreground tracking-[0.15em] uppercase">
         {label}
       </div>
     </div>
@@ -104,7 +104,7 @@ export function HeroBanner() {
               <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-6">
                 Tepi Agricultural Research Center
               </p>
-              <h1 className="font-heading text-[36px] leading-[1.05] font-bold text-foreground sm:text-[48px] lg:text-[56px] xl:text-[64px]">
+              <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl xl:text-[38px] leading-[1.18] font-bold text-foreground tracking-tight">
                 {tagline.split(' ').map((word: string, i: number) => {
                   const keywords = ['Excellence', 'Southwest', 'Highlands'];
                   const isKeyword = keywords.some((k) =>
@@ -117,7 +117,7 @@ export function HeroBanner() {
                   );
                 })}
               </h1>
-              <p className="mt-6 text-base lg:text-lg text-muted-foreground max-w-lg leading-relaxed">
+              <p className="mt-5 text-sm sm:text-base text-muted-foreground max-w-lg leading-relaxed">
                 {description}
               </p>
             </div>
@@ -165,7 +165,7 @@ export function HeroBanner() {
             </p>
             {latestNews ? (
               <Link to={`/news/${latestNews.slug}`} className="group block">
-                <h3 className="font-heading text-[20px] lg:text-[24px] font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
+                <h3 className="font-heading text-lg lg:text-xl font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
                   {latestNews.title}
                 </h3>
                 {latestNews.summary && (
@@ -191,8 +191,8 @@ export function HeroBanner() {
             {upcomingEvent ? (
               <div>
                 <div className="flex items-start gap-4">
-                  <div className="flex-shrink-0 w-14 h-14 bg-white/10 flex flex-col items-center justify-center">
-                    <span className="text-lg font-bold leading-none">
+                  <div className="flex-shrink-0 w-12 h-12 bg-white/10 flex flex-col items-center justify-center rounded">
+                    <span className="text-base font-bold leading-none">
                       {formatDate(upcomingEvent.startTime || '').split(' ')[1]}
                     </span>
                     <span className="text-[9px] font-semibold uppercase tracking-wider opacity-70">
@@ -200,7 +200,7 @@ export function HeroBanner() {
                     </span>
                   </div>
                   <div>
-                    <h3 className="text-[18px] font-semibold leading-snug">
+                    <h3 className="text-base font-semibold leading-snug">
                       {upcomingEvent.title}
                     </h3>
                     {upcomingEvent.location && (

@@ -98,11 +98,20 @@ function TopographicContours() {
       <div className="absolute inset-0 flex flex-col justify-between p-12 text-white">
         {/* Logo and branding */}
         <div className="flex items-center gap-3">
-          <div className="h-12 w-12 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center border border-white/20">
-            <Sprout className="h-7 w-7 text-[#52B788]" />
+          <div className="h-12 w-12 rounded-xl bg-white p-1 flex items-center justify-center border border-white/20 shadow-md">
+            <img
+              src="/images/eiar-logo.jpg"
+              alt="EIAR Logo"
+              className="h-full w-full object-contain"
+            />
           </div>
           <div>
-            <span className="font-bold text-xl tracking-tight block">TARCMS</span>
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-xl tracking-tight block">TARCMS</span>
+              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-white/15 text-[#52B788] uppercase tracking-wider">
+                EIAR
+              </span>
+            </div>
             <span className="text-xs text-[#52B788] font-medium tracking-wide uppercase">
               Management Portal
             </span>
@@ -180,21 +189,30 @@ export function LoginPage({ onLogin }: LoginPageProps) {
 
       {/* Right panel - Login form */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-8 bg-[#FEFAE0]">
-        <div className="w-full max-w-md space-y-10">
-          {/* Mobile logo */}
-          <div className="lg:hidden flex items-center gap-3">
-            <div className="h-10 w-10 rounded-xl bg-[#2D6A4F] flex items-center justify-center">
-              <Sprout className="h-6 w-6 text-white" />
+        <div className="w-full max-w-md space-y-8">
+          {/* Logo & header */}
+          <div className="flex items-center gap-3 mb-2">
+            <div className="h-11 w-11 rounded-xl bg-white p-1 border border-[#2D6A4F]/20 flex items-center justify-center shadow-xs">
+              <img
+                src="/images/eiar-logo.jpg"
+                alt="EIAR Logo"
+                className="h-full w-full object-contain"
+              />
             </div>
-            <span className="font-bold text-lg text-[#1B4332]">TARCMS</span>
+            <div className="flex flex-col">
+              <div className="flex items-center gap-1.5">
+                <span className="font-bold text-lg text-[#1B4332] tracking-tight">TARCMS</span>
+                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-[#2D6A4F]/10 text-[#2D6A4F] uppercase tracking-wider">
+                  EIAR
+                </span>
+              </div>
+              <span className="text-xs text-[#2D6A4F]/70">Tepi Agricultural Research Center</span>
+            </div>
           </div>
 
           {/* Welcome header */}
-          <div className="space-y-2">
-            <h1
-              className="text-3xl font-bold text-[#1B4332] tracking-tight"
-              style={{ fontFamily: "'DM Serif Display', serif" }}
-            >
+          <div className="space-y-1.5">
+            <h1 className="text-2xl font-bold text-[#1B4332] tracking-tight">
               Welcome back
             </h1>
             <p className="text-[#2D6A4F]/70 text-sm">Sign in to access the management dashboard</p>

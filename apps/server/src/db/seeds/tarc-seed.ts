@@ -1196,6 +1196,5 @@ export async function seedDatabase() {
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
-  seedDatabase();
-}
+seedDatabase();
+

@@ -13,7 +13,7 @@ export function FieldImageSection() {
       <div className="absolute inset-0 bg-[var(--r-dark)]/60" />
 
       <div className="absolute inset-0 flex flex-col justify-center px-6 lg:px-16 mx-auto max-w-[1440px]">
-        <h2 className="font-editorial text-[40px] lg:text-[72px] xl:text-[96px] font-bold uppercase tracking-tight text-white leading-[0.9]">
+        <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight text-white leading-tight">
           Research
           <br />
           Happens

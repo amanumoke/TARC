@@ -23,11 +23,11 @@ export function ResearchProcess() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1440px] px-6 lg:px-16">
-        <div className="mb-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/40 mb-4">
+        <div className="mb-12">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/50 mb-3">
             Our Process
           </p>
-          <h2 className="font-editorial text-[32px] lg:text-[56px] font-bold uppercase tracking-tight text-white leading-[0.95]">
+          <h2 className="font-heading text-2xl sm:text-3xl lg:text-4xl font-bold uppercase tracking-tight text-white leading-tight">
             From Field
             <br />
             To Knowledge.

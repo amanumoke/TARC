@@ -54,20 +54,20 @@ export function PublicContactPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="py-20 lg:py-32">
+      <section className="py-12 lg:py-16">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-4">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-3">
             <Link to="/" className="hover:text-foreground transition-colors">
               Home
             </Link>
             <span className="mx-2">/</span>
             <span className="text-foreground">Contact</span>
           </p>
-          <h1 className="font-heading text-[48px] lg:text-[80px] xl:text-[100px] font-bold text-foreground leading-[0.95]">
+          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
             Contact Us
           </h1>
-          <p className="mt-6 text-lg text-muted-foreground max-w-3xl leading-relaxed">
-            Have questions? Send us a message and we'll get back to you.
+          <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-3xl leading-relaxed">
+            Have questions or partnership inquiries? Send us a message and our team will get back to you.
           </p>
         </div>
       </section>

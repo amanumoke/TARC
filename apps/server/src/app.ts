@@ -29,7 +29,10 @@ export function createApp(): Express {
   // 2. Cross-Origin Resource Sharing (CORS)
   app.use(
     cors({
-      origin: process.env.CLIENT_URL || 'http://localhost:3000',
+      origin: (origin, callback) => {
+        // allow all local development origins or no-origin requests
+        callback(null, true);
+      },
       credentials: true,
     })
   );

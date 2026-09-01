@@ -28,13 +28,23 @@ export function PublicFooter() {
           {/* Brand column — 2 cols wide on lg */}
           <div className="lg:col-span-2">
             <Link to="/" className="flex items-center gap-3 mb-5">
-              <div className="h-10 w-10 bg-white/10 rounded-sm flex items-center justify-center font-heading text-lg text-white">
-                T
+              <div className="h-11 w-11 bg-white rounded-md p-1 flex items-center justify-center shrink-0 overflow-hidden">
+                <img
+                  src="/images/eiar-logo.jpg"
+                  alt="EIAR / TARC Logo"
+                  className="h-full w-full object-contain"
+                />
               </div>
               <div>
-                <span className="font-heading text-xl font-bold text-white leading-tight block">
-                  TARC
-                </span>
+                <div className="flex items-center gap-1.5">
+                  <span className="font-heading text-lg font-bold text-white leading-tight">
+                    TARC
+                  </span>
+                  <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-white/10 text-white/90 uppercase tracking-wider">
+                    EIAR
+                  </span>
+                </div>
+                <span className="text-[10px] text-white/50 block">Tepi Agricultural Research Center</span>
               </div>
             </Link>
             <p className="text-sm text-white/50 max-w-xs leading-relaxed mb-6">

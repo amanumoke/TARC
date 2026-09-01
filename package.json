@@ -3,9 +3,13 @@
   "private": true,
   "version": "1.0.0",
   "description": "Tepi Agricultural Research Center Management System (TARCMS)",
-  "workspaces": ["packages/*", "apps/*"],
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "npm run dev --workspaces --if-present",
+    "dev": "concurrently -n \"server,public,dashboard\" -c \"blue,green,magenta\" \"npm run dev:server\" \"npm run dev:public\" \"npm run dev:dashboard\"",
+    "dev:workspaces": "npm run dev --workspaces --if-present",
     "dev:server": "npm run dev --workspace=@tarcms/server",
     "dev:public": "npm run dev --workspace=@tarcms/public",
     "dev:dashboard": "npm run dev --workspace=@tarcms/dashboard",
@@ -22,6 +26,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.4",
+    "concurrently": "^10.0.5",
     "typescript": "^5.6.3"
   }
 }

@@ -1,6 +1,5 @@
 import { useNews } from '@/api/hooks/useNews';
 import { useNewsBySlug } from '@/api/hooks/useNewsBySlug';
-import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { ArrowLeft, ArrowRight, Share2 } from 'lucide-react';
 import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
@@ -88,7 +87,11 @@ export function NewsDetailPage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-12 lg:gap-20">
             <article>
-              <PlaceholderImage label="Article Image" className="w-full rounded-none" />
+              <img
+                src={article.coverImageUrl || '/images/background.jpg'}
+                alt={article.title}
+                className="aspect-[16/9] w-full object-cover"
+              />
               <div className="mt-10 prose prose-lg max-w-none text-muted-foreground leading-relaxed [&_p]:mb-6">
                 {article.content ? (
                   <div dangerouslySetInnerHTML={{ __html: article.content }} />

@@ -1,6 +1,5 @@
 import { useDepartments } from '@/api/hooks/useDepartments';
 import { useProjects } from '@/api/hooks/useProjects';
-import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
@@ -123,10 +122,18 @@ export function ResearchDetailPage() {
             </div>
 
             <div>
-              <PlaceholderImage
-                label={department.name}
-                aspectRatio="video"
-                className="w-full sticky top-24"
+              <img
+                src={
+                  department.name.toLowerCase().includes('coffee')
+                    ? '/images/red-coffee.jpg'
+                    : department.name.toLowerCase().includes('cacao')
+                      ? '/images/cacao-research.jpg'
+                      : department.name.toLowerCase().includes('laboratory')
+                        ? '/images/labrat.jpg'
+                        : '/images/field-3.jpg'
+                }
+                alt={department.name}
+                className="sticky top-24 aspect-video w-full object-cover"
               />
             </div>
           </div>

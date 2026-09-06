@@ -21,6 +21,7 @@ import {
   Sprout,
   UserCircle,
   Users,
+  BriefcaseBusiness,
 } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
@@ -102,6 +103,7 @@ const navigationGroups: NavGroup[] = [
         roles: ['SUPER_ADMIN', 'ADMIN'],
       },
       { name: 'Gallery', href: '/dashboard/gallery', icon: Image, roles: ['SUPER_ADMIN', 'ADMIN'] },
+      { name: 'Vacancies', href: '/dashboard/vacancies', icon: BriefcaseBusiness, roles: ['SUPER_ADMIN', 'ADMIN'] },
     ],
   },
   {
@@ -149,7 +151,7 @@ function SidebarContent({
   const userRole = user?.role || 'STAFF';
 
   return (
-    <div className="flex h-full flex-col bg-card border-r">
+    <div className="flex h-full min-h-0 flex-col overflow-hidden bg-card border-r">
       <div className="flex h-14 items-center justify-between border-b px-4">
         {!collapsed && (
           <div className="flex items-center gap-3">
@@ -171,7 +173,7 @@ function SidebarContent({
         )}
       </div>
 
-      <ScrollArea className="flex-1 py-2">
+      <ScrollArea className="min-h-0 flex-1 py-2">
         {navigationGroups.map((group) => {
           const visibleItems = group.items.filter((item) => item.roles.includes(userRole));
           if (visibleItems.length === 0) return null;
@@ -265,7 +267,7 @@ export function AdminSidebar({
       </aside>
 
       <Sheet open={open} onOpenChange={onClose}>
-        <SheetContent side="left" className="w-64 p-0">
+        <SheetContent side="left" className="w-64 min-h-0 p-0">
           <SidebarContent
             user={user}
             collapsed={false}

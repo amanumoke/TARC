@@ -1,4 +1,4 @@
-import { Mail, MapPin, Phone } from 'lucide-react';
+import { Facebook, Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 const RESEARCH_LINKS = [
@@ -12,17 +12,19 @@ const ABOUT_LINKS = [
   { label: 'Director', path: '/about/director' },
   { label: 'Departments', path: '/about/departments' },
   { label: 'People', path: '/about/people' },
+  { label: 'Structure', path: '/about/structure' },
 ];
 
 const RESOURCE_LINKS = [
   { label: 'News', path: '/news' },
   { label: 'Events', path: '/events' },
   { label: 'Gallery', path: '/gallery' },
+  { label: 'Vacancies', path: '/vacancies' },
 ];
 
 export function PublicFooter() {
   return (
-    <footer className="bg-[#101712] text-white">
+    <footer className="shrink-0 bg-[#101712] text-white">
       <div className="max-w-[1440px] mx-auto px-6 lg:px-16 pt-16 pb-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 lg:gap-8">
           {/* Brand column — 2 cols wide on lg */}
@@ -53,21 +55,29 @@ export function PublicFooter() {
             </p>
             <div className="space-y-2.5">
               <a
-                href="tel:+251475560000"
+                href="tel:+251920654572"
                 className="flex items-center gap-2.5 text-sm text-white/50 hover:text-white transition-colors"
               >
-                <Phone className="h-4 w-4" /> +251 47 556 0000
+                <Phone className="h-4 w-4" /> 092 065 4572
               </a>
               <a
-                href="mailto:info@tarc.gov.et"
+                href="mailto:tepiagriculturalresearchcenter@eiar.gov.et"
                 className="flex items-center gap-2.5 text-sm text-white/50 hover:text-white transition-colors"
               >
-                <Mail className="h-4 w-4" /> info@tarc.gov.et
+                <Mail className="h-4 w-4" /> tepiagriculturalresearchcenter@eiar.gov.et
               </a>
               <div className="flex items-start gap-2.5 text-sm text-white/50">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0" />
-                <span>Tepi, South West Ethiopia</span>
+                <span>Tepi, Yeki Woreda, Sheka Zone, Southwest Ethiopia</span>
               </div>
+              <a
+                href="https://facebook.com/tepiaresearch"
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center gap-2.5 text-sm text-white/50 transition-colors hover:text-white"
+              >
+                <Facebook className="h-4 w-4" /> Official Facebook page
+              </a>
             </div>
           </div>
 
@@ -136,11 +146,11 @@ export function PublicFooter() {
           <p className="text-[11px] text-white/30 uppercase tracking-widest">
             &copy; {new Date().getFullYear()} Tepi Agricultural Research Center
           </p>
-          <div className="flex gap-6">
+          <div className="flex flex-col items-center gap-2 sm:items-end">
             <span className="text-[11px] text-white/30 uppercase tracking-widest">
               Privacy Policy
             </span>
-            <span className="text-[11px] text-white/30 uppercase tracking-widest">Terms</span>
+            <span className="text-[11px] text-white/30">Developed by Amanumoke</span>
           </div>
         </div>
       </div>

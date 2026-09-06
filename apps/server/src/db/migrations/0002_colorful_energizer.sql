@@ -1,0 +1,1 @@
+ALTER TABLE `staff` ADD `is_public` boolean DEFAULT true NOT NULL;

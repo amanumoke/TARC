@@ -41,8 +41,8 @@ export function ResearchHero() {
 
           <div className="relative aspect-[3/4] lg:aspect-[4/5] overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80"
-              alt="Ethiopian agricultural researchers inspecting crops in a research field"
+              src="/images/coffee-seed.jpg"
+              alt="Coffee seedlings at a TARC nursery"
               className="w-full h-full object-cover"
               loading="eager"
             />

@@ -1,7 +1,6 @@
 import { useDepartments } from '@/api/hooks/useDepartments';
 import { useStaff } from '@/api/hooks/useStaff';
 import type { DepartmentDTO, StaffDTO } from '@/api/types';
-import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Input } from '@/components/ui/input';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Search } from 'lucide-react';
@@ -115,11 +114,18 @@ export function PeoplePage() {
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
               {filteredStaff.map((member) => (
                 <div key={member.id} className="group">
-                  <PlaceholderImage
-                    label={`${member.firstName} ${member.lastName}`}
-                    aspectRatio="square"
-                    className="w-full aspect-[4/5] object-cover"
-                  />
+                  {member.photoUrl ? (
+                    <img
+                      src={member.photoUrl}
+                      alt={`${member.firstName} ${member.lastName}`}
+                      className="w-full aspect-[4/5] rounded-lg object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="flex aspect-[4/5] items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/50 text-sm text-muted-foreground">
+                      {member.firstName} {member.lastName}
+                    </div>
+                  )}
                   <div className="mt-4">
                     <h3 className="text-[17px] font-semibold text-foreground group-hover:text-primary transition-colors">
                       {member.firstName} {member.lastName}

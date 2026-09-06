@@ -9,6 +9,7 @@ const NAV_LINKS = [
   { label: 'News', path: '/news' },
   { label: 'Events', path: '/events' },
   { label: 'Gallery', path: '/gallery' },
+  { label: 'Vacancies', path: '/vacancies' },
 ];
 
 export function PublicHeader() {
@@ -33,23 +34,25 @@ export function PublicHeader() {
         <div className="max-w-[1440px] mx-auto px-6 h-9 flex items-center justify-between text-[11px] tracking-wide">
           <div className="flex items-center gap-6">
             <a
-              href="tel:+251475560000"
+              href="tel:+251920654572"
               className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
             >
               <Phone className="h-3 w-3" />
-              +251 47 556 0000
+              092 065 4572
             </a>
             <a
-              href="mailto:info@tarc.gov.et"
+              href="mailto:tepiagriculturalresearchcenter@eiar.gov.et"
               className="hidden sm:flex items-center gap-1.5 hover:opacity-80 transition-opacity"
             >
               <Mail className="h-3 w-3" />
-              info@tarc.gov.et
+              tepiagriculturalresearchcenter@eiar.gov.et
             </a>
           </div>
-          <div className="flex items-center gap-1.5 text-white/80">
-            <Globe className="h-3 w-3" />
-            <span>EN</span>
+          <div className="flex items-center gap-4 text-white/80">
+            <div className="flex items-center gap-1.5">
+              <Globe className="h-3 w-3" />
+              <span>EN</span>
+            </div>
           </div>
         </div>
       </div>
@@ -168,23 +171,23 @@ export function PublicHeader() {
               })}
               <Link
                 to="/contact"
-                className="mx-2 mt-4 px-4 py-3 bg-primary text-white text-[13px] font-semibold uppercase tracking-widest text-center hover:bg-primary/90 transition-colors"
+                className="mx-2 mt-2 px-4 py-3 bg-primary text-white text-[13px] font-semibold uppercase tracking-widest text-center hover:bg-primary/90 transition-colors"
               >
                 Contact Us
               </Link>
             </nav>
             <div className="mt-auto border-t border-border px-6 py-5 space-y-3">
               <a
-                href="tel:+251475560000"
+                href="tel:+251920654572"
                 className="flex items-center gap-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <Phone className="h-4 w-4" /> +251 47 556 0000
+                <Phone className="h-4 w-4" /> 092 065 4572
               </a>
               <a
-                href="mailto:info@tarc.gov.et"
+                href="mailto:tepiagriculturalresearchcenter@eiar.gov.et"
                 className="flex items-center gap-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
-                <Mail className="h-4 w-4" /> info@tarc.gov.et
+                <Mail className="h-4 w-4" /> tepiagriculturalresearchcenter@eiar.gov.et
               </a>
             </div>
           </div>

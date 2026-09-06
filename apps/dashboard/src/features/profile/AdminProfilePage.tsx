@@ -40,7 +40,7 @@ export function AdminProfilePage() {
     { name: string; email: string },
     { name: string; email: string }
   >({
-    endpoint: '/api/v1/admin/profile',
+    endpoint: '/api/v1/auth/profile',
     method: 'PATCH',
     queryKeyToInvalidate: ['user-profile'],
     onSuccess: (data) => {
@@ -58,7 +58,7 @@ export function AdminProfilePage() {
   });
 
   const changePassword = useApiMutation<unknown, { currentPassword: string; newPassword: string }>({
-    endpoint: '/api/v1/admin/profile/password',
+    endpoint: '/api/v1/auth/profile/password',
     method: 'POST',
     onSuccess: () => {
       setToast({ message: 'Password changed successfully', type: 'success' });

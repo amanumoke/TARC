@@ -19,6 +19,7 @@ import {
   staff,
   systemSettings,
   users,
+  vacancies,
   vehicleAssignments,
   vehicles,
 } from '../schema/index.js';
@@ -31,34 +32,63 @@ export async function seedDatabase() {
     const researcherHash = await bcrypt.hash('researcher123456', 10);
     const staffHash = await bcrypt.hash('staff123456', 10);
 
+    // 0. Clean tables in reverse dependency order
+    console.log('  -> Clearing previous seed data...');
+    await db.delete(vehicleAssignments);
+    await db.delete(vehicles);
+    await db.delete(contactMessages);
+    await db.delete(galleryMedia);
+    await db.delete(vacancies);
+    await db.delete(news);
+    await db.delete(events);
+    await db.delete(publicationAuthors);
+    await db.delete(publications);
+    await db.delete(researchProjects);
+    await db.delete(researchPrograms);
+    await db.delete(staff);
+    await db.delete(departments);
+    await db.delete(users);
+    await db.delete(systemSettings);
+
     // 1. System Settings
     console.log('  -> Seeding System Settings...');
     await db
       .insert(systemSettings)
       .values({
         id: 'primary',
-        institutionName: 'Tepi Agricultural Research Center',
-        tagline: 'Pioneering Spice, Coffee & Horticultural Excellence in Southwest Ethiopia',
+        institutionName: 'Tepi Agricultural Research Center (EIAR)',
+        tagline: 'Center of Excellence for Spices, Coffee, Cacao & Sustainable Agriculture',
         aboutText:
-          'Tepi Agricultural Research Center (TARC) was established to serve as the national excellence center for spice research and development in Ethiopia, alongside advancing Arabica coffee productivity and sustainable agroforestry in the Sheka Biosphere zone.',
+          'Tepi Agricultural Research Center (TARC), established under the Ethiopian Institute of Agricultural Research (EIAR), serves as the national lead center for spice and cacao research and development in Ethiopia, alongside advancing Arabica coffee productivity, horticulture, livestock, and sustainable agroforestry in the Sheka Biosphere zone of Southwest Ethiopia.',
         missionText:
-          'To generate and disseminate demand-driven agricultural technologies in spices, coffee, and horticultural crops that enhance food security, agro-industrial raw material supply, and export earnings.',
+          'To generate and disseminate demand-driven, climate-smart agricultural technologies in spices, coffee, cacao, livestock, and horticultural crops that enhance national food security, agro-industrial raw material supply, and foreign exchange earnings.',
         visionText:
-          'To see technologically transformed, competitive, and climate-resilient farming communities in Southwest Ethiopia by 2035.',
-        directorName: 'Dr. Girma Bekele',
-        directorTitle: 'Center Director & Lead Agronomist',
+          'To see technologically transformed, highly competitive, and climate-resilient farming communities in Southwest Ethiopia by 2035, fully integrated into national and global agricultural value chains.',
+        directorName: 'Dr. Dereje Tulu',
+        directorTitle: 'Center Director & Senior Researcher (EIAR)',
+        directorPhotoUrl: '/images/director-dereje.jpg',
         directorMessage:
-          'Welcome to TARCMS. Our research teams in Tepi are dedicated to developing high-yielding, disease-resistant spice varieties, optimizing coffee cup quality, and training local smallholders.',
-        officialEmail: 'info@tarc.gov.et',
-        officialPhone: '+251 47 556 0123',
+          '<p>It is my distinct privilege to welcome you to the official management and discovery portal of the Tepi Agricultural Research Center (TARC), an operating center of the Ethiopian Institute of Agricultural Research (EIAR).</p><p>Situated in the lush agroecological heart of Southwest Ethiopia, TARC holds the national mandate for spearheading research on spices, including Korarima, Black Pepper, Ginger, Turmeric, and Vanilla, as well as the national cacao research and development program. We also drive vital research in Arabica coffee productivity, tropical horticulture, livestock disease epidemiology, soil health, and farm mechanization.</p><p>Through close partnerships with farmers, agricultural extension workers, universities, and international research organizations, our dedicated scientific staff works tirelessly to develop climate-resilient varieties and sustainable management practices. We invite you to explore our publications, research programs, and innovations as we contribute to Ethiopia’s agricultural transformation.</p>',
+        officialEmail: 'tepiagriculturalresearchcenter@eiar.gov.et',
+        officialPhone: '092 065 4572',
         physicalAddress: 'Tepi, Yeki Woreda, Sheka Zone, Southwest Ethiopia Regional State',
         gpsCoordinates: '7.1997° N, 35.4244° E',
         socialLinks: {
           telegram: 'https://t.me/tarc_ethiopia',
           facebook: 'https://facebook.com/tepiaresearch',
+          eiar: 'http://eiar.gov.et/',
         },
       })
-      .onDuplicateKeyUpdate({ set: { institutionName: 'Tepi Agricultural Research Center' } });
+      .onDuplicateKeyUpdate({
+        set: {
+          institutionName: 'Tepi Agricultural Research Center (EIAR)',
+          directorName: 'Dr. Dereje Tulu',
+          directorTitle: 'Center Director & Senior Researcher (EIAR)',
+          directorPhotoUrl: '/images/director-dereje.jpg',
+          officialEmail: 'tepiagriculturalresearchcenter@eiar.gov.et',
+          officialPhone: '092 065 4572',
+        },
+      });
 
     // 2. Users (5)
     console.log('  -> Seeding Users...');
@@ -75,11 +105,11 @@ export async function seedDatabase() {
       .values([
         {
           id: userIds.superAdmin,
-          name: 'Dr. Girma Bekele',
+          name: 'Dr. Dereje Tulu',
           email: 'admin@tarc.gov.et',
           passwordHash: adminHash,
           role: 'SUPER_ADMIN',
-          phone: '+251 91 123 4567',
+          phone: '092 065 4572',
           isActive: true,
         },
         {
@@ -119,16 +149,33 @@ export async function seedDatabase() {
           isActive: true,
         },
       ])
-      .onDuplicateKeyUpdate({ set: { isActive: true } });
+      .onDuplicateKeyUpdate({
+        set: {
+          name: 'Dr. Dereje Tulu',
+          passwordHash: adminHash,
+          role: 'SUPER_ADMIN',
+          phone: '092 065 4572',
+          isActive: true,
+        },
+      });
 
-    // 3. Departments (5)
-    console.log('  -> Seeding Departments...');
+    // 3. Departments / Bureaus (14 official structures under EIAR)
+    console.log('  -> Seeding Departments (14 Bureaus/Structures)...');
     const deptIds = {
       spice: 'd0000000-0000-0000-0000-000000000001',
       coffee: 'd0000000-0000-0000-0000-000000000002',
-      protection: 'd0000000-0000-0000-0000-000000000003',
-      soil: 'd0000000-0000-0000-0000-000000000004',
-      extension: 'd0000000-0000-0000-0000-000000000005',
+      cacao: 'd0000000-0000-0000-0000-000000000003',
+      fieldCrops: 'd0000000-0000-0000-0000-000000000004',
+      horticulture: 'd0000000-0000-0000-0000-000000000005',
+      protection: 'd0000000-0000-0000-0000-000000000006',
+      soil: 'd0000000-0000-0000-0000-000000000007',
+      livestock: 'd0000000-0000-0000-0000-000000000008',
+      biotech: 'd0000000-0000-0000-0000-000000000009',
+      mechanization: 'd0000000-0000-0000-0000-000000000010',
+      economics: 'd0000000-0000-0000-0000-000000000011',
+      extension: 'd0000000-0000-0000-0000-000000000012',
+      foodScience: 'd0000000-0000-0000-0000-000000000013',
+      administration: 'd0000000-0000-0000-0000-000000000014',
     };
 
     await db
@@ -136,53 +183,134 @@ export async function seedDatabase() {
       .values([
         {
           id: deptIds.spice,
-          name: 'Spices & Essential Oils Research Department',
+          name: 'Spices & Essential Oils Research Directorate',
           code: 'DEPT-SPICE',
           description:
-            'National excellence center for large cardamom (Korerima), black pepper, ginger, turmeric, and vanilla breeding and agronomy.',
+            'National excellence and coordinating center for Korarima (large cardamom), black pepper, ginger, turmeric, vanilla, and essential oil crop breeding, agronomy, and post-harvest technology.',
           establishedYear: 1998,
           sortOrder: 1,
         },
         {
           id: deptIds.coffee,
-          name: 'Coffee & Beverage Crops Research Department',
+          name: 'Coffee & Beverage Crops Research Directorate',
           code: 'DEPT-COFFEE',
           description:
-            'Dedicated to Arabica coffee genetic improvement, shade canopy management, cup quality profiling, and processing technology.',
+            'Dedicated to Arabica coffee genetic improvement, agroforestry canopy shade management, cup quality profiling, and processing technology in the Sheka coffee belt.',
           establishedYear: 2000,
           sortOrder: 2,
         },
         {
-          id: deptIds.protection,
-          name: 'Crop Protection & Plant Pathology Department',
-          code: 'DEPT-PROT',
+          id: deptIds.cacao,
+          name: 'Cacao & High-Value Crops Research Program',
+          code: 'DEPT-CACAO',
           description:
-            'Focuses on diagnostic identification and integrated management of coffee berry disease, ginger bacterial wilt, and spice insect pests.',
-          establishedYear: 2002,
+            'Leading the national cacao research and development program to establish and scale high-quality cocoa bean production as a high-value commercial export crop in humid lowland Ethiopia.',
+          establishedYear: 2012,
           sortOrder: 3,
         },
         {
-          id: deptIds.soil,
-          name: 'Natural Resources & Soil Science Department',
-          code: 'DEPT-SOIL',
+          id: deptIds.fieldCrops,
+          name: 'Field Crops Research Division',
+          code: 'DEPT-FIELD',
           description:
-            'Soil fertility mapping, organic composting, agroforestry canopy conservation, and sustainable land management.',
-          establishedYear: 2005,
+            'Adaptability screening, breeding, and agronomic optimization of cereals (maize, rice), pulses (soybean, haricot bean), and oilseeds for humid lowland and mid-altitude ecologies.',
+          establishedYear: 2002,
           sortOrder: 4,
         },
         {
+          id: deptIds.horticulture,
+          name: 'Horticulture & Tropical Fruit Crops Research Division',
+          code: 'DEPT-HORT',
+          description:
+            'Tropical and subtropical fruit crops (banana, mango, papaya, citrus, avocado) and indigenous vegetable variety development and multiplication.',
+          establishedYear: 2004,
+          sortOrder: 5,
+        },
+        {
+          id: deptIds.protection,
+          name: 'Crop Protection & Plant Pathology Directorate',
+          code: 'DEPT-PROT',
+          description:
+            'Diagnostic identification, entomology, and integrated disease management for coffee berry disease, ginger bacterial wilt, turmeric leaf spot, and insect pests.',
+          establishedYear: 2002,
+          sortOrder: 6,
+        },
+        {
+          id: deptIds.soil,
+          name: 'Soil, Water & Natural Resources Management Directorate',
+          code: 'DEPT-SOIL',
+          description:
+            'Soil fertility mapping, acid soil amelioration, organic composting, agroforestry canopy conservation, and integrated watershed management.',
+          establishedYear: 2005,
+          sortOrder: 7,
+        },
+        {
+          id: deptIds.livestock,
+          name: 'Livestock & Animal Health Research Directorate',
+          code: 'DEPT-LIVE',
+          description:
+            'Veterinary epidemiology, disease surveillance (brucellosis, trypanosomiasis), dairy and beef cattle breed improvement, forage agronomy, and apiculture/honeybee research.',
+          establishedYear: 2008,
+          sortOrder: 8,
+        },
+        {
+          id: deptIds.biotech,
+          name: 'Agricultural Biotechnology Research Directorate',
+          code: 'DEPT-BIOTECH',
+          description:
+            'Tissue culture micropropagation for disease-free ginger and banana planting material, molecular characterization, and germplasm conservation.',
+          establishedYear: 2015,
+          sortOrder: 9,
+        },
+        {
+          id: deptIds.mechanization,
+          name: 'Agricultural Mechanization & Rural Energy Engineering',
+          code: 'DEPT-MECH',
+          description:
+            'Design, evaluation, and adaptation of farm machinery, spice drying solar tunnels, coffee pulping equipment, and smallholder harvesting tools.',
+          establishedYear: 2016,
+          sortOrder: 10,
+        },
+        {
+          id: deptIds.economics,
+          name: 'Agricultural Economics & Policy Research Directorate',
+          code: 'DEPT-ECON',
+          description:
+            'Socioeconomic impact assessments, production economics, market linkage studies, value chain mapping, and agricultural policy analysis.',
+          establishedYear: 2006,
+          sortOrder: 11,
+        },
+        {
           id: deptIds.extension,
-          name: 'Agricultural Economics & Farmer Extension',
+          name: 'Agricultural Extension & Technology Multiplication',
           code: 'DEPT-EXT',
           description:
-            'Technology transfer, farmer field schools, gender-inclusive adoption studies, and agricultural market linkage research.',
+            'Demand-driven technology transfer, farmer field schools, pre-extension demonstration trials, and certified spice/coffee seedling multiplication.',
           establishedYear: 2006,
-          sortOrder: 5,
+          sortOrder: 12,
+        },
+        {
+          id: deptIds.foodScience,
+          name: 'Food Science & Post-Harvest Nutrition Directorate',
+          code: 'DEPT-FOOD',
+          description:
+            'Post-harvest preservation, food quality standards, sensory evaluation, essential oil chemical profiling, and nutritional product development.',
+          establishedYear: 2018,
+          sortOrder: 13,
+        },
+        {
+          id: deptIds.administration,
+          name: 'Center Administration, Operations & Facility Directorate',
+          code: 'DEPT-ADMIN',
+          description:
+            'Human resource administration, financial management, research station infrastructure, transport fleet operations, and procurement management.',
+          establishedYear: 1998,
+          sortOrder: 14,
         },
       ])
       .onDuplicateKeyUpdate({ set: { sortOrder: 1 } });
 
-    // 4. Staff (8)
+    // 4. Staff
     console.log('  -> Seeding Staff...');
     const staffIds = {
       director: 's0000000-0000-0000-0000-000000000001',
@@ -193,6 +321,8 @@ export async function seedDatabase() {
       extensionLead: 's0000000-0000-0000-0000-000000000006',
       researcher1: 's0000000-0000-0000-0000-000000000007',
       researcher2: 's0000000-0000-0000-0000-000000000008',
+      livestockLead: 's0000000-0000-0000-0000-000000000009',
+      cacaoLead: 's0000000-0000-0000-0000-000000000010',
     };
 
     await db
@@ -201,14 +331,19 @@ export async function seedDatabase() {
         {
           id: staffIds.director,
           userId: userIds.superAdmin,
-          departmentId: deptIds.spice,
-          firstName: 'Girma',
-          lastName: 'Bekele',
-          position: 'Center Director & Senior Agronomist',
-          email: 'girma.bekele@tarc.gov.et',
-          phone: '+251 91 123 4567',
-          areasOfExpertise: ['Spice Agronomy', 'Cropping Systems', 'Korerima Breeding'],
-          bio: 'Dr. Girma has over 18 years of experience leading national spice breeding and sustainable agroforestry initiatives in Ethiopia.',
+          departmentId: deptIds.livestock,
+          firstName: 'Dereje',
+          lastName: 'Tulu',
+          position: 'Center Director & Senior Researcher',
+          email: 'tepiagriculturalresearchcenter@eiar.gov.et',
+          phone: '092 065 4572',
+          areasOfExpertise: [
+            'Veterinary Epidemiology',
+            'Animal Health & Production',
+            'Livestock Research Coordination',
+            'Agricultural Research Center Leadership',
+          ],
+          bio: 'Dr. Dereje Tulu (DVM, MSc) is the Center Director of Tepi Agricultural Research Center (TARC) under the Ethiopian Institute of Agricultural Research (EIAR). With extensive experience in veterinary epidemiology, livestock research coordination, and center management, he oversees TARC’s national spice and cacao mandates and comprehensive multi-disciplinary research programs.',
           isActive: true,
           isFeatured: true,
           sortOrder: 1,
@@ -317,16 +452,46 @@ export async function seedDatabase() {
           isFeatured: false,
           sortOrder: 8,
         },
+        {
+          id: staffIds.livestockLead,
+          departmentId: deptIds.livestock,
+          firstName: 'Dr. Dereje',
+          lastName: 'Tulu',
+          position: 'Lead Livestock & Veterinary Epidemiologist',
+          email: 'tepiagriculturalresearchcenter@eiar.gov.et',
+          phone: '092 065 4572',
+          areasOfExpertise: ['Veterinary Epidemiology', 'Animal Brucellosis', 'Dairy Breed Improvement'],
+          bio: 'Coordinates regional livestock disease surveillance, dairy/beef cattle adaptation trials, and apiculture research.',
+          isActive: true,
+          isFeatured: true,
+          sortOrder: 9,
+        },
+        {
+          id: staffIds.cacaoLead,
+          departmentId: deptIds.cacao,
+          firstName: 'Solomon',
+          lastName: 'Worku',
+          position: 'Lead Cacao Agronomist',
+          email: 'solomon.worku@tarc.gov.et',
+          phone: '+251 91 345 6789',
+          areasOfExpertise: ['Cacao Agronomy', 'Fermentation Technology', 'Germplasm Introduction'],
+          bio: 'Coordinates the national cacao introduction, adaptation, and seedling distribution program for Southwest Ethiopian lowlands.',
+          isActive: true,
+          isFeatured: true,
+          sortOrder: 10,
+        },
       ])
       .onDuplicateKeyUpdate({ set: { isActive: true } });
 
-    // 5. Research Programs (4)
+    // 5. Research Programs
     console.log('  -> Seeding Research Programs...');
     const programIds = {
       spice: 'p0000000-0000-0000-0000-000000000001',
       coffee: 'p0000000-0000-0000-0000-000000000002',
       protection: 'p0000000-0000-0000-0000-000000000003',
       soil: 'p0000000-0000-0000-0000-000000000004',
+      cacao: 'p0000000-0000-0000-0000-000000000005',
+      livestock: 'p0000000-0000-0000-0000-000000000006',
     };
 
     await db
@@ -366,6 +531,40 @@ export async function seedDatabase() {
           sortOrder: 2,
         },
         {
+          id: programIds.cacao,
+          departmentId: deptIds.cacao,
+          leadStaffId: staffIds.cacaoLead,
+          title: 'National Cacao Research & Development Program',
+          slug: 'national-cacao-research-development',
+          code: 'PROG-CACAO-NAT',
+          description:
+            'National mandate program establishing cacao as a major commercial high-value export crop in Ethiopia through elite clone introduction, fermentation protocols, and seedling propagation.',
+          objectives: [
+            'Evaluate 12 imported elite cacao clones for pod yield and butter fat content',
+            'Distribute 250,000 grafted cacao seedlings to smallholder outgrowers',
+            'Establish standardized central solar fermentation and drying facilities in Tepi',
+          ],
+          status: 'ACTIVE',
+          sortOrder: 3,
+        },
+        {
+          id: programIds.livestock,
+          departmentId: deptIds.livestock,
+          leadStaffId: staffIds.livestockLead,
+          title: 'Livestock Health, Epidemiology & Apiculture Program',
+          slug: 'livestock-health-epidemiology-apiculture',
+          code: 'PROG-LIVE-EPI',
+          description:
+            'Surveillance and control of infectious zoonotic diseases, evaluation of dairy crossbreeds in humid tropics, and modern hive apiculture in Sheka forest biosphere.',
+          objectives: [
+            'Investigate epidemiological prevalence of bovine brucellosis and trypanosomiasis',
+            'Evaluate adapted dairy cattle crosses under humid lowland grazing systems',
+            'Improve forest honey quality and royal jelly production using transitional hives',
+          ],
+          status: 'ACTIVE',
+          sortOrder: 4,
+        },
+        {
           id: programIds.protection,
           departmentId: deptIds.protection,
           leadStaffId: staffIds.protectionLead,
@@ -379,7 +578,7 @@ export async function seedDatabase() {
             'Develop ginger bacterial wilt resistant lines',
           ],
           status: 'ACTIVE',
-          sortOrder: 3,
+          sortOrder: 5,
         },
         {
           id: programIds.soil,
@@ -395,7 +594,7 @@ export async function seedDatabase() {
             'Promote organic composting among smallholder farmers',
           ],
           status: 'ACTIVE',
-          sortOrder: 4,
+          sortOrder: 6,
         },
       ])
       .onDuplicateKeyUpdate({ set: { status: 'ACTIVE' } });
@@ -929,7 +1128,27 @@ export async function seedDatabase() {
       ])
       .onDuplicateKeyUpdate({ set: { isPublished: true } });
 
-    // 11. Gallery Media (10)
+    // 11. Vacancies
+    console.log('  -> Seeding Vacancies...');
+    await db
+      .insert(vacancies)
+      .values([
+        {
+          id: 'va000000-0000-0000-0000-000000000001',
+          departmentId: deptIds.spice,
+          title: 'Senior Spice Researcher',
+          employmentType: 'FULL_TIME',
+          location: 'Tepi Agricultural Research Center',
+          closingDate: new Date('2026-12-31'),
+          description: 'Lead field trials and farmer partnerships for Korarima, ginger, turmeric, and other priority spice crops at TARC.',
+          qualifications: 'MSc or PhD in agronomy, plant breeding, horticulture, or a related field.\nAt least three years of agricultural research experience.\nStrong field research and technical reporting skills.',
+          applicationInstructions: 'Submit a CV and cover letter through the official TARC contact page before the closing date.',
+          isPublished: true,
+        },
+      ])
+      .onDuplicateKeyUpdate({ set: { isPublished: true } });
+
+    // 12. Gallery Media (10)
     console.log('  -> Seeding Gallery Media...');
     await db
       .insert(galleryMedia)
@@ -940,8 +1159,8 @@ export async function seedDatabase() {
           title: 'Korarima Field Trial Plot',
           caption: 'Evaluating 8 Korarima clones at TARC experimental station',
           category: 'FIELD_TRIALS',
-          imageUrl: '/images/gallery/korarima_trial.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/korarima_trial.jpg',
+          imageUrl: '/images/field-3.jpg',
+          thumbnailUrl: '/images/field-3.jpg',
         },
         {
           id: 'g0000000-0000-0000-0000-000000000002',
@@ -949,8 +1168,8 @@ export async function seedDatabase() {
           title: 'Coffee Cupping Laboratory',
           caption: 'Sensory evaluation of specialty Arabica samples',
           category: 'LABORATORY',
-          imageUrl: '/images/gallery/coffee_cupping.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/coffee_cupping.jpg',
+          imageUrl: '/images/labrat.jpg',
+          thumbnailUrl: '/images/labrat.jpg',
         },
         {
           id: 'g0000000-0000-0000-0000-000000000003',
@@ -958,8 +1177,8 @@ export async function seedDatabase() {
           title: 'Turmeric Variety Trial',
           caption: 'High oleoresin turmeric selections in bloom',
           category: 'SPICE_VARIETIES',
-          imageUrl: '/images/gallery/turmeric_trial.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/turmeric_trial.jpg',
+          imageUrl: '/images/cacao-research.jpg',
+          thumbnailUrl: '/images/cacao-research.jpg',
         },
         {
           id: 'g0000000-0000-0000-0000-000000000004',
@@ -967,8 +1186,8 @@ export async function seedDatabase() {
           title: 'Shaded Coffee Canopy',
           caption: 'Albizia gummifera shade canopy over coffee plants',
           category: 'COFFEE_RESEARCH',
-          imageUrl: '/images/gallery/shade_canopy.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/shade_canopy.jpg',
+          imageUrl: '/images/red-coffee.jpg',
+          thumbnailUrl: '/images/red-coffee.jpg',
         },
         {
           id: 'g0000000-0000-0000-0000-000000000005',
@@ -976,8 +1195,8 @@ export async function seedDatabase() {
           title: 'Farmer Training Session',
           caption: 'Extension agents learning improved pruning techniques',
           category: 'COMMUNITY_OUTREACH',
-          imageUrl: '/images/gallery/farmer_training.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/farmer_training.jpg',
+          imageUrl: '/images/planting.jpg',
+          thumbnailUrl: '/images/planting.jpg',
         },
         {
           id: 'g0000000-0000-0000-0000-000000000006',
@@ -985,8 +1204,8 @@ export async function seedDatabase() {
           title: 'TARC Main Building',
           caption: 'Administrative and laboratory complex at Tepi station',
           category: 'FACILITIES',
-          imageUrl: '/images/gallery/tarc_building.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/tarc_building.jpg',
+          imageUrl: '/images/coffee-seed.jpg',
+          thumbnailUrl: '/images/coffee-seed.jpg',
         },
         {
           id: 'g0000000-0000-0000-0000-000000000007',
@@ -994,8 +1213,8 @@ export async function seedDatabase() {
           title: 'Black Pepper Harvest',
           caption: 'Mature black peppercorns ready for harvest',
           category: 'SPICE_VARIETIES',
-          imageUrl: '/images/gallery/black_pepper.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/black_pepper.jpg',
+          imageUrl: '/images/cacuo.jpg',
+          thumbnailUrl: '/images/cacuo.jpg',
         },
         {
           id: 'g0000000-0000-0000-0000-000000000008',
@@ -1003,8 +1222,8 @@ export async function seedDatabase() {
           title: 'Coffee Cherry Processing',
           caption: 'Washed processing at TARC demonstration wet mill',
           category: 'COFFEE_RESEARCH',
-          imageUrl: '/images/gallery/coffee_processing.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/coffee_processing.jpg',
+          imageUrl: '/images/field.jpg',
+          thumbnailUrl: '/images/field.jpg',
         },
         {
           id: 'g0000000-0000-0000-0000-000000000009',
@@ -1012,8 +1231,8 @@ export async function seedDatabase() {
           title: 'Seedling Nursery',
           caption: 'Korarima seedlings ready for distribution to farmers',
           category: 'FIELD_TRIALS',
-          imageUrl: '/images/gallery/seedling_nursery.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/seedling_nursery.jpg',
+          imageUrl: '/images/background.jpg',
+          thumbnailUrl: '/images/background.jpg',
         },
         {
           id: 'g0000000-0000-0000-0000-000000000010',
@@ -1021,8 +1240,8 @@ export async function seedDatabase() {
           title: 'Field Day Event',
           caption: 'Farmers参观 TARC demonstration plots',
           category: 'COMMUNITY_OUTREACH',
-          imageUrl: '/images/gallery/field_day.jpg',
-          thumbnailUrl: '/images/gallery/thumbs/field_day.jpg',
+          imageUrl: '/images/chicken.jpg',
+          thumbnailUrl: '/images/chicken.jpg',
         },
       ])
       .onDuplicateKeyUpdate({ set: { title: 'Korarima Field Trial Plot' } });

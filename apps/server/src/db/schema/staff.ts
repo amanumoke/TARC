@@ -64,6 +64,7 @@ export const staff = mysqlTable(
 
     /** Active status determining public directory visibility */
     isActive: boolean('is_active').notNull().default(true),
+    isPublic: boolean('is_public').notNull().default(true),
 
     /** Featured flag for spotlighting on the public homepage */
     isFeatured: boolean('is_featured').notNull().default(false),

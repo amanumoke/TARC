@@ -5,6 +5,7 @@ import { EmptyState } from '@/features/shared/EmptyState';
 import { PageHeader } from '@/features/shared/PageHeader';
 import { StatusBadge } from '@/features/shared/StatusBadge';
 import { useApiQuery } from '@/hooks/useApiQuery';
+import { useApiMutation } from '@/hooks/useApiMutation';
 import { cn } from '@/lib/utils';
 import { Mail, Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -43,6 +44,17 @@ export function AdminMessagesPage() {
 
   const messages = messageData?.data || [];
   const selectedMessage = messages.find((m) => m.id === selectedId);
+  const updateMessage = useApiMutation<Message, { id: string; status: string }>({
+    endpoint: `/api/v1/operations/admin/messages/${selectedId}`,
+    method: 'PUT',
+    queryKeyToInvalidate: ['admin-messages'],
+  });
+  const deleteMessage = useApiMutation<unknown, string>({
+    endpoint: `/api/v1/operations/admin/messages/${selectedId}`,
+    method: 'DELETE',
+    queryKeyToInvalidate: ['admin-messages'],
+    onSuccess: () => setSelectedId(null),
+  });
 
   return (
     <div className="space-y-6">
@@ -110,7 +122,7 @@ export function AdminMessagesPage() {
             ))}
           </div>
 
-          <Card className="sticky top-4 hidden lg:block">
+          <Card className="sticky top-4 lg:block">
             {selectedMessage ? (
               <CardContent className="p-6">
                 <div className="space-y-4">
@@ -134,10 +146,21 @@ export function AdminMessagesPage() {
                     </p>
                   </div>
                   <div className="flex gap-2 border-t pt-4">
-                    <Button variant="outline" size="sm">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      disabled={selectedMessage.status === 'READ' || updateMessage.isPending}
+                      onClick={() => updateMessage.mutate({ id: selectedMessage.id, status: 'READ' })}
+                    >
                       Mark as Read
                     </Button>
-                    <Button variant="outline" size="sm" className="text-destructive">
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="text-destructive"
+                      disabled={deleteMessage.isPending}
+                      onClick={() => deleteMessage.mutate(selectedMessage.id)}
+                    >
                       <Trash2 className="mr-1 h-3 w-3" />
                       Delete
                     </Button>

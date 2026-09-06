@@ -4,8 +4,10 @@
  * Includes public and admin routes with RBAC protection.
  */
 
+import { randomUUID } from 'node:crypto';
 import { Request, Response, Router } from 'express';
 import { authenticateToken } from '../../middleware/auth.js';
+import type { AuthenticatedRequest } from '../../middleware/auth.js';
 import { requireRole } from '../../middleware/rbac.js';
 import {
   createEvent,
@@ -22,6 +24,7 @@ import {
   getAllGalleryMedia,
   getGalleryByCategory,
   getGalleryMediaById,
+  updateGalleryMedia,
 } from '../gallery/gallery.service.js';
 import {
   createNews,
@@ -343,12 +346,34 @@ router.post(
   '/admin/gallery',
   authenticateToken,
   requireRole('SUPER_ADMIN', 'ADMIN'),
-  async (req: Request, res: Response) => {
+  async (req: AuthenticatedRequest, res: Response) => {
     try {
-      const media = await createGalleryMedia(req.body);
+      const media = await createGalleryMedia({
+        id: randomUUID(),
+        uploadedBy: req.user?.id,
+        ...req.body,
+      });
       res.status(201).json({ success: true, data: media });
     } catch (error) {
       res.status(500).json({ success: false, error: 'Failed to upload media' });
+    }
+  }
+);
+
+router.patch(
+  '/admin/gallery/:id',
+  authenticateToken,
+  requireRole('SUPER_ADMIN', 'ADMIN'),
+  async (req: Request, res: Response) => {
+    try {
+      const media = await updateGalleryMedia(req.params.id, req.body);
+      if (!media) {
+        res.status(404).json({ success: false, error: 'Media not found' });
+        return;
+      }
+      res.json({ success: true, data: media });
+    } catch {
+      res.status(400).json({ success: false, error: 'Failed to update media' });
     }
   }
 );

@@ -99,49 +99,57 @@ export function HeroBanner() {
         {/* Bento Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-4">
           {/* Main hero — spans 7 cols */}
-          <div className="lg:col-span-7 bg-white p-8 lg:p-12 flex flex-col justify-between min-h-[400px] lg:min-h-[520px]">
+          <div
+            className="relative overflow-hidden lg:col-span-7 flex min-h-[400px] flex-col justify-between bg-[#10291e] p-8 text-white lg:min-h-[520px] lg:p-12"
+            style={{
+              backgroundImage:
+                "linear-gradient(115deg, rgba(9, 36, 24, 0.94) 10%, rgba(9, 36, 24, 0.58) 72%, rgba(9, 36, 24, 0.26)), url('/images/background.jpg')",
+              backgroundPosition: 'center',
+              backgroundSize: 'cover',
+            }}
+          >
             <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-6">
+              <p className="mb-6 text-[11px] font-semibold uppercase tracking-[0.2em] text-white/65">
                 Tepi Agricultural Research Center
               </p>
-              <h1 className="font-heading text-2xl sm:text-3xl lg:text-4xl xl:text-[38px] leading-[1.18] font-bold text-foreground tracking-tight">
+              <h1 className="font-heading text-2xl font-bold leading-[1.18] tracking-tight text-white sm:text-3xl lg:text-4xl xl:text-[38px]">
                 {tagline.split(' ').map((word: string, i: number) => {
                   const keywords = ['Excellence', 'Southwest', 'Highlands'];
                   const isKeyword = keywords.some((k) =>
                     word.toLowerCase().includes(k.toLowerCase())
                   );
                   return (
-                    <span key={`word-${i}`} className={isKeyword ? 'text-primary' : ''}>
+                    <span key={`word-${i}`} className={isKeyword ? 'text-[#9ed8b2]' : ''}>
                       {word}{' '}
                     </span>
                   );
                 })}
               </h1>
-              <p className="mt-5 text-sm sm:text-base text-muted-foreground max-w-lg leading-relaxed">
+              <p className="mt-5 max-w-lg text-sm leading-relaxed text-white/75 sm:text-base">
                 {description}
               </p>
             </div>
             <div className="mt-8 flex flex-col sm:flex-row items-start gap-4">
               <Link
                 to="/research"
-                className="bg-primary text-white px-8 py-3.5 text-[12px] font-semibold uppercase tracking-widest hover:bg-primary/90 transition-colors inline-flex items-center gap-2"
+                className="inline-flex items-center gap-2 bg-white px-8 py-3.5 text-[12px] font-semibold uppercase tracking-widest text-primary transition-colors hover:bg-white/90"
               >
                 Explore Research <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 to="/about"
-                className="border border-border px-8 py-3.5 text-[12px] font-semibold uppercase tracking-widest hover:bg-muted transition-colors inline-flex items-center gap-2"
+                className="inline-flex items-center gap-2 border border-white/45 px-8 py-3.5 text-[12px] font-semibold uppercase tracking-widest text-white transition-colors hover:bg-white/10"
               >
                 About Us <ArrowRight className="h-4 w-4" />
               </Link>
             </div>
           </div>
 
-          {/* Image — spans 5 cols */}
-          <div className="lg:col-span-5 bg-white overflow-hidden min-h-[280px] lg:min-h-[520px]">
+          {/* Supporting field image */}
+          <div className="min-h-[280px] overflow-hidden bg-white lg:col-span-5 lg:min-h-[520px]">
             <img
-              src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=800&q=80"
-              alt="Ethiopian agricultural researchers inspecting crops in a research field"
+              src="/images/field-3.jpg"
+              alt="TARC researchers working in an agricultural field"
               className="w-full h-full object-cover"
               loading="eager"
             />
@@ -149,13 +157,13 @@ export function HeroBanner() {
 
           {/* Stat cards — 3 equal cols */}
           <div className="lg:col-span-4 bg-white">
-            <StatCard icon={FlaskConical} value={deptCount || 6} suffix="+" label="Programs" />
+            <StatCard icon={FlaskConical} value={12} suffix="+" label="Programs" />
           </div>
           <div className="lg:col-span-4 bg-white">
-            <StatCard icon={Users} value={staffCount || 30} suffix="+" label="Staff Members" />
+            <StatCard icon={Users} value={100} suffix="+" label="Staff Members" />
           </div>
           <div className="lg:col-span-4 bg-white">
-            <StatCard icon={BookOpen} value={pubCount || 120} suffix="+" label="Publications" />
+            <StatCard icon={BookOpen} value={20} suffix="+" label="Publications" />
           </div>
 
           {/* Latest news card — spans 6 cols */}

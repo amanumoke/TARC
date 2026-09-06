@@ -4,6 +4,7 @@
  * and routing configuration for the TARCMS REST API.
  */
 
+import path from 'node:path';
 import cors from 'cors';
 import express, { Express, Request, Response } from 'express';
 import helmet from 'helmet';
@@ -16,12 +17,16 @@ import publicationsRoutes from './modules/publications/publications.routes.js';
 import researchRoutes from './modules/research/research.routes.js';
 import settingsRoutes from './modules/settings/settings.routes.js';
 import staffRoutes from './modules/staff/staff.routes.js';
+import uploadsRoutes from './modules/uploads/uploads.routes.js';
+import vacanciesRoutes from './modules/vacancies/vacancies.routes.js';
 
 /**
  * Creates and configures the Express application instance.
  */
 export function createApp(): Express {
   const app = express();
+
+  app.use('/uploads', express.static(path.resolve('uploads')));
 
   // 1. Security Headers
   app.use(helmet());
@@ -93,6 +98,8 @@ export function createApp(): Express {
 
   // 13. Settings Routes (Public)
   app.use('/api/v1/settings', settingsRoutes);
+  app.use('/api/v1/uploads', uploadsRoutes);
+  app.use('/api/v1/vacancies', vacanciesRoutes);
 
   return app;
 }

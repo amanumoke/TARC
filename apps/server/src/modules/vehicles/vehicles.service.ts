@@ -4,6 +4,7 @@
  * Handles vehicle status transitions and assignment lifecycle.
  */
 
+import { randomUUID } from 'node:crypto';
 import { desc, eq } from 'drizzle-orm';
 import { db } from '../../db/client.js';
 import { vehicleAssignments, vehicles } from '../../db/schema/index.js';
@@ -41,8 +42,14 @@ export async function getVehicleById(id: string) {
  * @returns The created vehicle record
  */
 export async function createVehicle(data: NewVehicle) {
-  const [created] = await db.insert(vehicles).values(data).execute();
-  return created;
+  const id = data.id || randomUUID();
+  await db.insert(vehicles).values({ ...data, id }).execute();
+  return getVehicleById(id);
+}
+
+export async function updateVehicle(id: string, data: Partial<NewVehicle>) {
+  await db.update(vehicles).set(data).where(eq(vehicles.id, id));
+  return getVehicleById(id);
 }
 
 /**

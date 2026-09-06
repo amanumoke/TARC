@@ -1,5 +1,4 @@
 import { useSettings } from '@/api/hooks/useSettings';
-import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CheckCircle, Clock, Mail, MapPin, Phone } from 'lucide-react';
 import { useState } from 'react';
@@ -235,7 +234,15 @@ export function PublicContactPage() {
                 </div>
               </div>
 
-              <PlaceholderImage label="Map Location" aspectRatio="video" className="w-full" />
+              <div className="overflow-hidden border border-border bg-muted/30">
+                <iframe
+                  title="TARC Location Map"
+                  src="https://www.google.com/maps?q=Tepi%20Agricultural%20Research%20Center%2C%20Ethiopia&z=12&output=embed"
+                  className="h-[260px] w-full border-0"
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                />
+              </div>
             </div>
           </div>
         </div>

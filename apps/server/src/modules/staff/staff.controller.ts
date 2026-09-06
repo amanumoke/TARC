@@ -88,6 +88,7 @@ export async function handleCreateStaff(req: Request, res: Response) {
       bio,
       photoUrl,
       isActive,
+      isPublic,
       isFeatured,
       sortOrder,
     } = req.body;
@@ -111,6 +112,7 @@ export async function handleCreateStaff(req: Request, res: Response) {
       bio,
       photoUrl,
       isActive,
+      isPublic,
       isFeatured,
       sortOrder,
     });

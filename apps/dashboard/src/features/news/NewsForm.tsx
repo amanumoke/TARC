@@ -10,8 +10,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { LocalImageUpload } from '@/components/LocalImageUpload';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const newsSchema = z.object({
@@ -19,7 +20,7 @@ const newsSchema = z.object({
   summary: z.string().optional(),
   content: z.string().optional(),
   category: z.string().min(1, 'Category is required'),
-  coverImageUrl: z.string().url('Invalid URL').optional().or(z.literal('')),
+  coverImageUrl: z.string().optional().or(z.literal('')),
   publishedAt: z.string().optional(),
   isPublished: z.boolean().default(false),
 });
@@ -49,6 +50,9 @@ export function NewsForm({ open, onOpenChange, initialData, onSubmit, loading }:
     handleSubmit,
     formState: { errors },
     reset,
+    control,
+    setValue,
+    watch,
   } = useForm<NewsFormData>({
     resolver: zodResolver(newsSchema),
     defaultValues: initialData,
@@ -73,18 +77,24 @@ export function NewsForm({ open, onOpenChange, initialData, onSubmit, loading }:
           </div>
           <div className="space-y-2">
             <Label htmlFor="category">Category *</Label>
-            <Select {...register('category')}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categoryOptions.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Controller
+              name="category"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value || ''} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categoryOptions.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
             {errors.category && (
               <p className="text-xs text-destructive">{errors.category.message}</p>
             )}
@@ -107,18 +117,7 @@ export function NewsForm({ open, onOpenChange, initialData, onSubmit, loading }:
               placeholder="Full article content"
             />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="coverImageUrl">Cover Image URL</Label>
-            <Input
-              id="coverImageUrl"
-              type="url"
-              {...register('coverImageUrl')}
-              placeholder="https://example.com/image.jpg"
-            />
-            {errors.coverImageUrl && (
-              <p className="text-xs text-destructive">{errors.coverImageUrl.message}</p>
-            )}
-          </div>
+          <LocalImageUpload value={watch('coverImageUrl')} onChange={(value) => setValue('coverImageUrl', value)} label="Cover image" />
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="publishedAt">Published Date</Label>

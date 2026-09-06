@@ -14,8 +14,9 @@ import { ProjectDetailPage } from '@/features/research/ProjectDetailPage';
 import { AdminSettingsPage } from '@/features/settings/AdminSettingsPage';
 import { AdminStaffPage } from '@/features/staff/AdminStaffPage';
 import { AdminVehiclesPage } from '@/features/vehicles/AdminVehiclesPage';
+import { AdminVacanciesPage } from '@/features/vacancies/AdminVacanciesPage';
 import { useEffect, useState } from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 
 interface User {
   id: string;
@@ -53,6 +54,7 @@ function Dashboard({ user, onLogout }: DashboardProps) {
         <Route path="/dashboard/news" element={<AdminNewsPage />} />
         <Route path="/dashboard/events" element={<AdminEventsPage />} />
         <Route path="/dashboard/gallery" element={<AdminGalleryPage />} />
+        <Route path="/dashboard/vacancies" element={<AdminVacanciesPage />} />
         <Route path="/dashboard/vehicles" element={<AdminVehiclesPage />} />
         <Route path="/dashboard/messages" element={<AdminMessagesPage />} />
         <Route path="/dashboard/settings" element={<AdminSettingsPage />} />
@@ -65,6 +67,8 @@ function Dashboard({ user, onLogout }: DashboardProps) {
 }
 
 export function App(): React.ReactElement {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [user, setUser] = useState<User | null>(() => {
     const saved = localStorage.getItem('tarcms_user');
     const token = localStorage.getItem('tarcms_token');
@@ -90,6 +94,16 @@ export function App(): React.ReactElement {
     }
   }, [user]);
 
+  useEffect(() => {
+    if (user && (location.pathname === '/' || location.pathname === '/login' || !location.pathname.startsWith('/dashboard'))) {
+      navigate('/dashboard', { replace: true });
+    }
+
+    if (!user && location.pathname.startsWith('/dashboard')) {
+      navigate('/login', { replace: true });
+    }
+  }, [user, location.pathname, navigate]);
+
   const handleLogin = (userData: {
     id: string;
     name: string;
@@ -98,12 +112,14 @@ export function App(): React.ReactElement {
     token: string;
   }) => {
     setUser(userData);
+    navigate('/dashboard', { replace: true });
   };
 
   const handleLogout = () => {
     setUser(null);
     localStorage.removeItem('tarcms_user');
     localStorage.removeItem('tarcms_token');
+    navigate('/login', { replace: true });
   };
 
   if (!isAuthenticated) {

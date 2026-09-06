@@ -10,26 +10,27 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { LocalImageUpload } from '@/components/LocalImageUpload';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const gallerySchema = z.object({
   title: z.string().min(1, 'Title is required'),
   caption: z.string().optional(),
   category: z.string().min(1, 'Category is required'),
-  imageUrl: z.string().url('Invalid image URL').optional().or(z.literal('')),
+  imageUrl: z.string().optional().or(z.literal('')),
 });
 
 type GalleryFormData = z.infer<typeof gallerySchema>;
 
 const categoryOptions = [
-  { value: 'RESEARCH', label: 'Research' },
-  { value: 'FIELD_WORK', label: 'Field Work' },
-  { value: 'EVENTS', label: 'Events' },
+  { value: 'FIELD_TRIALS', label: 'Field Trials' },
+  { value: 'LABORATORY', label: 'Laboratory' },
+  { value: 'SPICE_VARIETIES', label: 'Spice Varieties' },
+  { value: 'COFFEE_RESEARCH', label: 'Coffee Research' },
+  { value: 'COMMUNITY_OUTREACH', label: 'Community Outreach' },
   { value: 'FACILITIES', label: 'Facilities' },
-  { value: 'TEAM', label: 'Team' },
-  { value: 'OTHER', label: 'Other' },
 ];
 
 interface GalleryUploadFormProps {
@@ -52,6 +53,9 @@ export function GalleryUploadForm({
     handleSubmit,
     formState: { errors },
     reset,
+    control,
+    setValue,
+    watch,
   } = useForm<GalleryFormData>({
     resolver: zodResolver(gallerySchema),
     defaultValues: initialData,
@@ -76,18 +80,24 @@ export function GalleryUploadForm({
           </div>
           <div className="space-y-2">
             <Label htmlFor="category">Category *</Label>
-            <Select {...register('category')}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categoryOptions.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Controller
+              name="category"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value || ''} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select category" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {categoryOptions.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
             {errors.category && (
               <p className="text-xs text-destructive">{errors.category.message}</p>
             )}
@@ -96,21 +106,7 @@ export function GalleryUploadForm({
             <Label htmlFor="caption">Caption</Label>
             <Textarea id="caption" {...register('caption')} rows={2} />
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="imageUrl">Image URL *</Label>
-            <Input
-              id="imageUrl"
-              type="url"
-              {...register('imageUrl')}
-              placeholder="https://example.com/image.jpg"
-            />
-            {errors.imageUrl && (
-              <p className="text-xs text-destructive">{errors.imageUrl.message}</p>
-            )}
-            <p className="text-xs text-muted-foreground">
-              Enter a direct image URL or upload via your media service
-            </p>
-          </div>
+          <LocalImageUpload value={watch('imageUrl')} onChange={(value) => setValue('imageUrl', value)} label="Gallery image" />
           <div className="flex justify-end gap-3">
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancel

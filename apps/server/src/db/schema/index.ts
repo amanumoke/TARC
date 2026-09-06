@@ -13,3 +13,4 @@ export * from './communication';
 export * from './vehicles';
 export * from './messages';
 export * from './settings';
+export * from './vacancies';

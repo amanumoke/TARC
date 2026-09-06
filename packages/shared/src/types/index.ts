@@ -50,6 +50,7 @@ export interface StaffDTO {
   areasOfExpertise?: string[] | null;
   bio?: string | null;
   photoUrl?: string | null;
+  isPublic: boolean;
   isActive: boolean;
   isFeatured: boolean;
   sortOrder: number;
@@ -240,6 +241,22 @@ export interface SystemSettingsDTO {
   physicalAddress: string;
   gpsCoordinates?: string | null;
   socialLinks?: Record<string, string> | null;
+  updatedAt: string;
+}
+
+export interface VacancyDTO {
+  id: string;
+  departmentId?: string | null;
+  departmentName?: string | null;
+  title: string;
+  employmentType: 'FULL_TIME' | 'CONTRACT' | 'INTERNSHIP' | 'CONSULTANCY';
+  location: string;
+  closingDate: string;
+  description: string;
+  qualifications: string;
+  applicationInstructions: string;
+  isPublished: boolean;
+  createdAt: string;
   updatedAt: string;
 }
 

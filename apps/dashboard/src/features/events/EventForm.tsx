@@ -10,8 +10,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { LocalImageUpload } from '@/components/LocalImageUpload';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const eventSchema = z.object({
@@ -22,7 +23,7 @@ const eventSchema = z.object({
   startTime: z.string().min(1, 'Start Time is required'),
   endTime: z.string().optional(),
   isAllDay: z.boolean().default(false),
-  bannerImageUrl: z.string().url('Invalid URL').optional().or(z.literal('')),
+  bannerImageUrl: z.string().optional().or(z.literal('')),
   isPublished: z.boolean().default(false),
 });
 
@@ -52,6 +53,9 @@ export function EventForm({ open, onOpenChange, initialData, onSubmit, loading }
     handleSubmit,
     formState: { errors },
     reset,
+    control,
+    setValue,
+    watch,
   } = useForm<EventFormData>({
     resolver: zodResolver(eventSchema),
     defaultValues: initialData,
@@ -76,18 +80,24 @@ export function EventForm({ open, onOpenChange, initialData, onSubmit, loading }
           </div>
           <div className="space-y-2">
             <Label htmlFor="eventType">Event Type *</Label>
-            <Select {...register('eventType')}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select type" />
-              </SelectTrigger>
-              <SelectContent>
-                {typeOptions.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Controller
+              name="eventType"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value || ''} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {typeOptions.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
             {errors.eventType && (
               <p className="text-xs text-destructive">{errors.eventType.message}</p>
             )}
@@ -128,18 +138,7 @@ export function EventForm({ open, onOpenChange, initialData, onSubmit, loading }
               All Day Event
             </Label>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="bannerImageUrl">Banner Image URL</Label>
-            <Input
-              id="bannerImageUrl"
-              type="url"
-              {...register('bannerImageUrl')}
-              placeholder="https://example.com/banner.jpg"
-            />
-            {errors.bannerImageUrl && (
-              <p className="text-xs text-destructive">{errors.bannerImageUrl.message}</p>
-            )}
-          </div>
+          <LocalImageUpload value={watch('bannerImageUrl')} onChange={(value) => setValue('bannerImageUrl', value)} label="Event banner" />
           <div className="flex items-center gap-2">
             <input
               type="checkbox"

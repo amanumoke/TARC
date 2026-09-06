@@ -14,8 +14,8 @@ export function ResearchProcess() {
     <section className="relative py-20 lg:py-32 overflow-hidden">
       <div className="absolute inset-0">
         <img
-          src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1400&q=80"
-          alt=""
+          src="/images/labrat.jpg"
+          alt="TARC laboratory researchers studying agricultural samples"
           className="w-full h-full object-cover"
           loading="lazy"
         />

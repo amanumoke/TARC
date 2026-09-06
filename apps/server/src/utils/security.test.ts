@@ -18,4 +18,5 @@ describe('Security Utilities', () => {
     expect(decoded.email).toBe(payload.email);
     expect(decoded.role).toBe(payload.role);
   });
+
 });

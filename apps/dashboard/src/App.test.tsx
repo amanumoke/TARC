@@ -42,7 +42,7 @@ describe('TARCMS Dashboard — App Component', () => {
     expect(screen.getByRole('button', { name: /sign in/i })).toBeInTheDocument();
   });
 
-  it('renders dashboard after successful login', async () => {
+  it('redirects to the dashboard route after successful login', async () => {
     // Mock the login API endpoint
     const mockFetch = vi.fn().mockResolvedValueOnce({
       ok: true,
@@ -62,6 +62,7 @@ describe('TARCMS Dashboard — App Component', () => {
     });
 
     vi.stubGlobal('fetch', mockFetch);
+    window.history.pushState({}, '', '/');
 
     renderWithRouter(<App />);
 
@@ -76,9 +77,9 @@ describe('TARCMS Dashboard — App Component', () => {
     // Submit login
     fireEvent.click(screen.getByRole('button', { name: /sign in/i }));
 
-    // Wait for dashboard to appear - look for "Dashboard" title
     await waitFor(
       () => {
+        expect(window.location.pathname).toBe('/dashboard');
         expect(screen.getAllByText('Dashboard').length).toBeGreaterThan(0);
       },
       { timeout: 3000 }

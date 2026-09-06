@@ -13,4 +13,5 @@ export const endpoints = {
   publications: '/publications',
   contact: '/operations/messages',
   metrics: '/admin/dashboard/metrics',
+  vacancies: '/vacancies',
 } as const;

@@ -11,10 +11,12 @@ const PROGRAM_DESCRIPTIONS: Record<string, string> = {
 };
 
 const PROGRAM_IMAGES = [
-  'https://images.unsplash.com/photo-1574943320219-553eb213f72d?w=400&q=80',
-  'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=400&q=80',
-  'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&q=80',
-  'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&q=80',
+  '/images/cacuo.jpg',
+  '/images/red-coffee.jpg',
+  '/images/coffee-seed.jpg',
+  '/images/planting.jpg',
+  '/images/labrat.jpg',
+  '/images/field-3.jpg',
 ];
 
 export function ResearchPrograms() {

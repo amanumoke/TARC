@@ -6,13 +6,12 @@
 import bcrypt from 'bcryptjs';
 import { eq } from 'drizzle-orm';
 import { Request, Response, Router } from 'express';
-import jwt from 'jsonwebtoken';
 import { db } from '../../db/client.js';
 import { users } from '../../db/schema/index.js';
+import { authenticateToken, AuthenticatedRequest } from '../../middleware/auth.js';
+import { generateToken, hashPassword, verifyToken } from '../../utils/security.js';
 
 const router = Router();
-
-const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_jwt_key_for_tarcms_development_2026';
 
 /**
  * POST /api/v1/auth/login
@@ -60,9 +59,11 @@ router.post('/login', async (req: Request, res: Response) => {
       return;
     }
 
-    // Generate JWT token
-    const token = jwt.sign({ userId: user.id, email: user.email, role: user.role }, JWT_SECRET, {
-      expiresIn: '24h',
+    // Generate JWT token using the shared security contract
+    const token = generateToken({
+      id: user.id,
+      email: user.email,
+      role: user.role,
     });
 
     // Return user info (excluding password hash)
@@ -104,9 +105,9 @@ router.get('/me', async (req: Request, res: Response) => {
     }
 
     const token = authHeader.split(' ')[1];
-    const decoded = jwt.verify(token, JWT_SECRET) as { userId: string };
+    const decoded = verifyToken(token);
 
-    const [user] = await db.select().from(users).where(eq(users.id, decoded.userId)).limit(1);
+    const [user] = await db.select().from(users).where(eq(users.id, decoded.id)).limit(1);
 
     if (!user) {
       res.status(404).json({
@@ -131,6 +132,41 @@ router.get('/me', async (req: Request, res: Response) => {
       success: false,
       error: { code: 'INVALID_TOKEN', message: 'Invalid or expired token' },
     });
+  }
+});
+
+router.patch('/profile', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const name = String(req.body.name || '').trim();
+    const email = String(req.body.email || '').trim().toLowerCase();
+    if (!req.user || !name || !email) {
+      res.status(400).json({ success: false, error: { message: 'Name and email are required' } });
+      return;
+    }
+    await db.update(users).set({ name, email }).where(eq(users.id, req.user.id));
+    const [updated] = await db.select().from(users).where(eq(users.id, req.user.id)).limit(1);
+    res.json({ success: true, data: { id: updated.id, name: updated.name, email: updated.email, role: updated.role, avatarUrl: updated.avatarUrl } });
+  } catch (error) {
+    res.status(500).json({ success: false, error: { message: 'Failed to update profile' } });
+  }
+});
+
+router.post('/profile/password', authenticateToken, async (req: AuthenticatedRequest, res: Response) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+    if (!req.user || !currentPassword || !newPassword || String(newPassword).length < 8) {
+      res.status(400).json({ success: false, error: { message: 'Valid current and new passwords are required' } });
+      return;
+    }
+    const [user] = await db.select().from(users).where(eq(users.id, req.user.id)).limit(1);
+    if (!user || !(await bcrypt.compare(currentPassword, user.passwordHash))) {
+      res.status(400).json({ success: false, error: { message: 'Current password is incorrect' } });
+      return;
+    }
+    await db.update(users).set({ passwordHash: await hashPassword(newPassword) }).where(eq(users.id, req.user.id));
+    res.json({ success: true, data: { message: 'Password changed successfully' } });
+  } catch (error) {
+    res.status(500).json({ success: false, error: { message: 'Failed to change password' } });
   }
 });
 

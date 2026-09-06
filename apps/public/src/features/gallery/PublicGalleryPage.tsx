@@ -1,6 +1,5 @@
 import { useGallery } from '@/api/hooks/useGallery';
 import type { GalleryMediaDTO } from '@/api/types';
-import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Skeleton } from '@/components/ui/skeleton';
 import { X } from 'lucide-react';
 import { useMemo, useState } from 'react';
@@ -92,10 +91,11 @@ export function PublicGalleryPage() {
                   onClick={() => setLightboxItem(item)}
                   className="group relative aspect-square overflow-hidden hover:opacity-90 transition-opacity"
                 >
-                  <PlaceholderImage
-                    label={item.title}
-                    aspectRatio="square"
-                    className="w-full h-full"
+                  <img
+                    src={item.thumbnailUrl || item.imageUrl}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                    loading="lazy"
                   />
                   <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-colors flex items-end p-4">
                     <span className="text-sm font-medium text-white opacity-0 group-hover:opacity-100 transition-opacity">
@@ -134,7 +134,11 @@ export function PublicGalleryPage() {
             onClick={(e) => e.stopPropagation()}
             onKeyDown={(e) => e.stopPropagation()}
           >
-            <PlaceholderImage label={lightboxItem.title} aspectRatio="video" className="w-full" />
+            <img
+              src={lightboxItem.imageUrl}
+              alt={lightboxItem.title}
+              className="w-full max-h-[75vh] object-contain"
+            />
             <div className="text-center space-y-1">
               <h3 className="text-lg font-semibold text-white">{lightboxItem.title}</h3>
               {lightboxItem.caption && (

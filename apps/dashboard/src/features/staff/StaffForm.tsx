@@ -2,9 +2,11 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { LocalImageUpload } from '@/components/LocalImageUpload';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const staffSchema = z.object({
@@ -15,6 +17,8 @@ const staffSchema = z.object({
   departmentId: z.string().min(1, 'Department is required'),
   bio: z.string().optional(),
   areasOfExpertise: z.string().optional(),
+  photoUrl: z.string().optional(),
+  isPublic: z.boolean().default(true),
 });
 
 type StaffFormData = z.infer<typeof staffSchema>;
@@ -25,14 +29,18 @@ interface StaffFormProps {
   initialData?: Partial<StaffFormData>;
   onSubmit: (data: StaffFormData) => void;
   loading?: boolean;
+  departments?: { id: string; name: string }[];
 }
 
-export function StaffForm({ open, onOpenChange, initialData, onSubmit, loading }: StaffFormProps) {
+export function StaffForm({ open, onOpenChange, initialData, onSubmit, loading, departments = [] }: StaffFormProps) {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    control,
+    setValue,
+    watch,
   } = useForm<StaffFormData>({
     resolver: zodResolver(staffSchema),
     defaultValues: initialData,
@@ -45,7 +53,7 @@ export function StaffForm({ open, onOpenChange, initialData, onSubmit, loading }
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-[500px]">
+      <DialogContent className="max-h-[calc(100dvh-1rem)] overflow-y-auto sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>{initialData ? 'Edit Staff' : 'Add Staff'}</DialogTitle>
         </DialogHeader>
@@ -73,6 +81,11 @@ export function StaffForm({ open, onOpenChange, initialData, onSubmit, loading }
               <p className="text-xs text-destructive">{errors.position.message}</p>
             )}
           </div>
+          <LocalImageUpload value={watch('photoUrl')} onChange={(value) => setValue('photoUrl', value)} label="Staff photo" />
+          <label className="flex items-center gap-2 text-sm">
+            <input type="checkbox" {...register('isPublic')} className="h-4 w-4" />
+            Show this staff member on the public website
+          </label>
           <div className="space-y-2">
             <Label htmlFor="email">Email *</Label>
             <Input id="email" type="email" {...register('email')} />
@@ -80,7 +93,24 @@ export function StaffForm({ open, onOpenChange, initialData, onSubmit, loading }
           </div>
           <div className="space-y-2">
             <Label htmlFor="departmentId">Department *</Label>
-            <Input id="departmentId" {...register('departmentId')} />
+            <Controller
+              name="departmentId"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value || ''} onValueChange={field.onChange}>
+                  <SelectTrigger id="departmentId">
+                    <SelectValue placeholder="Select department" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {departments.map((department) => (
+                      <SelectItem key={department.id} value={department.id}>
+                        {department.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
             {errors.departmentId && (
               <p className="text-xs text-destructive">{errors.departmentId.message}</p>
             )}
@@ -97,7 +127,7 @@ export function StaffForm({ open, onOpenChange, initialData, onSubmit, loading }
               placeholder="e.g. Soil Science, Agronomy"
             />
           </div>
-          <div className="flex justify-end gap-3">
+          <div className="sticky bottom-0 -mx-1 flex justify-end gap-3 bg-popover px-1 py-3">
             <Button type="button" variant="outline" onClick={handleClose}>
               Cancel
             </Button>

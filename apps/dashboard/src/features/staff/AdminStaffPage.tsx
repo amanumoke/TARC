@@ -26,6 +26,8 @@ interface StaffMember {
   areasOfExpertise?: string[];
   bio?: string;
   isActive: boolean;
+  isPublic: boolean;
+  photoUrl?: string;
 }
 
 interface StaffResponse {
@@ -43,6 +45,28 @@ export function AdminStaffPage() {
   const { data: staffData, isLoading } = useApiQuery<StaffResponse>({
     queryKey: ['admin-staff', page, search],
     endpoint: `/api/v1/staff/admin?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+  });
+
+  const { data: departmentData } = useApiQuery<{ data: { id: string; name: string }[] }>({
+    queryKey: ['staff-departments-list'],
+    endpoint: '/api/v1/departments/admin?limit=100',
+  });
+
+  const createMutation = useApiMutation<StaffMember, Record<string, unknown>>({
+    endpoint: '/api/v1/staff/admin',
+    method: 'POST',
+    queryKeyToInvalidate: ['admin-staff'],
+    onSuccess: () => setShowForm(false),
+  });
+
+  const updateMutation = useApiMutation<StaffMember, Record<string, unknown> & { id: string }>({
+    endpoint: `/api/v1/staff/admin/${editingStaff?.id}`,
+    method: 'PUT',
+    queryKeyToInvalidate: ['admin-staff'],
+    onSuccess: () => {
+      setShowForm(false);
+      setEditingStaff(null);
+    },
   });
 
   const deleteMutation = useApiMutation<unknown, string>({
@@ -165,10 +189,26 @@ export function AdminStaffPage() {
                 departmentId: editingStaff.departmentId,
                 bio: editingStaff.bio || undefined,
                 areasOfExpertise: editingStaff.areasOfExpertise?.join(', '),
+                photoUrl: editingStaff.photoUrl,
+                isPublic: editingStaff.isPublic,
               }
             : undefined
         }
-        onSubmit={(data) => console.log('Submit:', data)}
+        onSubmit={(data) => {
+          const submitData = {
+            ...data,
+            areasOfExpertise: data.areasOfExpertise
+              ? data.areasOfExpertise.split(',').map((area) => area.trim()).filter(Boolean)
+              : [],
+          };
+          if (editingStaff) {
+            updateMutation.mutate({ ...submitData, id: editingStaff.id });
+          } else {
+            createMutation.mutate(submitData);
+          }
+        }}
+        loading={createMutation.isPending || updateMutation.isPending}
+        departments={departmentData?.data || []}
       />
 
       <ConfirmDialog

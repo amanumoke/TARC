@@ -57,8 +57,13 @@ export async function getGalleryMediaById(id: string) {
  * @returns The created gallery media record
  */
 export async function createGalleryMedia(data: NewGalleryMedia) {
-  const [created] = await db.insert(galleryMedia).values(data).execute();
-  return created;
+  await db.insert(galleryMedia).values(data).execute();
+  return getGalleryMediaById(data.id);
+}
+
+export async function updateGalleryMedia(id: string, data: Partial<NewGalleryMedia>) {
+  await db.update(galleryMedia).set(data).where(eq(galleryMedia.id, id));
+  return getGalleryMediaById(id);
 }
 
 /**

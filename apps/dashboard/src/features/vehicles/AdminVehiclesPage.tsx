@@ -25,6 +25,7 @@ interface Vehicle {
   departmentId?: string;
   driverId?: string;
   driverName?: string;
+  assignedDriver?: string;
   fuelType?: string;
   year?: number;
   status: string;
@@ -162,7 +163,9 @@ export function AdminVehiclesPage() {
     const submitData: Partial<Vehicle> = {
       ...data,
       year: data.year ? Number.parseInt(data.year, 10) : undefined,
+      assignedDriver: drivers.find((driver) => driver.id === data.driverId)?.name || undefined,
     };
+    delete (submitData as { driverId?: string }).driverId;
     if (editingVehicle) {
       updateMutation.mutate({ ...submitData, id: editingVehicle.id });
     } else {

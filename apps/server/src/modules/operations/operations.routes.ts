@@ -24,6 +24,7 @@ import {
   getAvailableVehicles,
   getVehicleById,
   updateAssignmentStatus,
+  updateVehicle,
   updateVehicleStatus,
 } from '../vehicles/vehicles.service.js';
 
@@ -115,6 +116,24 @@ router.put(
       res.json({ success: true, data: vehicle });
     } catch (error) {
       res.status(500).json({ success: false, error: 'Failed to update vehicle status' });
+    }
+  }
+);
+
+router.patch(
+  '/admin/vehicles/:id',
+  authenticateToken,
+  requireRole('SUPER_ADMIN', 'ADMIN'),
+  async (req: Request, res: Response) => {
+    try {
+      const vehicle = await updateVehicle(req.params.id, req.body);
+      if (!vehicle) {
+        res.status(404).json({ success: false, error: 'Vehicle not found' });
+        return;
+      }
+      res.json({ success: true, data: vehicle });
+    } catch (error) {
+      res.status(500).json({ success: false, error: 'Failed to update vehicle' });
     }
   }
 );

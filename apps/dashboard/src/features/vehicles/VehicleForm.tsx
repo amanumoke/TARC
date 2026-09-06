@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const vehicleSchema = z.object({
@@ -32,18 +32,15 @@ export type VehicleFormData = z.infer<typeof vehicleSchema>;
 const typeOptions = [
   { value: 'SEDAN', label: 'Sedan' },
   { value: 'SUV', label: 'SUV' },
-  { value: 'PICKUP', label: 'Pickup Truck' },
-  { value: 'MINIBUS', label: 'Minibus' },
+  { value: 'PICKUP_4WD', label: 'Pickup Truck' },
+  { value: 'VAN', label: 'Van / Minibus' },
   { value: 'TRUCK', label: 'Truck' },
   { value: 'MOTORCYCLE', label: 'Motorcycle' },
-  { value: 'OTHER', label: 'Other' },
 ];
 
 const fuelOptions = [
   { value: 'PETROL', label: 'Petrol' },
   { value: 'DIESEL', label: 'Diesel' },
-  { value: 'HYBRID', label: 'Hybrid' },
-  { value: 'ELECTRIC', label: 'Electric' },
 ];
 
 const statusOptions = [
@@ -77,6 +74,7 @@ export function VehicleForm({
     handleSubmit,
     formState: { errors },
     reset,
+    control,
   } = useForm<VehicleFormData>({
     resolver: zodResolver(vehicleSchema),
     defaultValues: initialData,
@@ -127,36 +125,48 @@ export function VehicleForm({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="vehicleType">Vehicle Type *</Label>
-              <Select {...register('vehicleType')}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select type" />
-                </SelectTrigger>
-                <SelectContent>
-                  {typeOptions.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="vehicleType"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value || ''} onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {typeOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
               {errors.vehicleType && (
                 <p className="text-xs text-destructive">{errors.vehicleType.message}</p>
               )}
             </div>
             <div className="space-y-2">
               <Label htmlFor="fuelType">Fuel Type *</Label>
-              <Select {...register('fuelType')}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select fuel" />
-                </SelectTrigger>
-                <SelectContent>
-                  {fuelOptions.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="fuelType"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value || ''} onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select fuel" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {fuelOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
               {errors.fuelType && (
                 <p className="text-xs text-destructive">{errors.fuelType.message}</p>
               )}
@@ -165,51 +175,69 @@ export function VehicleForm({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="departmentId">Department</Label>
-              <Select {...register('departmentId')}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select department" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">None</SelectItem>
-                  {departments.map((d) => (
-                    <SelectItem key={d.id} value={d.id}>
-                      {d.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="departmentId"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value || ' '} onValueChange={(value) => field.onChange(value === ' ' ? '' : value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select department" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value=" ">None</SelectItem>
+                      {departments.map((d) => (
+                        <SelectItem key={d.id} value={d.id}>
+                          {d.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
             </div>
             <div className="space-y-2">
               <Label htmlFor="driverId">Assigned Driver</Label>
-              <Select {...register('driverId')}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select driver" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="">None</SelectItem>
-                  {drivers.map((d) => (
-                    <SelectItem key={d.id} value={d.id}>
-                      {d.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="driverId"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value || ' '} onValueChange={(value) => field.onChange(value === ' ' ? '' : value)}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select driver" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value=" ">None</SelectItem>
+                      {drivers.map((d) => (
+                        <SelectItem key={d.id} value={d.id}>
+                          {d.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
             </div>
           </div>
           <div className="space-y-2">
             <Label htmlFor="status">Status *</Label>
-            <Select {...register('status')}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select status" />
-              </SelectTrigger>
-              <SelectContent>
-                {statusOptions.map((opt) => (
-                  <SelectItem key={opt.value} value={opt.value}>
-                    {opt.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Controller
+              name="status"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value || ''} onValueChange={field.onChange}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {statusOptions.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        {opt.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
             {errors.status && <p className="text-xs text-destructive">{errors.status.message}</p>}
           </div>
           <div className="space-y-2">

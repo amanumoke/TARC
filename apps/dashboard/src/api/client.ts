@@ -65,13 +65,30 @@ export async function apiClient<T>(
     throw new ApiError('Unauthorized', 401);
   }
 
-  const json: ApiResponse<T> = await response.json();
+  let json: ApiResponse<T> | null = null;
 
-  if (!response.ok || !json.success) {
+  if (typeof response.text === 'function') {
+    const responseText = await response.text();
+    if (responseText.trim()) {
+      try {
+        json = JSON.parse(responseText) as ApiResponse<T>;
+      } catch {
+        throw new ApiError(
+          `Request failed: ${response.status} ${response.statusText}`,
+          response.status,
+          responseText
+        );
+      }
+    }
+  } else {
+    json = await response.json();
+  }
+
+  if (!response.ok || !json?.success) {
     throw new ApiError(
-      json.error?.message || `Request failed: ${response.status}`,
+      json?.error?.message || `Request failed: ${response.status} ${response.statusText}`,
       response.status,
-      json.error
+      json?.error
     );
   }
 

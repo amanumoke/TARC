@@ -11,7 +11,7 @@ import {
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const publicationSchema = z.object({
@@ -24,6 +24,7 @@ const publicationSchema = z.object({
   projectId: z.string().optional(),
   isPeerReviewed: z.boolean().default(false),
   authors: z.string().optional(),
+  fileUrl: z.string().optional().or(z.literal('')),
 });
 
 export type PublicationFormData = z.infer<typeof publicationSchema>;
@@ -60,8 +61,7 @@ export function PublicationForm({
     handleSubmit,
     formState: { errors },
     reset,
-    watch,
-    setValue,
+    control,
   } = useForm<PublicationFormData>({
     resolver: zodResolver(publicationSchema),
     defaultValues: initialData,
@@ -91,18 +91,24 @@ export function PublicationForm({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="publicationType">Type *</Label>
-              <Select {...register('publicationType')}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select type" />
-                </SelectTrigger>
-                <SelectContent>
-                  {typeOptions.map((opt) => (
-                    <SelectItem key={opt.value} value={opt.value}>
-                      {opt.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Controller
+                name="publicationType"
+                control={control}
+                render={({ field }) => (
+                  <Select value={field.value || ''} onValueChange={field.onChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {typeOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
+              />
               {errors.publicationType && (
                 <p className="text-xs text-destructive">{errors.publicationType.message}</p>
               )}
@@ -125,6 +131,16 @@ export function PublicationForm({
             <Input id="publisherOrJournal" {...register('publisherOrJournal')} />
           </div>
           <div className="space-y-2">
+            <Label htmlFor="fileUrl">PDF / Document URL</Label>
+            <Input
+              id="fileUrl"
+              type="url"
+              {...register('fileUrl')}
+              placeholder="https://example.com/publication.pdf"
+            />
+            {errors.fileUrl && <p className="text-xs text-destructive">{errors.fileUrl.message}</p>}
+          </div>
+          <div className="space-y-2">
             <Label htmlFor="doiUrl">DOI URL</Label>
             <Input
               id="doiUrl"
@@ -136,19 +152,25 @@ export function PublicationForm({
           </div>
           <div className="space-y-2">
             <Label htmlFor="projectId">Related Project</Label>
-            <Select {...register('projectId')}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select project (optional)" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="">None</SelectItem>
-                {projects.map((p) => (
-                  <SelectItem key={p.id} value={p.id}>
-                    {p.title}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Controller
+              name="projectId"
+              control={control}
+              render={({ field }) => (
+                <Select value={field.value || ' '} onValueChange={(value) => field.onChange(value === ' ' ? '' : value)}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select project (optional)" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value=" ">None</SelectItem>
+                    {projects.map((p) => (
+                      <SelectItem key={p.id} value={p.id}>
+                        {p.title}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              )}
+            />
           </div>
           <div className="space-y-2">
             <Label htmlFor="authors">Authors (comma-separated)</Label>

@@ -11,14 +11,15 @@ import { PublicPublicationsPage } from '@/features/publications/PublicPublicatio
 import { ProjectsPage } from '@/features/research/ProjectsPage';
 import { ResearchRoutes } from '@/features/research/ResearchRoutes';
 import { SearchPage } from '@/features/search/SearchPage';
+import { PublicVacanciesPage } from '@/features/vacancies/PublicVacanciesPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
 export function App(): React.ReactElement {
   return (
     <BrowserRouter>
-      <div className="min-h-screen flex flex-col bg-background font-sans text-foreground">
+      <div className="min-h-screen min-w-0 flex flex-col bg-background font-sans text-foreground">
         <PublicHeader />
-        <main className="flex-1">
+        <main className="min-w-0 flex-1">
           <Routes>
             <Route path="/" element={<PublicHomePage />} />
             <Route path="/research/*" element={<ResearchRoutes />} />
@@ -29,6 +30,7 @@ export function App(): React.ReactElement {
             <Route path="/about/*" element={<AboutRoutes />} />
             <Route path="/gallery" element={<PublicGalleryPage />} />
             <Route path="/contact" element={<PublicContactPage />} />
+            <Route path="/vacancies" element={<PublicVacanciesPage />} />
             <Route path="/search" element={<SearchPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>

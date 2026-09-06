@@ -10,6 +10,7 @@ export type {
   ResearchProjectDTO,
   GalleryMediaDTO,
   SystemSettingsDTO,
+  VacancyDTO,
   DashboardMetricsDTO,
   ContactFormInput,
 } from '@tarcms/shared';

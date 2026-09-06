@@ -4,7 +4,7 @@
  * Handles database queries for managing researcher and staff profiles.
  */
 
-import { asc, eq } from 'drizzle-orm';
+import { and, asc, eq } from 'drizzle-orm';
 import { db } from '../../db/client.js';
 import { staff } from '../../db/schema/index.js';
 
@@ -25,6 +25,7 @@ export interface StaffWithDepartment {
   bio: string | null;
   photoUrl: string | null;
   isActive: boolean;
+  isPublic: boolean;
   isFeatured: boolean;
   sortOrder: number;
   createdAt: Date;
@@ -36,7 +37,11 @@ export interface StaffWithDepartment {
  * Filters to only active staff for public visibility.
  */
 export async function getPublicStaff(): Promise<StaffWithDepartment[]> {
-  return db.select().from(staff).where(eq(staff.isActive, true)).orderBy(asc(staff.sortOrder));
+  return db
+    .select()
+    .from(staff)
+    .where(and(eq(staff.isActive, true), eq(staff.isPublic, true)))
+    .orderBy(asc(staff.sortOrder));
 }
 
 /**
@@ -71,6 +76,7 @@ export async function createStaff(data: {
   bio?: string;
   photoUrl?: string;
   isActive?: boolean;
+  isPublic?: boolean;
   isFeatured?: boolean;
   sortOrder?: number;
 }): Promise<StaffWithDepartment> {
@@ -100,6 +106,7 @@ export async function updateStaff(
     bio: string;
     photoUrl: string;
     isActive: boolean;
+    isPublic: boolean;
     isFeatured: boolean;
     sortOrder: number;
   }>

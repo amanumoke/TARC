@@ -35,7 +35,7 @@ export function FeaturedProject() {
         <div className="grid grid-cols-1 lg:grid-cols-[55%_1fr] gap-10 lg:gap-16 items-center">
           <div className="aspect-[16/10] overflow-hidden">
             <img
-              src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?w=800&q=80"
+              src="/images/cacao-research.jpg"
               alt={project.title}
               className="w-full h-full object-cover"
               loading="lazy"

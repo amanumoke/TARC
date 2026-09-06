@@ -1,8 +1,9 @@
 import { useSettings } from '@/api/hooks/useSettings';
-import { PlaceholderImage } from '@/components/PlaceholderImage';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ChevronRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+
+const fallbackDirectorPhoto = '/images/director-dereje.jpg';
 
 export function DirectorMessagePage() {
   const { data: settings, isLoading } = useSettings();
@@ -47,17 +48,17 @@ export function DirectorMessagePage() {
         <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-12 lg:gap-20">
             <div>
-              <PlaceholderImage
-                label="Director Photo"
-                aspectRatio="square"
-                className="w-full aspect-square"
+              <img
+                src={settings?.directorPhotoUrl || fallbackDirectorPhoto}
+                alt={settings?.directorName || 'Dr. Dereje Tulu'}
+                className="w-full max-h-[560px] rounded-lg bg-muted object-contain object-center"
               />
               <div className="mt-6">
                 <p className="font-heading text-xl font-bold">
-                  {settings?.directorName || 'Director of TARC'}
+                  {settings?.directorName || 'Dr. Dereje Tulu'}
                 </p>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {settings?.directorTitle || 'Director, Tepi Agricultural Research Center'}
+                  {settings?.directorTitle || 'Center Director, Tepi Agricultural Research Center (EIAR)'}
                 </p>
               </div>
             </div>
@@ -69,10 +70,10 @@ export function DirectorMessagePage() {
               />
               <div className="mt-8 pt-8 border-t border-border">
                 <p className="font-heading text-lg font-bold">
-                  {settings?.directorName || 'Dr. [Director Name]'}
+                  {settings?.directorName || 'Dr. Dereje Tulu'}
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {settings?.directorTitle || 'Director, TARC'}
+                  {settings?.directorTitle || 'Center Director & Senior Researcher (EIAR)'}
                 </p>
               </div>
             </div>

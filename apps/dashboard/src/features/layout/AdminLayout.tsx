@@ -24,7 +24,7 @@ export function AdminLayout({ user, onLogout }: AdminLayoutProps) {
   const [searchOpen, setSearchOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-background overflow-hidden">
+    <div className="flex h-dvh min-h-0 bg-background overflow-hidden">
       <AdminSidebar
         user={user}
         open={sidebarOpen}
@@ -33,14 +33,14 @@ export function AdminLayout({ user, onLogout }: AdminLayoutProps) {
         onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
         onLogout={onLogout}
       />
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex min-w-0 min-h-0 flex-1 flex-col overflow-hidden">
         <AdminHeader
           user={user}
           onMenuToggle={() => setSidebarOpen(!sidebarOpen)}
           onLogout={onLogout}
           onSearchOpen={() => setSearchOpen(true)}
         />
-        <main className="flex-1 overflow-y-auto p-4 lg:p-6">
+        <main className="min-h-0 flex-1 overflow-y-auto p-4 lg:p-6">
           <Outlet />
         </main>
       </div>

@@ -1,7 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
-const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_key_tarcms_2026';
+export const JWT_SECRET = process.env.JWT_SECRET || 'super_secret_jwt_key_for_tarcms_development_2026';
 const SALT_ROUNDS = 10;
 
 export type UserRole = 'SUPER_ADMIN' | 'ADMIN' | 'RESEARCHER' | 'STAFF';

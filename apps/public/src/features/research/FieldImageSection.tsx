@@ -5,8 +5,8 @@ export function FieldImageSection() {
   return (
     <section className="relative h-[60vh] lg:h-[80vh] overflow-hidden">
       <img
-        src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=1400&q=80"
-        alt="Agricultural research field in Ethiopian highlands"
+        src="/images/red-coffee.jpg"
+        alt="Red coffee cherries growing at a TARC research field"
         className="w-full h-full object-cover"
         loading="lazy"
       />

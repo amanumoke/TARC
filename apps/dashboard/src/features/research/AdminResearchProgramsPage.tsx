@@ -24,6 +24,7 @@ interface ResearchProgram {
   departmentId?: string;
   status: string;
   projectsCount?: number;
+  imageUrl?: string | null;
 }
 
 interface ProgramResponse {
@@ -67,7 +68,7 @@ export function AdminResearchProgramsPage() {
   const updateMutation = useApiMutation<ResearchProgram, Partial<ResearchProgram> & { id: string }>(
     {
       endpoint: `/api/v1/research/admin/programs/${editingProgram?.id}`,
-      method: 'PATCH',
+      method: 'PUT',
       queryKeyToInvalidate: ['admin-research-programs'],
       onSuccess: () => {
         setShowForm(false);
@@ -190,6 +191,7 @@ export function AdminResearchProgramsPage() {
                 description: editingProgram.description,
                 departmentId: editingProgram.departmentId,
                 status: editingProgram.status,
+                imageUrl: editingProgram.imageUrl || undefined,
               }
             : undefined
         }

@@ -10,14 +10,16 @@ const PROGRAM_DESCRIPTIONS: Record<string, string> = {
   'Soil & Water': 'Sustainable soil and water management for agricultural development.',
 };
 
-const PROGRAM_IMAGES = [
-  '/images/cacuo.jpg',
-  '/images/red-coffee.jpg',
-  '/images/coffee-seed.jpg',
-  '/images/planting.jpg',
-  '/images/labrat.jpg',
-  '/images/field-3.jpg',
-];
+function fallbackImageForDepartment(name: string) {
+  const department = name.toLowerCase();
+  if (department.includes('livestock') || department.includes('animal')) return '/images/chicken.jpg';
+  if (department.includes('coffee')) return '/images/red-coffee.jpg';
+  if (department.includes('cacao')) return '/images/cacao-research.jpg';
+  if (department.includes('laboratory') || department.includes('biotechnology')) return '/images/labrat.jpg';
+  if (department.includes('extension') || department.includes('technology')) return '/images/planting.jpg';
+  if (department.includes('soil') || department.includes('field')) return '/images/field-3.jpg';
+  return '/images/background.jpg';
+}
 
 export function ResearchPrograms() {
   const { data: departments, isLoading } = useDepartments();
@@ -80,7 +82,7 @@ export function ResearchPrograms() {
 
                 <div className="hidden lg:block relative w-40 h-28 flex-shrink-0 overflow-hidden">
                   <img
-                    src={PROGRAM_IMAGES[index % PROGRAM_IMAGES.length]}
+                    src={dept.imageUrl || fallbackImageForDepartment(dept.name)}
                     alt={`${dept.name} research`}
                     className="program-image w-full h-full object-cover"
                     loading="lazy"

@@ -237,11 +237,19 @@ export function PublicContactPage() {
               <div className="overflow-hidden border border-border bg-muted/30">
                 <iframe
                   title="TARC Location Map"
-                  src="https://www.google.com/maps?q=Tepi%20Agricultural%20Research%20Center%2C%20Ethiopia&z=12&output=embed"
+                  src="https://www.google.com/maps?q=7.1997,35.4244&z=14&output=embed"
                   className="h-[260px] w-full border-0"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=7.1997,35.4244"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block border-t border-border px-4 py-3 text-xs font-semibold uppercase tracking-widest text-primary hover:bg-muted"
+                >
+                  Open TARC location in Google Maps
+                </a>
               </div>
             </div>
           </div>

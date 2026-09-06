@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { LocalImageUpload } from '@/components/LocalImageUpload';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -21,6 +22,7 @@ const programSchema = z.object({
   objectives: z.string().optional(),
   departmentId: z.string().min(1, 'Department is required'),
   status: z.string().min(1, 'Status is required'),
+  imageUrl: z.string().optional(),
 });
 
 type ProgramFormData = z.infer<typeof programSchema>;
@@ -54,6 +56,8 @@ export function ResearchProgramForm({
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
   } = useForm<ProgramFormData>({
     resolver: zodResolver(programSchema),
     defaultValues: initialData,
@@ -78,6 +82,7 @@ export function ResearchProgramForm({
             <Input id="title" {...register('title')} />
             {errors.title && <p className="text-xs text-destructive">{errors.title.message}</p>}
           </div>
+          <LocalImageUpload value={watch('imageUrl')} onChange={(value) => setValue('imageUrl', value)} label="Research program photo" />
           <div className="space-y-2">
             <Label htmlFor="code">Code *</Label>
             <Input id="code" {...register('code')} />

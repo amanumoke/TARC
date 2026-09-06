@@ -76,6 +76,14 @@ export function PublicResearchPage() {
             ? Array.from({ length: 2 }).map(() => <CardSkeleton key={crypto.randomUUID()} />)
             : programs?.map((program) => (
                 <Card key={program.id}>
+                  {program.imageUrl && (
+                    <img
+                      src={program.imageUrl}
+                      alt={program.title}
+                      className="h-44 w-full object-cover"
+                      loading="lazy"
+                    />
+                  )}
                   <CardHeader>
                     <CardTitle className="text-lg">{program.title}</CardTitle>
                     <p className="text-sm text-muted-foreground">{program.status}</p>

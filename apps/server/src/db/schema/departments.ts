@@ -30,6 +30,9 @@ export const departments = mysqlTable(
     /** Comprehensive description of department mandate and research scope */
     description: text('description'),
 
+    /** Local image used for public research program cards */
+    imageUrl: varchar('image_url', { length: 500 }),
+
     /** Foreign key to staff table: the current head/coordinator of the department */
     headId: varchar('head_id', { length: 36 }),
 

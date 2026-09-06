@@ -76,7 +76,7 @@ export async function handleGetDepartmentById(req: Request, res: Response) {
  */
 export async function handleCreateDepartment(req: Request, res: Response) {
   try {
-    const { name, code, description, headId, establishedYear, sortOrder } = req.body;
+    const { name, code, description, imageUrl, headId, establishedYear, sortOrder } = req.body;
     if (!name || !code) {
       return res.status(400).json({
         success: false,
@@ -87,6 +87,7 @@ export async function handleCreateDepartment(req: Request, res: Response) {
       name,
       code,
       description,
+      imageUrl,
       headId,
       establishedYear,
       sortOrder,

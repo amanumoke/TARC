@@ -187,6 +187,7 @@ export async function seedDatabase() {
           code: 'DEPT-SPICE',
           description:
             'National excellence and coordinating center for Korarima (large cardamom), black pepper, ginger, turmeric, vanilla, and essential oil crop breeding, agronomy, and post-harvest technology.',
+          imageUrl: '/images/cacuo.jpg',
           establishedYear: 1998,
           sortOrder: 1,
         },
@@ -196,6 +197,7 @@ export async function seedDatabase() {
           code: 'DEPT-COFFEE',
           description:
             'Dedicated to Arabica coffee genetic improvement, agroforestry canopy shade management, cup quality profiling, and processing technology in the Sheka coffee belt.',
+          imageUrl: '/images/red-coffee.jpg',
           establishedYear: 2000,
           sortOrder: 2,
         },
@@ -205,6 +207,7 @@ export async function seedDatabase() {
           code: 'DEPT-CACAO',
           description:
             'Leading the national cacao research and development program to establish and scale high-quality cocoa bean production as a high-value commercial export crop in humid lowland Ethiopia.',
+          imageUrl: '/images/cacao-research.jpg',
           establishedYear: 2012,
           sortOrder: 3,
         },
@@ -214,6 +217,7 @@ export async function seedDatabase() {
           code: 'DEPT-FIELD',
           description:
             'Adaptability screening, breeding, and agronomic optimization of cereals (maize, rice), pulses (soybean, haricot bean), and oilseeds for humid lowland and mid-altitude ecologies.',
+          imageUrl: '/images/field-3.jpg',
           establishedYear: 2002,
           sortOrder: 4,
         },
@@ -223,6 +227,7 @@ export async function seedDatabase() {
           code: 'DEPT-HORT',
           description:
             'Tropical and subtropical fruit crops (banana, mango, papaya, citrus, avocado) and indigenous vegetable variety development and multiplication.',
+          imageUrl: '/images/planting.jpg',
           establishedYear: 2004,
           sortOrder: 5,
         },
@@ -232,6 +237,7 @@ export async function seedDatabase() {
           code: 'DEPT-PROT',
           description:
             'Diagnostic identification, entomology, and integrated disease management for coffee berry disease, ginger bacterial wilt, turmeric leaf spot, and insect pests.',
+          imageUrl: '/images/labrat.jpg',
           establishedYear: 2002,
           sortOrder: 6,
         },
@@ -241,6 +247,7 @@ export async function seedDatabase() {
           code: 'DEPT-SOIL',
           description:
             'Soil fertility mapping, acid soil amelioration, organic composting, agroforestry canopy conservation, and integrated watershed management.',
+          imageUrl: '/images/background.jpg',
           establishedYear: 2005,
           sortOrder: 7,
         },
@@ -250,6 +257,7 @@ export async function seedDatabase() {
           code: 'DEPT-LIVE',
           description:
             'Veterinary epidemiology, disease surveillance (brucellosis, trypanosomiasis), dairy and beef cattle breed improvement, forage agronomy, and apiculture/honeybee research.',
+          imageUrl: '/images/chicken.jpg',
           establishedYear: 2008,
           sortOrder: 8,
         },
@@ -259,6 +267,7 @@ export async function seedDatabase() {
           code: 'DEPT-BIOTECH',
           description:
             'Tissue culture micropropagation for disease-free ginger and banana planting material, molecular characterization, and germplasm conservation.',
+          imageUrl: '/images/coffee-seed.jpg',
           establishedYear: 2015,
           sortOrder: 9,
         },
@@ -268,6 +277,7 @@ export async function seedDatabase() {
           code: 'DEPT-MECH',
           description:
             'Design, evaluation, and adaptation of farm machinery, spice drying solar tunnels, coffee pulping equipment, and smallholder harvesting tools.',
+          imageUrl: '/images/field.jpg',
           establishedYear: 2016,
           sortOrder: 10,
         },
@@ -277,6 +287,7 @@ export async function seedDatabase() {
           code: 'DEPT-ECON',
           description:
             'Socioeconomic impact assessments, production economics, market linkage studies, value chain mapping, and agricultural policy analysis.',
+          imageUrl: '/images/cacao-research.jpg',
           establishedYear: 2006,
           sortOrder: 11,
         },
@@ -286,6 +297,7 @@ export async function seedDatabase() {
           code: 'DEPT-EXT',
           description:
             'Demand-driven technology transfer, farmer field schools, pre-extension demonstration trials, and certified spice/coffee seedling multiplication.',
+          imageUrl: '/images/planting.jpg',
           establishedYear: 2006,
           sortOrder: 12,
         },
@@ -295,6 +307,7 @@ export async function seedDatabase() {
           code: 'DEPT-FOOD',
           description:
             'Post-harvest preservation, food quality standards, sensory evaluation, essential oil chemical profiling, and nutritional product development.',
+          imageUrl: '/images/labrat.jpg',
           establishedYear: 2018,
           sortOrder: 13,
         },
@@ -304,6 +317,7 @@ export async function seedDatabase() {
           code: 'DEPT-ADMIN',
           description:
             'Human resource administration, financial management, research station infrastructure, transport fleet operations, and procurement management.',
+          imageUrl: '/images/background.jpg',
           establishedYear: 1998,
           sortOrder: 14,
         },
@@ -506,6 +520,7 @@ export async function seedDatabase() {
           code: 'PROG-SPICE-NAT',
           description:
             'Focused on germplasm collection, high-yield variety release, clean planting material multiplication, and post-harvest drying standards for Korarima, Ginger, and Turmeric.',
+          imageUrl: '/images/cacuo.jpg',
           objectives: [
             'Release 2 high oleoresin turmeric varieties by 2027',
             'Develop bacterial wilt management protocols for ginger',
@@ -523,6 +538,7 @@ export async function seedDatabase() {
           code: 'PROG-COFFEE-SW',
           description:
             'Optimizing shade tree architecture and microclimate regulation to enhance Arabica cup complexity and mitigate climate change stress in Tepi and Sheka.',
+          imageUrl: '/images/red-coffee.jpg',
           objectives: [
             'Profile sensory attributes of forest Arabica accessions',
             'Quantify carbon sequestration in shaded coffee production systems',
@@ -539,6 +555,7 @@ export async function seedDatabase() {
           code: 'PROG-CACAO-NAT',
           description:
             'National mandate program establishing cacao as a major commercial high-value export crop in Ethiopia through elite clone introduction, fermentation protocols, and seedling propagation.',
+          imageUrl: '/images/cacao-research.jpg',
           objectives: [
             'Evaluate 12 imported elite cacao clones for pod yield and butter fat content',
             'Distribute 250,000 grafted cacao seedlings to smallholder outgrowers',
@@ -556,6 +573,7 @@ export async function seedDatabase() {
           code: 'PROG-LIVE-EPI',
           description:
             'Surveillance and control of infectious zoonotic diseases, evaluation of dairy crossbreeds in humid tropics, and modern hive apiculture in Sheka forest biosphere.',
+          imageUrl: '/images/chicken.jpg',
           objectives: [
             'Investigate epidemiological prevalence of bovine brucellosis and trypanosomiasis',
             'Evaluate adapted dairy cattle crosses under humid lowland grazing systems',
@@ -573,6 +591,7 @@ export async function seedDatabase() {
           code: 'PROG-PROT-INT',
           description:
             'Developing biological control agents, resistant varieties, and IPM packages for major diseases and pests affecting spice and coffee crops.',
+          imageUrl: '/images/labrat.jpg',
           objectives: [
             'Identify biocontrol agents for coffee berry disease',
             'Develop ginger bacterial wilt resistant lines',
@@ -589,6 +608,7 @@ export async function seedDatabase() {
           code: 'PROG-SOIL-SUS',
           description:
             'Building soil organic matter, nutrient cycling, and canopy conservation for long-term productivity of spice-coffee agroforestry systems.',
+          imageUrl: '/images/field-3.jpg',
           objectives: [
             'Map soil fertility across 5 kebeles in Yeki Woreda',
             'Promote organic composting among smallholder farmers',

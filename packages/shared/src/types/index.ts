@@ -29,6 +29,7 @@ export interface DepartmentDTO {
   name: string;
   code: string;
   description?: string | null;
+  imageUrl?: string | null;
   headId?: string | null;
   headName?: string | null;
   establishedYear?: number | null;
@@ -68,6 +69,7 @@ export interface ResearchProgramDTO {
   slug: string;
   code: string;
   description: string;
+  imageUrl?: string | null;
   objectives?: string[] | null;
   status: ResearchProgramStatusValue;
   sortOrder: number;

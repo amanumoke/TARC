@@ -16,6 +16,7 @@ export interface DepartmentWithHead {
   name: string;
   code: string;
   description: string | null;
+  imageUrl: string | null;
   headId: string | null;
   establishedYear: number | null;
   sortOrder: number;
@@ -48,6 +49,7 @@ export async function createDepartment(data: {
   name: string;
   code: string;
   description?: string;
+  imageUrl?: string;
   headId?: string;
   establishedYear?: number;
   sortOrder?: number;
@@ -71,6 +73,7 @@ export async function updateDepartment(
     name: string;
     code: string;
     description: string;
+    imageUrl: string;
     headId: string;
     establishedYear: number;
     sortOrder: number;

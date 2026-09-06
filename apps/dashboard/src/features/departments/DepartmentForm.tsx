@@ -3,6 +3,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/u
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { LocalImageUpload } from '@/components/LocalImageUpload';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -12,6 +13,7 @@ const departmentSchema = z.object({
   code: z.string().min(1, 'Code is required'),
   description: z.string().optional(),
   establishedYear: z.string().optional(),
+  imageUrl: z.string().optional(),
 });
 
 export type DepartmentFormData = z.infer<typeof departmentSchema>;
@@ -36,6 +38,8 @@ export function DepartmentForm({
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
+    watch,
   } = useForm<DepartmentFormData>({
     resolver: zodResolver(departmentSchema),
     defaultValues: initialData,
@@ -58,6 +62,7 @@ export function DepartmentForm({
             <Input id="name" {...register('name')} />
             {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
           </div>
+          <LocalImageUpload value={watch('imageUrl')} onChange={(value) => setValue('imageUrl', value)} label="Research program photo" />
           <div className="space-y-2">
             <Label htmlFor="code">Code *</Label>
             <Input id="code" {...register('code')} />

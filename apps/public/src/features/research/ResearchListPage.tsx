@@ -74,6 +74,12 @@ export function ResearchListPage() {
                 to={`/research/${dept.code || dept.id}`}
                 className="group border border-border rounded-lg p-6 bg-card hover:shadow-md transition-all hover:border-primary/30"
               >
+                <img
+                  src={dept.imageUrl || '/images/background.jpg'}
+                  alt={dept.name}
+                  className="mb-5 aspect-[16/8] w-full rounded-md object-cover"
+                  loading="lazy"
+                />
                 <h2 className="text-xl font-semibold text-foreground group-hover:text-primary transition-colors mb-2">
                   {dept.name}
                 </h2>

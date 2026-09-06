@@ -20,6 +20,7 @@ interface Department {
   code: string;
   description: string | null;
   establishedYear: number | null;
+  imageUrl?: string | null;
 }
 
 interface DepartmentResponse {
@@ -55,7 +56,7 @@ export function AdminDepartmentsPage() {
 
   const updateMutation = useApiMutation<Department, Partial<Department> & { id: string }>({
     endpoint: `/api/v1/departments/admin/${editingDept?.id}`,
-    method: 'PATCH',
+    method: 'PUT',
     queryKeyToInvalidate: ['admin-departments'],
     onSuccess: () => {
       setShowForm(false);
@@ -169,6 +170,7 @@ export function AdminDepartmentsPage() {
                 code: editingDept.code,
                 description: editingDept.description || undefined,
                 establishedYear: editingDept.establishedYear?.toString(),
+                imageUrl: editingDept.imageUrl || undefined,
               }
             : undefined
         }

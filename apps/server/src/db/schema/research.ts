@@ -53,6 +53,9 @@ export const researchPrograms = mysqlTable(
     /** Detailed narrative description of the program */
     description: text('description').notNull(),
 
+    /** Local image used for public research program cards */
+    imageUrl: varchar('image_url', { length: 500 }),
+
     /** Strategic scientific objectives formatted as JSON array of strings */
     objectives: json('objectives').$type<string[]>(),
 

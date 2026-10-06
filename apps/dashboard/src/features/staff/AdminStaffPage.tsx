@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+﻿import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +11,7 @@ import { PageHeader } from '@/features/shared/PageHeader';
 import { StatusBadge } from '@/features/shared/StatusBadge';
 import { useApiMutation } from '@/hooks/useApiMutation';
 import { useApiQuery } from '@/hooks/useApiQuery';
-import { MoreHorizontal, Pencil, Plus, Trash2 } from 'lucide-react';
+import { MoreHorizontal, Pencil, PowerOff, Trash2, UserCheck } from 'lucide-react';
 import { useState } from 'react';
 import { StaffForm } from './StaffForm';
 
@@ -37,14 +37,16 @@ interface StaffResponse {
 
 export function AdminStaffPage() {
   const [search, setSearch] = useState('');
+  const [statusFilter, setStatusFilter] = useState<'all' | 'active' | 'inactive'>('all');
   const [showForm, setShowForm] = useState(false);
   const [editingStaff, setEditingStaff] = useState<StaffMember | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
   const [page, setPage] = useState(1);
 
   const { data: staffData, isLoading } = useApiQuery<StaffResponse>({
-    queryKey: ['admin-staff', page, search],
-    endpoint: `/api/v1/staff/admin?page=${page}&limit=10&search=${encodeURIComponent(search)}`,
+    queryKey: ['admin-staff', page, search, statusFilter],
+    endpoint: `/api/v1/staff/admin?page=${page}&limit=10&search=${encodeURIComponent(search)}${statusFilter !== 'all' ? `&isActive=${statusFilter === 'active'}` : ''}`,
   });
 
   const { data: departmentData } = useApiQuery<{ data: { id: string; name: string }[] }>({
@@ -67,6 +69,15 @@ export function AdminStaffPage() {
       setShowForm(false);
       setEditingStaff(null);
     },
+  });
+
+  // Toggle active/inactive status inline without opening the form
+  const toggleActiveMutation = useApiMutation<StaffMember, { id: string; isActive: boolean }>({
+    endpoint: `/api/v1/staff/admin/${togglingId}`,
+    method: 'PATCH',
+    queryKeyToInvalidate: ['admin-staff'],
+    onSuccess: () => setTogglingId(null),
+    onError: () => setTogglingId(null),
   });
 
   const deleteMutation = useApiMutation<unknown, string>({
@@ -128,6 +139,24 @@ export function AdminStaffPage() {
             >
               <Pencil className="mr-2 h-4 w-4" /> Edit
             </DropdownMenuItem>
+            {/* Toggle active / inactive */}
+            <DropdownMenuItem
+              onClick={() => {
+                setTogglingId(item.id);
+                toggleActiveMutation.mutate({ id: item.id, isActive: !item.isActive });
+              }}
+              className={item.isActive ? 'text-amber-600' : 'text-emerald-600'}
+            >
+              {item.isActive ? (
+                <>
+                  <PowerOff className="mr-2 h-4 w-4" /> Set Inactive
+                </>
+              ) : (
+                <>
+                  <UserCheck className="mr-2 h-4 w-4" /> Set Active
+                </>
+              )}
+            </DropdownMenuItem>
             <DropdownMenuItem onClick={() => setDeletingId(item.id)} className="text-destructive">
               <Trash2 className="mr-2 h-4 w-4" /> Delete
             </DropdownMenuItem>
@@ -146,7 +175,7 @@ export function AdminStaffPage() {
       />
 
       <div className="space-y-4">
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <input
             type="text"
             placeholder="Search staff..."
@@ -157,6 +186,35 @@ export function AdminStaffPage() {
             }}
             className="h-9 max-w-sm rounded-md border bg-transparent px-3 text-sm"
           />
+          {/* Status filter tabs */}
+          <div className="flex items-center gap-1 rounded-md border p-0.5 bg-muted/30">
+            {(['all', 'active', 'inactive'] as const).map((f) => (
+              <button
+                key={f}
+                type="button"
+                onClick={() => { setStatusFilter(f); setPage(1); }}
+                className={`px-3 py-1 text-xs font-semibold uppercase tracking-wider rounded-sm transition-colors ${
+                  statusFilter === f
+                    ? 'bg-white shadow-sm text-foreground'
+                    : 'text-muted-foreground hover:text-foreground'
+                }`}
+              >
+                {f}
+              </button>
+            ))}
+          </div>
+          {/* Live count badges */}
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            {statusFilter !== 'all' && meta?.total !== undefined && (
+              <span className={`px-2 py-0.5 rounded-full font-semibold ${
+                statusFilter === 'active'
+                  ? 'bg-emerald-100 text-emerald-700'
+                  : 'bg-amber-100 text-amber-700'
+              }`}>
+                {meta.total} {statusFilter}
+              </span>
+            )}
+          </div>
         </div>
 
         <DataTable
@@ -191,6 +249,7 @@ export function AdminStaffPage() {
                 areasOfExpertise: editingStaff.areasOfExpertise?.join(', '),
                 photoUrl: editingStaff.photoUrl,
                 isPublic: editingStaff.isPublic,
+                isActive: editingStaff.isActive,
               }
             : undefined
         }

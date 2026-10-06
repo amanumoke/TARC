@@ -234,11 +234,43 @@ export function PublicContactPage() {
                 </div>
               </div>
 
-              <div className="overflow-hidden border border-border bg-muted/30">
+              <div className="overflow-hidden border border-border">
+                {/* Static map thumbnail that loads instantly */}
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=7.1997,35.4244"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="block relative group"
+                  aria-label="Open TARC location in Google Maps"
+                >
+                  <img
+                    src={`https://maps.googleapis.com/maps/api/staticmap?center=7.1997,35.4244&zoom=13&size=600x280&scale=2&markers=color:green%7C7.1997,35.4244&style=feature:all|element:labels.text.fill|color:0x1a3a2a&key=`}
+                    alt="TARC location map"
+                    className="w-full h-[200px] object-cover bg-muted"
+                    loading="eager"
+                    onError={(e) => {
+                      // If static map fails, show the iframe fallback
+                      const container = e.currentTarget.parentElement?.parentElement;
+                      if (container) {
+                        e.currentTarget.style.display = 'none';
+                        const iframe = container.querySelector('iframe');
+                        if (iframe) iframe.style.display = 'block';
+                      }
+                    }}
+                  />
+                  {/* Overlay */}
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                    <span className="opacity-0 group-hover:opacity-100 transition-opacity bg-primary text-white text-[11px] font-bold uppercase tracking-widest px-4 py-2">
+                      Open in Maps
+                    </span>
+                  </div>
+                </a>
+                {/* Iframe fallback — hidden by default, shown if static map fails */}
                 <iframe
                   title="TARC Location Map"
                   src="https://www.google.com/maps?q=7.1997,35.4244&z=14&output=embed"
-                  className="h-[260px] w-full border-0"
+                  className="h-[200px] w-full border-0"
+                  style={{ display: 'none' }}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                 />
@@ -246,9 +278,10 @@ export function PublicContactPage() {
                   href="https://www.google.com/maps/search/?api=1&query=7.1997,35.4244"
                   target="_blank"
                   rel="noreferrer"
-                  className="block border-t border-border px-4 py-3 text-xs font-semibold uppercase tracking-widest text-primary hover:bg-muted"
+                  className="flex items-center justify-between border-t border-border px-4 py-3 text-xs font-semibold uppercase tracking-widest text-primary hover:bg-muted transition-colors"
                 >
-                  Open TARC location in Google Maps
+                  <span>Tepi, Sheka Zone, SW Ethiopia</span>
+                  <span>Open Maps →</span>
                 </a>
               </div>
             </div>

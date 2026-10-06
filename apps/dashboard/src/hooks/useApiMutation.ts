@@ -21,7 +21,7 @@ const methodFns: Record<HttpMethod, MutateFn> = {
 };
 
 interface UseApiMutationOptions<TData, TVariables> {
-  endpoint: string;
+  endpoint: string | ((variables: TVariables) => string);
   method?: HttpMethod;
   queryKeyToInvalidate?: string[];
   onSuccess?: (data: TData) => void;
@@ -41,7 +41,8 @@ export function useApiMutation<TData, TVariables = unknown>({
     mutationFn: async (variables: TVariables): Promise<TData> => {
       try {
         const fn = methodFns[method];
-        const path = stripBasePrefix(endpoint);
+        const rawEndpoint = typeof endpoint === 'function' ? endpoint(variables) : endpoint;
+        const path = stripBasePrefix(rawEndpoint);
         if (method === 'DELETE') {
           return await fn<TData>(path);
         }

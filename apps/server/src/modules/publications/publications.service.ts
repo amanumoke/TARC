@@ -48,27 +48,33 @@ export async function getPublicationById(id: string) {
   return { ...pub, authors };
 }
 
+import { randomUUID } from 'node:crypto';
+
 /**
  * Creates a new publication with authors in a single operation.
  * @param data - Publication data with authors array
  * @returns The created publication with authors
  */
 export async function createPublicationWithAuthors(
-  data: NewPublication & { authors: NewPublicationAuthor[] }
+  data: any
 ) {
-  const [created] = await db.insert(publications).values(data).execute();
+  const pubId = data.id || randomUUID();
+  const { authors, ...pubData } = data;
+
+  await db.insert(publications).values({ id: pubId, ...pubData }).execute();
 
   // Insert all authors with the publication ID
-  if (data.authors && data.authors.length > 0) {
-    const pubId = String(created.insertId);
-    const authorsWithPubId = data.authors.map((author) => ({
+  if (authors && authors.length > 0) {
+    const authorsWithPubId = authors.map((author: any, index: number) => ({
       ...author,
+      id: author.id || randomUUID(),
       publicationId: pubId,
+      authorOrder: author.authorOrder ?? index + 1,
     }));
     await db.insert(publicationAuthors).values(authorsWithPubId).execute();
   }
 
-  return getPublicationById(String(created.insertId));
+  return getPublicationById(pubId);
 }
 
 /**

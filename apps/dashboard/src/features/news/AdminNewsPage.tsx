@@ -19,6 +19,9 @@ interface NewsItem {
   id: string;
   title: string;
   category: string;
+  summary?: string;
+  content?: string;
+  coverImageUrl?: string;
   isPublished: boolean;
   publishedAt?: string | null;
   authorName?: string;
@@ -34,6 +37,7 @@ export function AdminNewsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingNews, setEditingNews] = useState<NewsItem | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [formError, setFormError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
 
   const { data: newsData, isLoading } = useApiQuery<NewsResponse>({
@@ -42,7 +46,7 @@ export function AdminNewsPage() {
   });
 
   const deleteMutation = useApiMutation<unknown, string>({
-    endpoint: `/api/v1/communication/admin/news/${deletingId}`,
+    endpoint: (id) => `/api/v1/communication/admin/news/${id || deletingId}`,
     method: 'DELETE',
     queryKeyToInvalidate: ['admin-news'],
     onSuccess: () => setDeletingId(null),
@@ -52,16 +56,26 @@ export function AdminNewsPage() {
     endpoint: '/api/v1/communication/admin/news',
     method: 'POST',
     queryKeyToInvalidate: ['admin-news'],
-    onSuccess: () => setShowForm(false),
+    onSuccess: () => {
+      setShowForm(false);
+      setFormError(null);
+    },
+    onError: (err) => {
+      setFormError(err.message || 'Failed to create news article');
+    },
   });
 
   const updateMutation = useApiMutation<NewsItem, Partial<NewsItem> & { id: string }>({
-    endpoint: `/api/v1/communication/admin/news/${editingNews?.id}`,
-    method: 'PATCH',
+    endpoint: (variables) => `/api/v1/communication/admin/news/${variables.id || editingNews?.id}`,
+    method: 'PUT',
     queryKeyToInvalidate: ['admin-news'],
     onSuccess: () => {
       setShowForm(false);
       setEditingNews(null);
+      setFormError(null);
+    },
+    onError: (err) => {
+      setFormError(err.message || 'Failed to update news article');
     },
   });
 
@@ -116,6 +130,7 @@ export function AdminNewsPage() {
             <DropdownMenuItem
               onClick={() => {
                 setEditingNews(item);
+                setFormError(null);
                 setShowForm(true);
               }}
             >
@@ -131,6 +146,7 @@ export function AdminNewsPage() {
   ];
 
   const handleSubmit = (data: Partial<NewsItem>) => {
+    setFormError(null);
     if (editingNews) {
       updateMutation.mutate({ ...data, id: editingNews.id });
     } else {
@@ -143,7 +159,14 @@ export function AdminNewsPage() {
       <PageHeader
         title="News"
         description="Manage institutional news and announcements."
-        action={{ label: 'Add News', onClick: () => setShowForm(true) }}
+        action={{
+          label: 'Add News',
+          onClick: () => {
+            setEditingNews(null);
+            setFormError(null);
+            setShowForm(true);
+          },
+        }}
       />
 
       <div className="space-y-4">
@@ -176,13 +199,19 @@ export function AdminNewsPage() {
         open={showForm}
         onOpenChange={(open) => {
           setShowForm(open);
-          if (!open) setEditingNews(null);
+          if (!open) {
+            setEditingNews(null);
+            setFormError(null);
+          }
         }}
         initialData={
           editingNews
             ? {
                 title: editingNews.title,
                 category: editingNews.category,
+                summary: editingNews.summary ?? '',
+                content: editingNews.content ?? '',
+                coverImageUrl: editingNews.coverImageUrl ?? '',
                 isPublished: editingNews.isPublished,
                 publishedAt: editingNews.publishedAt ? editingNews.publishedAt.split('T')[0] : '',
               }
@@ -190,6 +219,7 @@ export function AdminNewsPage() {
         }
         onSubmit={handleSubmit}
         loading={createMutation.isPending || updateMutation.isPending}
+        error={formError}
       />
 
       <ConfirmDialog

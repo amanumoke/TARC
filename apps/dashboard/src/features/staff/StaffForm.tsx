@@ -19,6 +19,7 @@ const staffSchema = z.object({
   areasOfExpertise: z.string().optional(),
   photoUrl: z.string().optional(),
   isPublic: z.boolean().default(true),
+  isActive: z.boolean().default(true),
 });
 
 type StaffFormData = z.infer<typeof staffSchema>;
@@ -86,6 +87,18 @@ export function StaffForm({ open, onOpenChange, initialData, onSubmit, loading, 
             <input type="checkbox" {...register('isPublic')} className="h-4 w-4" />
             Show this staff member on the public website
           </label>
+          {/* Active / Inactive status toggle */}
+          <div className="rounded-md border border-border p-3 bg-muted/20 space-y-1">
+            <label className="flex items-center justify-between gap-2 text-sm cursor-pointer">
+              <div>
+                <p className="font-medium text-sm">Active Status</p>
+                <p className="text-xs text-muted-foreground">
+                  Inactive staff are hidden from all public pages and can be reactivated later.
+                </p>
+              </div>
+              <input type="checkbox" {...register('isActive')} className="h-4 w-4 accent-primary" />
+            </label>
+          </div>
           <div className="space-y-2">
             <Label htmlFor="email">Email *</Label>
             <Input id="email" type="email" {...register('email')} />

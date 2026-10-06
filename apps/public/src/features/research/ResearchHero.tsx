@@ -39,12 +39,17 @@ export function ResearchHero() {
             </div>
           </div>
 
+          {/* Right image — uses the correctly named file (with hyphen, not space) */}
           <div className="relative aspect-[3/4] lg:aspect-[4/5] overflow-hidden">
             <img
               src="/images/coffee-seed.jpg"
               alt="Coffee seedlings at a TARC nursery"
               className="w-full h-full object-cover"
               loading="eager"
+              onError={(e) => {
+                // Graceful fallback if the renamed file isn't cached yet
+                (e.currentTarget as HTMLImageElement).src = '/images/red-coffee.jpg';
+              }}
             />
           </div>
         </div>

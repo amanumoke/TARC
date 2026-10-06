@@ -18,9 +18,15 @@ import { PublicationForm, PublicationFormData } from './PublicationForm';
 interface Publication {
   id: string;
   title: string;
+  abstract?: string;
   publicationType: string;
   publicationYear: number;
   publisherOrJournal?: string;
+  fileUrl?: string;
+  doiUrl?: string;
+  projectId?: string;
+  authors?: string;
+  isPeerReviewed?: boolean;
   isFeatured: boolean;
 }
 
@@ -177,10 +183,15 @@ export function AdminPublicationsPage() {
           editingPub
             ? {
                 title: editingPub.title,
+                abstract: editingPub.abstract ?? '',
                 publicationType: editingPub.publicationType,
                 publicationYear: editingPub.publicationYear.toString(),
-                publisherOrJournal: editingPub.publisherOrJournal,
-                isPeerReviewed: editingPub.isFeatured,
+                publisherOrJournal: editingPub.publisherOrJournal ?? '',
+                fileUrl: editingPub.fileUrl ?? '',
+                doiUrl: editingPub.doiUrl ?? '',
+                projectId: editingPub.projectId ?? '',
+                authors: editingPub.authors ?? '',
+                isPeerReviewed: editingPub.isPeerReviewed ?? false,
               }
             : undefined
         }

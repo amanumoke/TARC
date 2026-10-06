@@ -12,6 +12,7 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { LocalImageUpload } from '@/components/LocalImageUpload';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -63,8 +64,17 @@ export function ResearchProgramForm({
     defaultValues: initialData,
   });
 
+  // Re-populate form whenever initialData changes (e.g. switching between records to edit)
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    } else {
+      reset({});
+    }
+  }, [initialData, reset]);
+
   const handleClose = () => {
-    reset();
+    reset({});
     onOpenChange(false);
   };
 

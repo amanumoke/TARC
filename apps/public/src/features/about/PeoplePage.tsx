@@ -50,32 +50,37 @@ export function PeoplePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="py-12 lg:py-16">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-3">
-            <Link to="/" className="hover:text-foreground transition-colors">
-              Home
-            </Link>
+      <section className="relative overflow-hidden min-h-[260px] lg:min-h-[320px] flex items-end">
+        <div className="absolute inset-0">
+          <img
+            src="/images/agriculture area.jpg"
+            alt="TARC management and staff"
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1f14]/93 via-[#0a1f14]/72 to-[#0a1f14]/35" />
+        </div>
+        <div className="relative w-full max-w-[1440px] mx-auto px-6 lg:px-16 pb-12 pt-24 lg:pb-14">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/55 mb-3">
+            <Link to="/" className="hover:text-white transition-colors">Home</Link>
             <span className="mx-2">/</span>
-            <Link to="/about" className="hover:text-foreground transition-colors">
-              About
-            </Link>
+            <Link to="/about" className="hover:text-white transition-colors">About</Link>
             <span className="mx-2">/</span>
-            <span className="text-foreground">People</span>
+            <span className="text-white/90">People</span>
           </p>
-          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
-            Our People
+          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+            Top Management & Staff
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-3xl leading-relaxed">
-            Meet the researchers and staff driving agricultural innovation at TARC.
+          <p className="mt-3 text-base text-white/65 max-w-xl leading-relaxed">
+            Meet the leadership team, researchers, and specialists driving agricultural innovation at TARC.
           </p>
         </div>
       </section>
 
       {/* Filters */}
-      <section className="pb-12">
+      <section className="border-b border-border bg-white sticky top-[65px] z-20 py-4">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-3">
             <div className="relative flex-1 max-w-md">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
@@ -88,13 +93,11 @@ export function PeoplePage() {
             <select
               value={departmentFilter}
               onChange={(e) => setDepartmentFilter(e.target.value)}
-              className="px-3 py-2 border border-input bg-background rounded-md text-sm"
+              className="h-9 px-3 border border-input bg-background text-sm focus:outline-none focus:ring-1 focus:ring-primary"
             >
               <option value="all">All Departments</option>
               {deptList.map((dept) => (
-                <option key={dept.id} value={dept.id}>
-                  {dept.name}
-                </option>
+                <option key={dept.id} value={dept.id}>{dept.name}</option>
               ))}
             </select>
           </div>
@@ -102,44 +105,56 @@ export function PeoplePage() {
       </section>
 
       {/* Staff Grid */}
-      <section className="pb-20 lg:pb-28">
+      <section className="py-12 pb-24 lg:pb-32 bg-[#F5F5F0]">
         <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
           {filteredStaff.length === 0 ? (
-            <p className="text-muted-foreground py-12">
-              {staffList.length === 0
-                ? 'No staff members available at this time.'
-                : 'No staff members match your search criteria.'}
-            </p>
+            <div className="py-20 text-center">
+              <div className="text-5xl mb-4">👥</div>
+              <p className="text-muted-foreground">
+                {staffList.length === 0
+                  ? 'No staff members available at this time.'
+                  : 'No staff members match your search criteria.'}
+              </p>
+            </div>
           ) : (
-            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {filteredStaff.map((member) => (
-                <div key={member.id} className="group">
+                <div
+                  key={member.id}
+                  className="group bg-white border border-border hover:border-primary/40 transition-all duration-300 overflow-hidden hover:shadow-md"
+                >
+                  {/* Photo */}
                   {member.photoUrl ? (
-                    <img
-                      src={member.photoUrl}
-                      alt={`${member.firstName} ${member.lastName}`}
-                      className="w-full aspect-[4/5] rounded-lg object-cover"
-                      loading="lazy"
-                    />
+                    <div className="overflow-hidden aspect-[4/3]">
+                      <img
+                        src={member.photoUrl}
+                        alt={`${member.firstName} ${member.lastName}`}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                      />
+                    </div>
                   ) : (
-                    <div className="flex aspect-[4/5] items-center justify-center rounded-lg border-2 border-dashed border-border bg-muted/50 text-sm text-muted-foreground">
-                      {member.firstName} {member.lastName}
+                    <div className="aspect-[4/3] bg-[#0f2519] flex items-center justify-center">
+                      <span className="text-3xl font-bold text-white/20">
+                        {member.firstName?.[0]}{member.lastName?.[0]}
+                      </span>
                     </div>
                   )}
-                  <div className="mt-4">
-                    <h3 className="text-[17px] font-semibold text-foreground group-hover:text-primary transition-colors">
+                  {/* Info */}
+                  <div className="p-5">
+                    <h3 className="text-[15px] font-bold text-foreground group-hover:text-primary transition-colors leading-snug">
                       {member.firstName} {member.lastName}
                     </h3>
                     {member.position && (
-                      <p className="text-sm text-primary mt-1">{member.position}</p>
+                      <p className="text-[12px] font-semibold text-primary mt-1">{member.position}</p>
                     )}
                     {member.departmentName && (
-                      <p className="text-xs text-muted-foreground mt-1 uppercase tracking-wider">
+                      <p className="text-[10px] font-semibold text-muted-foreground mt-1 uppercase tracking-wider">
                         {member.departmentName}
                       </p>
                     )}
                     {member.bio && (
-                      <p className="text-sm text-muted-foreground mt-3 line-clamp-3 leading-relaxed">
+                      <p className="text-xs text-muted-foreground mt-3 line-clamp-2 leading-relaxed">
                         {member.bio}
                       </p>
                     )}

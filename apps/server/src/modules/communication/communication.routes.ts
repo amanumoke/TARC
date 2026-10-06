@@ -31,6 +31,7 @@ import {
   deleteNews,
   getAllNews,
   getNewsById,
+  getNewsBySlug,
   getPublishedNews,
   updateNews,
 } from '../news/news.service.js';
@@ -48,6 +49,22 @@ router.get('/news', async (_req: Request, res: Response) => {
     res.json({ success: true, data: articles });
   } catch (error) {
     res.status(500).json({ success: false, error: 'Failed to fetch news' });
+  }
+});
+
+/**
+ * Public route - get a published news article by slug
+ */
+router.get('/news/:slug', async (req: Request, res: Response) => {
+  try {
+    const article = await getNewsBySlug(req.params.slug);
+    if (!article) {
+      res.status(404).json({ success: false, error: 'Article not found' });
+      return;
+    }
+    res.json({ success: true, data: article });
+  } catch (error) {
+    res.status(500).json({ success: false, error: 'Failed to fetch article' });
   }
 });
 
@@ -98,16 +115,25 @@ router.post(
   requireRole('SUPER_ADMIN', 'ADMIN'),
   async (req: Request, res: Response) => {
     try {
-      const article = await createNews(req.body);
+      const authReq = req as AuthenticatedRequest;
+      const authorId = authReq.user?.id || req.body.authorId || null;
+      const article = await createNews({
+        ...req.body,
+        authorId,
+      });
       res.status(201).json({ success: true, data: article });
     } catch (error) {
-      res.status(500).json({ success: false, error: 'Failed to create article' });
+      console.error('Failed to create article:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to create article',
+      });
     }
   }
 );
 
 /**
- * Admin route - update a news article
+ * Admin route - update a news article (PUT)
  */
 router.put(
   '/admin/news/:id',
@@ -122,7 +148,36 @@ router.put(
       }
       res.json({ success: true, data: article });
     } catch (error) {
-      res.status(500).json({ success: false, error: 'Failed to update article' });
+      console.error('Failed to update article:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to update article',
+      });
+    }
+  }
+);
+
+/**
+ * Admin route - update a news article (PATCH)
+ */
+router.patch(
+  '/admin/news/:id',
+  authenticateToken,
+  requireRole('SUPER_ADMIN', 'ADMIN'),
+  async (req: Request, res: Response) => {
+    try {
+      const article = await updateNews(req.params.id, req.body);
+      if (!article) {
+        res.status(404).json({ success: false, error: 'Article not found' });
+        return;
+      }
+      res.json({ success: true, data: article });
+    } catch (error) {
+      console.error('Failed to update article:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to update article',
+      });
     }
   }
 );
@@ -232,13 +287,17 @@ router.post(
       const event = await createEvent(req.body);
       res.status(201).json({ success: true, data: event });
     } catch (error) {
-      res.status(500).json({ success: false, error: 'Failed to create event' });
+      console.error('Failed to create event:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to create event',
+      });
     }
   }
 );
 
 /**
- * Admin route - update an event
+ * Admin route - update an event (PUT)
  */
 router.put(
   '/admin/events/:id',
@@ -253,7 +312,36 @@ router.put(
       }
       res.json({ success: true, data: event });
     } catch (error) {
-      res.status(500).json({ success: false, error: 'Failed to update event' });
+      console.error('Failed to update event:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to update event',
+      });
+    }
+  }
+);
+
+/**
+ * Admin route - update an event (PATCH)
+ */
+router.patch(
+  '/admin/events/:id',
+  authenticateToken,
+  requireRole('SUPER_ADMIN', 'ADMIN'),
+  async (req: Request, res: Response) => {
+    try {
+      const event = await updateEvent(req.params.id, req.body);
+      if (!event) {
+        res.status(404).json({ success: false, error: 'Event not found' });
+        return;
+      }
+      res.json({ success: true, data: event });
+    } catch (error) {
+      console.error('Failed to update event:', error);
+      res.status(500).json({
+        success: false,
+        error: error instanceof Error ? error.message : 'Failed to update event',
+      });
     }
   }
 );

@@ -39,14 +39,39 @@ export async function getProgramById(id: string) {
   return program;
 }
 
+import { randomUUID } from 'node:crypto';
+
 /**
  * Creates a new research program.
  * @param data - The program data to insert
  * @returns The created program record
  */
-export async function createProgram(data: NewResearchProgram) {
-  const [created] = await db.insert(researchPrograms).values(data).execute();
-  return created;
+export async function createProgram(data: any) {
+  const id = data.id || randomUUID();
+  const slug =
+    data.slug ||
+    data.title
+      ?.toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-') ||
+    `prog-${Date.now()}`;
+  const objectives = Array.isArray(data.objectives)
+    ? data.objectives
+    : typeof data.objectives === 'string' && data.objectives.trim()
+    ? data.objectives.split('\n').map((s: string) => s.trim()).filter(Boolean)
+    : [];
+
+  await db
+    .insert(researchPrograms)
+    .values({
+      ...data,
+      id,
+      slug,
+      objectives,
+    })
+    .execute();
+  return getProgramById(id);
 }
 
 /**

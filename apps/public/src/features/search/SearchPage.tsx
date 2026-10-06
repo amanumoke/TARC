@@ -12,6 +12,7 @@ import { useSearchParams } from 'react-router-dom';
 
 interface SearchResult {
   id: string;
+  slug?: string;
   title: string;
   description?: string;
   link: string;
@@ -59,9 +60,10 @@ export function SearchPage() {
       if (title.toLowerCase().includes(q) || desc.toLowerCase().includes(q)) {
         items.push({
           id: String(item.id),
+          slug: String(item.slug || ''),
           title,
           description: desc.substring(0, 120),
-          link: '/news',
+          link: item.slug ? `/news/${item.slug}` : '/news',
           category: 'News',
         });
       }

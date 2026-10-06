@@ -2,11 +2,13 @@ import { useEvents } from '@/api/hooks/useEvents';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Clock, MapPin } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 type TimeFilter = 'all' | 'upcoming' | 'past';
 
 export function PublicEventsPage() {
+  const { t } = useTranslation();
   const [timeFilter, setTimeFilter] = useState<TimeFilter>('all');
   const { data: events, isLoading } = useEvents({
     upcoming: timeFilter === 'upcoming' ? true : undefined,
@@ -24,20 +26,31 @@ export function PublicEventsPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="py-12 lg:py-16">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-3">
-            <Link to="/" className="hover:text-foreground transition-colors">
-              Home
+      <section className="relative overflow-hidden min-h-[280px] lg:min-h-[340px] flex items-end">
+        {/* Background image with overlay */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/planting.jpg"
+            alt="TARC field activities"
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1f14]/90 via-[#0a1f14]/65 to-[#0a1f14]/30" />
+        </div>
+        {/* Content */}
+        <div className="relative w-full max-w-[1440px] mx-auto px-6 lg:px-16 pb-12 pt-20 lg:pb-16 lg:pt-28">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60 mb-3">
+            <Link to="/" className="hover:text-white transition-colors">
+              {t('common.home')}
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-foreground">Events</span>
+            <span className="text-white/90">{t('events.breadcrumb')}</span>
           </p>
-          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
-            Events & Workshops
+          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+            {t('events.title')}
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-3xl leading-relaxed">
-            Workshops, field days, conferences, and training sessions at TARC.
+          <p className="mt-4 text-base sm:text-lg text-white/70 max-w-2xl leading-relaxed">
+            {t('events.description')}
           </p>
         </div>
       </section>
@@ -57,7 +70,7 @@ export function PublicEventsPage() {
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                {f}
+                {t(`events.${f}`)}
               </button>
             ))}
           </div>
@@ -80,7 +93,7 @@ export function PublicEventsPage() {
               ))}
             </div>
           ) : filtered.length === 0 ? (
-            <p className="text-muted-foreground py-12">No events found.</p>
+            <p className="text-muted-foreground py-12">{t('events.noEventsFound')}</p>
           ) : (
             <div className="space-y-0 divide-y divide-border border-t border-border">
               {filtered.map((event) => {

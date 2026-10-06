@@ -1,0 +1,89 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "research": "Research",
+    "publications": "Publications",
+    "news": "News",
+    "events": "Events",
+    "gallery": "Gallery",
+    "vacancies": "Vacancies",
+    "contact": "Contact",
+    "contactUs": "Contact Us",
+    "menu": "Menu",
+    "closeMenu": "Close menu",
+    "openMenu": "Open menu"
+  },
+  "footer": {
+    "tagline": "Advancing agricultural research and innovation for sustainable development in southwestern Ethiopia.",
+    "research": "Research",
+    "about": "About",
+    "resources": "Resources",
+    "programs": "Programs",
+    "projects": "Projects",
+    "aboutTarc": "About TARC",
+    "director": "Director",
+    "departments": "Departments",
+    "people": "People",
+    "structure": "Structure",
+    "privacyPolicy": "Privacy Policy",
+    "developedBy": "Developed by Amanumoke",
+    "facebookPage": "Official Facebook page"
+  },
+  "home": {
+    "exploreResearch": "Explore Research",
+    "aboutUs": "About Us",
+    "latestNews": "Latest News",
+    "upcomingEvent": "Upcoming Event",
+    "readMore": "Read More",
+    "noNews": "No news yet.",
+    "noUpcomingEvents": "No upcoming events.",
+    "programs": "Programs",
+    "staffMembers": "Staff Members",
+    "fromSoilToSociety": "From Soil To Society.",
+    "researchInTheField": "Research in the Field",
+    "wantToKnowMore": "Want To Know More?",
+    "getInTouch": "Get In Touch",
+    "readyToCollaborate": "Ready to collaborate or learn more?",
+    "contactTarc": "Contact TARC"
+  },
+  "publications": {
+    "title": "Publications",
+    "breadcrumb": "Publications",
+    "description": "Research outputs, journal articles, and technical reports from TARC scientists.",
+    "searchPlaceholder": "Search publications...",
+    "allYears": "All Years",
+    "allTypes": "All Types",
+    "noPublicationsFound": "No publications found.",
+    "doi": "DOI"
+  },
+  "events": {
+    "title": "Events & Workshops",
+    "breadcrumb": "Events",
+    "description": "Workshops, field days, conferences, and training sessions at TARC.",
+    "all": "All",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "noEventsFound": "No events found."
+  },
+  "research": {
+    "title": "Research",
+    "weStudyWhatMatters": "We Study What Matters.",
+    "heroDescription": "Agricultural research focused on real challenges, knowledge creation, and practical impact for Ethiopian farming communities.",
+    "exploreResearch": "Explore Research",
+    "tepiEthiopia": "Tepi · Ethiopia"
+  },
+  "about": {
+    "title": "About TARC",
+    "director": "Director",
+    "departments": "Departments",
+    "people": "People",
+    "structure": "Structure"
+  },
+  "common": {
+    "home": "Home",
+    "loading": "Loading...",
+    "search": "Search",
+    "backToTop": "Back to top"
+  }
+}

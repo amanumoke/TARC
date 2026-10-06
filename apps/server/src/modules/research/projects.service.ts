@@ -39,14 +39,33 @@ export async function getProjectById(id: string) {
   return project;
 }
 
+import { randomUUID } from 'node:crypto';
+
 /**
  * Creates a new research project.
  * @param data - The project data to insert
  * @returns The created project record
  */
-export async function createProject(data: NewResearchProject) {
-  const [created] = await db.insert(researchProjects).values(data).execute();
-  return created;
+export async function createProject(data: any) {
+  const id = data.id || randomUUID();
+  const slug =
+    data.slug ||
+    data.title
+      ?.toLowerCase()
+      .trim()
+      .replace(/[^\w\s-]/g, '')
+      .replace(/[\s_-]+/g, '-') ||
+    `proj-${Date.now()}`;
+
+  await db
+    .insert(researchProjects)
+    .values({
+      ...data,
+      id,
+      slug,
+    })
+    .execute();
+  return getProjectById(id);
 }
 
 /**

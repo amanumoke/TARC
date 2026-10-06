@@ -22,6 +22,7 @@ describe('TARCMS Public Portal — App Component', () => {
 
   it('renders navigation links in header and footer', () => {
     render(<App />, { wrapper: TestWrapper });
+    expect(screen.getAllByRole('link', { name: /home/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('link', { name: /about/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('link', { name: /research/i }).length).toBeGreaterThan(0);
     expect(screen.getAllByRole('link', { name: /publications/i }).length).toBeGreaterThan(0);
@@ -30,9 +31,8 @@ describe('TARCMS Public Portal — App Component', () => {
     expect(screen.getAllByRole('link', { name: /contact/i }).length).toBeGreaterThan(0);
   });
 
-  it('renders the green top bar with contact info', () => {
+  it('renders the green top bar with official center email', () => {
     render(<App />, { wrapper: TestWrapper });
-    expect(screen.getAllByText('092 065 4572').length).toBeGreaterThan(0);
     expect(
       screen.getAllByText('tepiagriculturalresearchcenter@eiar.gov.et').length
     ).toBeGreaterThan(0);
@@ -40,7 +40,7 @@ describe('TARCMS Public Portal — App Component', () => {
 
   it('renders hero section content', () => {
     render(<App />, { wrapper: TestWrapper });
-    expect(screen.getByText(/Research in the Field/i)).toBeInTheDocument();
+    expect(screen.getByText(/Advancing sustainable farming/i)).toBeInTheDocument();
   });
 
   it('renders footer with copyright', () => {

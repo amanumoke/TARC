@@ -1,9 +1,11 @@
 import { usePublications } from '@/api/hooks/usePublications';
 import { ArrowRight, Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 
 export function PublicPublicationsPage() {
+  const { t } = useTranslation();
   const [year, setYear] = useState('');
   const [type, setType] = useState('');
   const [search, setSearch] = useState('');
@@ -30,20 +32,31 @@ export function PublicPublicationsPage() {
   return (
     <div>
       {/* Hero */}
-      <section className="py-12 lg:py-16">
-        <div className="max-w-[1440px] mx-auto px-6 lg:px-16">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground mb-3">
-            <Link to="/" className="hover:text-foreground transition-colors">
-              Home
+      <section className="relative overflow-hidden min-h-[280px] lg:min-h-[340px] flex items-end">
+        {/* Background image with overlay */}
+        <div className="absolute inset-0">
+          <img
+            src="/images/field-2.jpg"
+            alt="TARC research field"
+            className="w-full h-full object-cover"
+            loading="eager"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#0a1f14]/90 via-[#0a1f14]/65 to-[#0a1f14]/30" />
+        </div>
+        {/* Content */}
+        <div className="relative w-full max-w-[1440px] mx-auto px-6 lg:px-16 pb-12 pt-20 lg:pb-16 lg:pt-28">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-white/60 mb-3">
+            <Link to="/" className="hover:text-white transition-colors">
+              {t('common.home')}
             </Link>
             <span className="mx-2">/</span>
-            <span className="text-foreground">Publications</span>
+            <span className="text-white/90">{t('publications.breadcrumb')}</span>
           </p>
-          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight leading-tight">
-            Publications
+          <h1 className="font-heading text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+            {t('publications.title')}
           </h1>
-          <p className="mt-4 text-base sm:text-lg text-muted-foreground max-w-3xl leading-relaxed">
-            Research outputs and publications from TARC.
+          <p className="mt-4 text-base sm:text-lg text-white/70 max-w-2xl leading-relaxed">
+            {t('publications.description')}
           </p>
         </div>
       </section>
@@ -56,7 +69,7 @@ export function PublicPublicationsPage() {
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <input
                 type="text"
-                placeholder="Search publications..."
+                placeholder={t('publications.searchPlaceholder')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 className="h-10 w-full border border-border bg-white pl-10 pr-4 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
@@ -67,7 +80,7 @@ export function PublicPublicationsPage() {
               onChange={(e) => setYear(e.target.value)}
               className="h-10 border border-border bg-white px-4 text-sm"
             >
-              <option value="">All Years</option>
+              <option value="">{t('publications.allYears')}</option>
               {years.map((y) => (
                 <option key={y} value={y}>
                   {y}
@@ -79,7 +92,7 @@ export function PublicPublicationsPage() {
               onChange={(e) => setType(e.target.value)}
               className="h-10 border border-border bg-white px-4 text-sm"
             >
-              <option value="">All Types</option>
+              <option value="">{t('publications.allTypes')}</option>
               {types.map((t) => (
                 <option key={t} value={t}>
                   {t}
@@ -104,7 +117,7 @@ export function PublicPublicationsPage() {
               ))}
             </div>
           ) : filtered.length === 0 ? (
-            <p className="text-muted-foreground py-12">No publications found.</p>
+            <p className="text-muted-foreground py-12">{t('publications.noPublicationsFound')}</p>
           ) : (
             <div>
               {filtered.map((pub) => (

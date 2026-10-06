@@ -1,21 +1,24 @@
-import { Globe, Mail, Menu, Phone, X } from 'lucide-react';
+import { Mail, Menu, X } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Link, useLocation } from 'react-router-dom';
 
-const NAV_LINKS = [
-  { label: 'About', path: '/about' },
-  { label: 'Research', path: '/research' },
-  { label: 'Publications', path: '/publications' },
-  { label: 'News', path: '/news' },
-  { label: 'Events', path: '/events' },
-  { label: 'Gallery', path: '/gallery' },
-  { label: 'Vacancies', path: '/vacancies' },
-];
-
 export function PublicHeader() {
+  const { t } = useTranslation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
+
+  const NAV_LINKS = [
+    { label: t('nav.home'), path: '/' },
+    { label: t('nav.about'), path: '/about' },
+    { label: t('nav.research'), path: '/research' },
+    { label: t('nav.publications'), path: '/publications' },
+    { label: t('nav.news'), path: '/news' },
+    { label: t('nav.events'), path: '/events' },
+    { label: t('nav.gallery'), path: '/gallery' },
+    { label: t('nav.vacancies'), path: '/vacancies' },
+  ];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -34,26 +37,14 @@ export function PublicHeader() {
         <div className="max-w-[1440px] mx-auto px-6 h-9 flex items-center justify-between text-[11px] tracking-wide">
           <div className="flex items-center gap-6">
             <a
-              href="tel:+251920654572"
-              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
-            >
-              <Phone className="h-3 w-3" />
-              092 065 4572
-            </a>
-            <a
               href="mailto:tepiagriculturalresearchcenter@eiar.gov.et"
-              className="hidden sm:flex items-center gap-1.5 hover:opacity-80 transition-opacity"
+              className="flex items-center gap-1.5 hover:opacity-80 transition-opacity"
             >
               <Mail className="h-3 w-3" />
               tepiagriculturalresearchcenter@eiar.gov.et
             </a>
           </div>
-          <div className="flex items-center gap-4 text-white/80">
-            <div className="flex items-center gap-1.5">
-              <Globe className="h-3 w-3" />
-              <span>EN</span>
-            </div>
-          </div>
+
         </div>
       </div>
 
@@ -93,18 +84,21 @@ export function PublicHeader() {
           {/* Desktop nav */}
           <nav className="hidden lg:flex items-center gap-1">
             {NAV_LINKS.map((link) => {
-              const isActive = location.pathname.startsWith(link.path);
+              const isActive =
+                link.path === '/'
+                  ? location.pathname === '/'
+                  : location.pathname.startsWith(link.path);
               return (
                 <Link
                   key={link.path}
                   to={link.path}
-                  className={`relative px-4 py-2 text-[13px] font-medium transition-colors ${
-                    isActive ? 'text-primary' : 'text-muted-foreground hover:text-foreground'
+                  className={`relative px-3.5 py-2 text-[13px] font-medium transition-colors ${
+                    isActive ? 'text-primary font-semibold' : 'text-muted-foreground hover:text-foreground'
                   }`}
                 >
                   {link.label}
                   {isActive && (
-                    <span className="absolute bottom-0 left-4 right-4 h-[2px] bg-primary" />
+                    <span className="absolute bottom-0 left-3.5 right-3.5 h-[2px] bg-primary" />
                   )}
                 </Link>
               );
@@ -117,13 +111,13 @@ export function PublicHeader() {
               to="/contact"
               className="hidden lg:flex items-center gap-2 bg-primary text-white px-5 py-2.5 text-[12px] font-semibold uppercase tracking-widest hover:bg-primary/90 transition-colors"
             >
-              Contact
+              {t('nav.contact')}
             </Link>
             <button
               type="button"
               className="lg:hidden p-2 -mr-2 hover:bg-muted rounded-sm transition-colors"
               onClick={() => setMobileOpen(true)}
-              aria-label="Open menu"
+              aria-label={t('nav.openMenu')}
             >
               <Menu className="h-5 w-5" />
             </button>
@@ -140,15 +134,15 @@ export function PublicHeader() {
             onKeyDown={(e) => e.key === 'Escape' && setMobileOpen(false)}
             role="button"
             tabIndex={-1}
-            aria-label="Close menu"
+            aria-label={t('nav.closeMenu')}
           />
           <div className="fixed inset-y-0 right-0 w-80 bg-white shadow-2xl flex flex-col">
             <div className="flex items-center justify-between px-6 h-16 border-b border-border">
-              <span className="font-heading text-lg font-bold text-primary">Menu</span>
+              <span className="font-heading text-lg font-bold text-primary">{t('nav.menu')}</span>
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
-                aria-label="Close menu"
+                aria-label={t('nav.closeMenu')}
                 className="p-2 -mr-2 hover:bg-muted rounded-sm transition-colors"
               >
                 <X className="h-5 w-5" />
@@ -156,13 +150,16 @@ export function PublicHeader() {
             </div>
             <nav className="flex flex-col py-4 px-2">
               {NAV_LINKS.map((link) => {
-                const isActive = location.pathname.startsWith(link.path);
+                const isActive =
+                  link.path === '/'
+                    ? location.pathname === '/'
+                    : location.pathname.startsWith(link.path);
                 return (
                   <Link
                     key={link.path}
                     to={link.path}
                     className={`mx-2 px-4 py-3 text-[15px] font-medium rounded-sm transition-colors ${
-                      isActive ? 'bg-primary/10 text-primary' : 'text-foreground hover:bg-muted'
+                      isActive ? 'bg-primary/10 text-primary font-semibold' : 'text-foreground hover:bg-muted'
                     }`}
                   >
                     {link.label}
@@ -173,16 +170,10 @@ export function PublicHeader() {
                 to="/contact"
                 className="mx-2 mt-2 px-4 py-3 bg-primary text-white text-[13px] font-semibold uppercase tracking-widest text-center hover:bg-primary/90 transition-colors"
               >
-                Contact Us
+                {t('nav.contactUs')}
               </Link>
             </nav>
             <div className="mt-auto border-t border-border px-6 py-5 space-y-3">
-              <a
-                href="tel:+251920654572"
-                className="flex items-center gap-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <Phone className="h-4 w-4" /> 092 065 4572
-              </a>
               <a
                 href="mailto:tepiagriculturalresearchcenter@eiar.gov.et"
                 className="flex items-center gap-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"

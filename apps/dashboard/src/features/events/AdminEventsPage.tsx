@@ -19,8 +19,12 @@ interface EventItem {
   id: string;
   title: string;
   eventType: string;
+  description?: string;
   location: string;
   startTime: string;
+  endTime?: string;
+  isAllDay?: boolean;
+  bannerImageUrl?: string;
   isPublished: boolean;
 }
 
@@ -177,8 +181,12 @@ export function AdminEventsPage() {
             ? {
                 title: editingEvent.title,
                 eventType: editingEvent.eventType,
+                description: editingEvent.description ?? '',
                 location: editingEvent.location,
                 startTime: editingEvent.startTime,
+                endTime: editingEvent.endTime ?? '',
+                isAllDay: editingEvent.isAllDay ?? false,
+                bannerImageUrl: editingEvent.bannerImageUrl ?? '',
                 isPublished: editingEvent.isPublished,
               }
             : undefined
